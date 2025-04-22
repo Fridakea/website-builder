@@ -4,9 +4,9 @@ import { BrowserRouter, Routes, Route } from "react-router";
 
 import './index.css'
 import ScrollToTop from './components/ScrollToTop.tsx';
-import { Layout } from './components/layout.tsx';
+import { Layout } from './pages/layout.tsx';
 import { LandingPage } from './pages/landing-page.tsx';
-import { GetStartedLayout } from './pages/get-started-layout.tsx';
+import { GetStartedLayout } from './pages/get-started-flow/get-started-layout.tsx';
 import { Step1InfoPage } from './pages/get-started-flow/step1-info.tsx';
 import { Step2ThemePage } from './pages/get-started-flow/step2-theme.tsx';
 import { Step3ImagesPage } from './pages/get-started-flow/step3-images.tsx';
@@ -16,8 +16,13 @@ import { WebsiteBuilderPage } from './pages/website-builder.tsx';
 
 export enum ERoutes {
   HOME = "/",
-  GET_STARTED = "/get-started",
   WEBSITE_BUILDER = "/website-builder",
+
+  GET_STARTED = "/get-started",
+  GET_STARTED_THEME = "/get-started/theme",
+  GET_STARTED_IMAGES = "/get-started/images",
+  GET_STARTED_MENU = "/get-started/menu",
+  GET_STARTED_FEATURES = "/get-started/features",
 }
 
 createRoot(document.getElementById('root')!).render(
@@ -32,10 +37,10 @@ createRoot(document.getElementById('root')!).render(
 
         <Route path={ERoutes.GET_STARTED} element={<GetStartedLayout />}>
           <Route index element={<Step1InfoPage />} />
-          <Route path={`${ERoutes.GET_STARTED}/2`} element={<Step2ThemePage />} />
-          <Route path={`${ERoutes.GET_STARTED}/3`} element={<Step3ImagesPage />} />
-          <Route path={`${ERoutes.GET_STARTED}/4`} element={<Step4MenuPage />} />
-          <Route path={`${ERoutes.GET_STARTED}/5`} element={<Step5FeaturesPage />} />
+          <Route path={ERoutes.GET_STARTED_THEME} element={<Step2ThemePage />} />
+          <Route path={ERoutes.GET_STARTED_IMAGES} element={<Step3ImagesPage />} />
+          <Route path={ERoutes.GET_STARTED_MENU} element={<Step4MenuPage />} />
+          <Route path={ERoutes.GET_STARTED_FEATURES} element={<Step5FeaturesPage />} />
         </Route>
       </Routes>
     </BrowserRouter>
