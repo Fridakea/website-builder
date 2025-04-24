@@ -1,4 +1,7 @@
-import { useGetStartedStore } from "@/stores/get-started-store";
+import {
+  useGetStartedStore,
+  useWebsiteInfoStore,
+} from "@/stores/get-started-store";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -26,7 +29,16 @@ const formSchema = z.object({
       (num) => num.toString().length >= 8,
       "Telefonnummeret skal være minimum 8 cifre"
     ),
-  email: z.string().email("Ugyldigt email"),
+  email: z.string().email("Ugyldig email").optional(),
+  // openingHours: z.object({
+  //   monday: z.string().min(0),
+  //   tuesday: z.string().min(0),
+  //   wednesday: z.string().min(0),
+  //   thursday: z.string().min(0),
+  //   friday: z.string().min(0),
+  //   saturday: z.string().min(0),
+  //   sunday: z.string().min(0),
+  // }),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -34,20 +46,37 @@ type FormData = z.infer<typeof formSchema>;
 export const Step1InfoPage = () => {
   const navigate = useNavigate();
   const { increseStep } = useGetStartedStore();
+  const { setName, setAdress, setPhone, setEmail, setOpeningHours } =
+    useWebsiteInfoStore();
 
   const formObject = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
       adress: "",
-      phone: 0,
-      email: "",
+      phone: undefined,
+      email: undefined,
+      // openingHours: {
+      //   monday: "",
+      //   tuesday: "",
+      //   wednesday: "",
+      //   thursday: "",
+      //   friday: "",
+      //   saturday: "",
+      //   sunday: "",
+      // },
     },
   });
 
   const onSubmit = async (values: FormData) => {
-    console.log(values);
+    setName(values.name);
+    setAdress(values.adress);
+    setPhone(values.phone);
+    setEmail(values.email);
+    setOpeningHours(values.openingHours);
+
     increseStep();
+    navigate(ERoutes.GET_STARTED_THEME);
   };
 
   return (
@@ -124,4 +153,46 @@ export const Step1InfoPage = () => {
       </form>
     </Form>
   );
+};
+
+const OpeningHours = [
+  {
+    day: "Mandag",
+    hours: "08:00 - 16:00",
+  },
+  {
+    day: "Tirsdag",
+    hours: "08:00 - 16:00",
+  },
+];
+
+const OpeningHours2 = {
+  monday: {
+    day: "Mandag",
+    hours: "08:00 - 16:00",
+  },
+  tuesday: {
+    day: "Tirsdag",
+    hours: "08:00 - 16:00",
+  },
+  wednesday: {
+    day: "Onsdag",
+    hours: "08:00 - 16:00",
+  },
+  thursday: {
+    day: "Torsdag",
+    hours: "08:00 - 16:00",
+  },
+  friday: {
+    day: "Fredag",
+    hours: "08:00 - 16:00",
+  },
+  saturday: {
+    day: "Lørdag",
+    hours: "08:00 - 16:00",
+  },
+  sunday: {
+    day: "Søndag",
+    hours: "08:00 - 16:00",
+  },
 };
