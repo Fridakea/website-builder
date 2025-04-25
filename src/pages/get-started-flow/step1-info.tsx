@@ -1,12 +1,13 @@
-import {
-  useGetStartedStore,
-  useWebsiteInfoStore,
-} from "@/stores/get-started-store";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { isValid, z } from "zod";
 import { ERoutes } from "@/main";
+import { useMultiStepStore } from "@/stores/multi-step-store";
+import {
+  getLabelForDay,
+  useWebsiteInfoStore,
+} from "@/stores/website-info-store";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -30,49 +31,43 @@ const formSchema = z.object({
       "Telefonnummeret skal være minimum 8 cifre"
     ),
   email: z.string().email("Ugyldig email").optional(),
-  // openingHours: z.object({
-  //   monday: z.string().min(0),
-  //   tuesday: z.string().min(0),
-  //   wednesday: z.string().min(0),
-  //   thursday: z.string().min(0),
-  //   friday: z.string().min(0),
-  //   saturday: z.string().min(0),
-  //   sunday: z.string().min(0),
-  // }),
+  openingHours: z.object({
+    monday: z.string().optional(),
+    tuesday: z.string().optional(),
+    wednesday: z.string().optional(),
+    thursday: z.string().optional(),
+    friday: z.string().optional(),
+    saturday: z.string().optional(),
+    sunday: z.string().optional(),
+  }),
 });
 
 type FormData = z.infer<typeof formSchema>;
 
 export const Step1InfoPage = () => {
   const navigate = useNavigate();
-  const { increseStep } = useGetStartedStore();
-  const { setName, setAdress, setPhone, setEmail, setOpeningHours } =
+  const { increseStep } = useMultiStepStore();
+  const { info, setInfo, openingHours, setOpeningHours } =
     useWebsiteInfoStore();
 
   const formObject = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
-      adress: "",
-      phone: undefined,
-      email: undefined,
-      // openingHours: {
-      //   monday: "",
-      //   tuesday: "",
-      //   wednesday: "",
-      //   thursday: "",
-      //   friday: "",
-      //   saturday: "",
-      //   sunday: "",
-      // },
+      name: info.name,
+      adress: info.adress,
+      phone: info.phone,
+      email: info.email,
+      openingHours: openingHours,
     },
   });
 
   const onSubmit = async (values: FormData) => {
-    setName(values.name);
-    setAdress(values.adress);
-    setPhone(values.phone);
-    setEmail(values.email);
+    setInfo({
+      name: values.name,
+      adress: values.adress,
+      phone: values.phone,
+      email: values.email,
+    });
     setOpeningHours(values.openingHours);
 
     increseStep();
@@ -143,7 +138,28 @@ export const Step1InfoPage = () => {
           )}
         />
 
-        <h1>Step 1 Info</h1>
+        <FormField
+          control={formObject.control}
+          name="openingHours"
+          render={({ field }) => (
+            <>
+              {Object.entries(field.value).map(([day, hours]) => (
+                <FormItem key={day}>
+                  <FormLabel>{getLabelForDay(day)}</FormLabel>
+                  <Input
+                    {...field}
+                    value={hours}
+                    onChange={(e) =>
+                      field.onChange({ ...field.value, [day]: e.target.value })
+                    }
+                  />
+                  <FormMessage />
+                </FormItem>
+              ))}
+            </>
+          )}
+        />
+
         <Button type="button" onClick={() => navigate(-1)}>
           Tilbage
         </Button>
@@ -153,46 +169,4 @@ export const Step1InfoPage = () => {
       </form>
     </Form>
   );
-};
-
-const OpeningHours = [
-  {
-    day: "Mandag",
-    hours: "08:00 - 16:00",
-  },
-  {
-    day: "Tirsdag",
-    hours: "08:00 - 16:00",
-  },
-];
-
-const OpeningHours2 = {
-  monday: {
-    day: "Mandag",
-    hours: "08:00 - 16:00",
-  },
-  tuesday: {
-    day: "Tirsdag",
-    hours: "08:00 - 16:00",
-  },
-  wednesday: {
-    day: "Onsdag",
-    hours: "08:00 - 16:00",
-  },
-  thursday: {
-    day: "Torsdag",
-    hours: "08:00 - 16:00",
-  },
-  friday: {
-    day: "Fredag",
-    hours: "08:00 - 16:00",
-  },
-  saturday: {
-    day: "Lørdag",
-    hours: "08:00 - 16:00",
-  },
-  sunday: {
-    day: "Søndag",
-    hours: "08:00 - 16:00",
-  },
 };

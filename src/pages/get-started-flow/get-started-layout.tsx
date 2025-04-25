@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
-import { useGetStartedStore } from "@/stores/get-started-store";
+import { useMultiStepStore } from "@/stores/multi-step-store";
 
 export const GetStartedLayout = () => {
-  const { step } = useGetStartedStore();
+  const { step } = useMultiStepStore();
 
   return (
     <div className="flex flex-col items-center justify-center h-svh w-svw">
