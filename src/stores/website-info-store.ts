@@ -17,7 +17,16 @@ type OpeningHours = {
   sunday?: string;
 };
 
-type Menu = string[];
+type MenuItem = {
+  name: string;
+};
+
+type MenuCategory = {
+  name: string;
+  items: MenuItem[];
+};
+
+type Menu = MenuCategory[];
 
 type WebsiteInfoState = {
   info: Info;
@@ -33,8 +42,10 @@ type WebsiteInfoState = {
 
   menu: Menu;
   setMenu: (menu: Menu) => void;
-  addMenuCategory: (menuCategory: string) => void;
-  removeMenuCategory: (menuCategory: string) => void;
+  addMenuCategory: (name: string) => void;
+  removeMenuCategory: (name: string) => void;
+  addMenuItem: (categoryName: string, itemName: string) => void;
+  removeMenuItem: (categoryName: string, itemName: string) => void;
 };
 
 export const useWebsiteInfoStore = create<WebsiteInfoState>((set) => ({
@@ -55,8 +66,7 @@ export const useWebsiteInfoStore = create<WebsiteInfoState>((set) => ({
     saturday: "10:00 - 15:00",
     sunday: "Lukket",
   },
-  setOpeningHours: (newOpeningHours: OpeningHours) =>
-    set({ openingHours: newOpeningHours }),
+  setOpeningHours: (newOpeningHours: OpeningHours) => set({ openingHours: newOpeningHours }),
 
   type: "",
   setType: (type: string) => set({ type }),
@@ -65,12 +75,38 @@ export const useWebsiteInfoStore = create<WebsiteInfoState>((set) => ({
 
   menu: [],
   setMenu: (menuCategory: Menu) => set({ menu: menuCategory }),
-  addMenuCategory: (menuCategory: string) => set((state) => ({
-    menu: [...state.menu, menuCategory],
-  })),
-  removeMenuCategory: (menuCategory: string) => set((state) => ({
-    menu: state.menu.filter((item) => item !== menuCategory),
-  })),
+  addMenuCategory: (name: string) =>
+    set((state) => ({
+      menu: [...state.menu, { name, items: [] }],
+    })),
+  removeMenuCategory: (name: string) =>
+    set((state) => ({
+      menu: state.menu.filter((item) => item.name !== name),
+    })),
+  addMenuItem: (categoryName: string, itemName: string) =>
+    set((state) => ({
+      menu: state.menu.map((category) => {
+        if (category.name === categoryName) {
+          return {
+            ...category,
+            items: [...category.items, { name: itemName }],
+          };
+        }
+        return category;
+      }),
+    })),
+  removeMenuItem: (categoryName: string, itemName: string) =>
+    set((state) => ({
+      menu: state.menu.map((category) => {
+        if (category.name === categoryName) {
+          return {
+            ...category,
+            items: category.items.filter((item) => item.name !== itemName),
+          };
+        }
+        return category;
+      }),
+    })),
 }));
 
 export const getLabelForDay = (day: string) => {
