@@ -17,6 +17,8 @@ type OpeningHours = {
   sunday?: string;
 };
 
+type Menu = string[];
+
 type WebsiteInfoState = {
   info: Info;
   setInfo: (info: Info) => void;
@@ -28,6 +30,11 @@ type WebsiteInfoState = {
   setType: (type: string) => void;
   theme: string;
   setTheme: (theme: string) => void;
+
+  menu: Menu;
+  setMenu: (menu: Menu) => void;
+  addMenuCategory: (menuCategory: string) => void;
+  removeMenuCategory: (menuCategory: string) => void;
 };
 
 export const useWebsiteInfoStore = create<WebsiteInfoState>((set) => ({
@@ -55,6 +62,15 @@ export const useWebsiteInfoStore = create<WebsiteInfoState>((set) => ({
   setType: (type: string) => set({ type }),
   theme: "",
   setTheme: (theme: string) => set({ theme }),
+
+  menu: [],
+  setMenu: (menuCategory: Menu) => set({ menu: menuCategory }),
+  addMenuCategory: (menuCategory: string) => set((state) => ({
+    menu: [...state.menu, menuCategory],
+  })),
+  removeMenuCategory: (menuCategory: string) => set((state) => ({
+    menu: state.menu.filter((item) => item !== menuCategory),
+  })),
 }));
 
 export const getLabelForDay = (day: string) => {
