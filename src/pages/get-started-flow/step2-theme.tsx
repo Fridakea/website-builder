@@ -1,28 +1,18 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "react-router-dom";
-import { z } from "zod";
+import { isValid, z } from "zod";
 
 import { useWebsiteInfoStore } from "@/stores/website-info-store";
 import { ERoutes } from "@/main";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { RadioCard } from "@/components/ui/custom/radio-card";
-import {
-  themeOptions,
-  typeOptions,
-} from "@/features/get-started-flow/data/design-data";
+import { themeOptions, typeOptions } from "@/features/get-started-flow/data/design-data";
 
 const formSchema = z.object({
-  type: z.string(),
-  theme: z.string(),
+  type: z.string().min(1, "Vælg en type"),
+  theme: z.string().min(1, "Vælg et tema"),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -48,22 +38,17 @@ export const Step2ThemePage = () => {
   return (
     <Form {...formObject}>
       <form onSubmit={formObject.handleSubmit(onSubmit)}>
+        <h2>Type spisested</h2>
         <FormField
           control={formObject.control}
           name="type"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Vælg type spisested</FormLabel>
+              <FormLabel>Vælg hvilken type spisested passer bedst til dig</FormLabel>
               <FormControl>
                 <div className="flex gap-4">
                   {typeOptions.map((option) => (
-                    <RadioCard
-                      key={option.value}
-                      title={option.label}
-                      value={option.value}
-                      currentValue={field.value}
-                      onChange={field.onChange}
-                    />
+                    <RadioCard key={option.value} title={option.label} value={option.value} currentValue={field.value} onChange={field.onChange} />
                   ))}
                 </div>
               </FormControl>
@@ -72,22 +57,17 @@ export const Step2ThemePage = () => {
           )}
         />
 
+        <h2 className="mt-4 sm:mt-10">Tema</h2>
         <FormField
           control={formObject.control}
           name="theme"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Vælg tema til hjemmesiden</FormLabel>
+              <FormLabel>Vælg et tema til din hjemmeside</FormLabel>
               <FormControl>
                 <div>
                   {themeOptions.map((option) => (
-                    <RadioCard
-                      key={option.value}
-                      title={option.label}
-                      value={option.value}
-                      currentValue={field.value}
-                      onChange={field.onChange}
-                    />
+                    <RadioCard key={option.value} title={option.label} value={option.value} currentValue={field.value} onChange={field.onChange} />
                   ))}
                 </div>
               </FormControl>
@@ -95,10 +75,14 @@ export const Step2ThemePage = () => {
           )}
         />
 
-        <Button type="button" onClick={() => navigate(-1)}>
-          Tilbage
-        </Button>
-        <Button type="submit">Næste</Button>
+        <div className="flex flex-row justify-between">
+          <Button type="button" variant="outline" onClick={() => navigate(-1)}>
+            Tilbage
+          </Button>
+          <Button type="submit" disabled={!isValid}>
+            Næste
+          </Button>
+        </div>
       </form>
     </Form>
   );

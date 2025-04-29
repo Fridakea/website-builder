@@ -19,6 +19,7 @@ type OpeningHours = {
 
 type MenuItem = {
   name: string;
+  price: string;
 };
 
 type MenuCategory = {
@@ -44,7 +45,7 @@ type WebsiteInfoState = {
   setMenu: (menu: Menu) => void;
   addMenuCategory: (name: string) => void;
   removeMenuCategory: (name: string) => void;
-  addMenuItem: (categoryName: string, itemName: string) => void;
+  addMenuItem: (categoryName: string, itemName: string, itemPrice: string) => void;
   removeMenuItem: (categoryName: string, itemName: string) => void;
 };
 
@@ -83,13 +84,13 @@ export const useWebsiteInfoStore = create<WebsiteInfoState>((set) => ({
     set((state) => ({
       menu: state.menu.filter((item) => item.name !== name),
     })),
-  addMenuItem: (categoryName: string, itemName: string) =>
+  addMenuItem: (categoryName: string, itemName: string, itemPrice: string) =>
     set((state) => ({
       menu: state.menu.map((category) => {
         if (category.name === categoryName) {
           return {
             ...category,
-            items: [...category.items, { name: itemName }],
+            items: [...category.items, { name: itemName, price: itemPrice }],
           };
         }
         return category;

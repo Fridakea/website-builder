@@ -8,13 +8,12 @@ export const Step3ImagesPage = () => {
   return (
     <div>
       <h1>Step 3 Images</h1>
-      <Button onClick={() => navigate(-1)}>
-        Tilbage
-      </Button>
-      <Button onClick={() => navigate(ERoutes.GET_STARTED_MENU)}>
-        Næste
-      </Button>
+      <div className="flex flex-row justify-between">
+        <Button type="button" variant="outline" onClick={() => navigate(-1)}>
+          Tilbage
+        </Button>
+        <Button onClick={() => navigate(ERoutes.GET_STARTED_MENU)}>Næste</Button>
+      </div>
     </div>
-    );
+  );
 };
-
