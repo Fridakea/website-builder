@@ -1,11 +1,11 @@
-import { isValid, z } from "zod";
+import { z } from "zod";
 import { useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { ERoutes } from "@/main";
 import { useWebsiteInfoStore } from "@/stores/website-info-store";
 
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -46,7 +46,7 @@ export const Step4MenuPage = () => {
     setMenuItemInputs(menu.map((menuCategory) => ({ categoryName: menuCategory.name, name: "", price: "" })));
   };
 
-  const onSubmit = async (values: FormData) => {
+  const onSubmit = async () => {
     navigate(ERoutes.GET_STARTED_FEATURES);
   };
 

@@ -1,6 +1,6 @@
-import { FC, ReactNode } from 'react';
-import { Check } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { FC, ReactNode } from "react";
+import { Check } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export type RadioCardProps = {
   value: string;
@@ -19,9 +19,9 @@ export const RadioCard: FC<RadioCardProps> = ({ value, currentValue, onChange, i
   return (
     <div
       className={cn(
-        'relative flex flex-1 flex-col items-center justify-center gap-3 rounded-lg border-2 p-6 transition-all',
-        isSelected ? 'border-primary bg-primary/80' : 'border-primary/50 hover:border-primary/50',
-        disabled ? 'opacity-60' : 'cursor-pointer',
+        "relative flex flex-1 flex-col items-center justify-center gap-3 rounded-lg border-2 px-2 py-4 sm:p-4 transition-all",
+        isSelected ? "border-primary bg-primary/80" : "border-primary/50 hover:border-primary/50",
+        disabled ? "opacity-60" : "cursor-pointer",
         className
       )}
       onClick={() => !disabled && onChange(value)}

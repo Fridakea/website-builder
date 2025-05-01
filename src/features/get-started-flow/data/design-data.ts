@@ -22,14 +22,20 @@ export enum ETheme {
 export const themeOptions = [
   {
     label: "Klassisk",
-    value: ETheme.CLASSIC,
+    fontFamily: "Lato",
+    textColor: "#FDF3E8",
+    theme: ETheme.CLASSIC,
   },
   {
     label: "Elegant",
-    value: ETheme.ELEGANT,
+    fontFamily: "EB Garamond",
+    textColor: "#ffffff",
+    theme: ETheme.ELEGANT,
   },
   {
     label: "Farverig",
-    value: ETheme.COLORFUL,
+    fontFamily: "Ubuntu",
+    textColor: "#262626",
+    theme: ETheme.COLORFUL,
   },
 ];
