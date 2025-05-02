@@ -29,17 +29,18 @@ type ThemeCardProps = {
 
 const themeImgAdjustments: Record<ETheme, { className: string; img: string; imgPc: string }> = {
   classic: {
-    className: "top-[20%] sm:left-[15%] text-center",
+    className: "top-[20%] sm:w-[77%] sm:right-0 text-center",
     img: classicImg,
     imgPc: classicImgPc,
   },
   elegant: {
-    className: "w-[26%] top-[50%] translate-y-[-50%] uppercase sm:w-[59%] sm:top-[18%] sm:translate-y-[-0%] text-center leading-none text-[4.5vw]! sm:text-clamp-sm!",
+    className:
+      "w-[26%] top-[50%] translate-y-[-50%] uppercase sm:w-[59%] sm:h-[50%] sm:top-[10%] sm:translate-y-[0%] sm:flex sm:items-center text-center text-[3.5vw]! sm:text-clamp-sm!",
     img: elegantImg,
     imgPc: elegantImgPc,
   },
   colorful: {
-    className: "top-[42%] right-[5%] sm:top-[57%] sm:left-[7%] text-right sm:text-left leading-none",
+    className: "bottom-[42%] right-[5%] sm:bottom-[2%] sm:left-[7%] text-right sm:text-left",
     img: colorfulImg,
     imgPc: colorfulImgPc,
   },
@@ -76,7 +77,7 @@ export const ThemeCard: FC<ThemeCardProps> = ({ title, theme, name = "Dit spises
           </div>
         )}
         <div
-          className={twMerge("w-full absolute font-bold text-[6vw] sm:text-clamp-md text-wrap", themeImgAdjustments[theme].className)}
+          className={twMerge("w-full absolute font-bold text-[6vw] sm:text-clamp-md text-wrap leading-none", themeImgAdjustments[theme].className)}
           style={{ fontFamily: fontFamily, color: textColor }}
         >
           {theme === ETheme.COLORFUL
