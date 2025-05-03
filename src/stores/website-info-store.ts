@@ -29,10 +29,13 @@ type MenuCategory = {
 
 type Menu = MenuCategory[];
 
-type Features = {
-  name: string;
-  added: boolean;
-}[];
+// type Feature = {
+//   value: string;
+//   name: string;
+//   added: boolean;
+// };
+
+// type Features = Feature[];
 
 type WebsiteInfoState = {
   info: Info;
@@ -52,11 +55,6 @@ type WebsiteInfoState = {
   removeMenuCategory: (name: string) => void;
   addMenuItem: (categoryName: string, itemName: string, itemPrice: string) => void;
   removeMenuItem: (categoryName: string, itemName: string) => void;
-
-  features: Features;
-  setFeatures: (features: Features) => void;
-  addFeature: (name: string) => void;
-  removeFeature: (name: string) => void;
 };
 
 export const useWebsiteInfoStore = create<WebsiteInfoState>((set) => ({
@@ -118,11 +116,6 @@ export const useWebsiteInfoStore = create<WebsiteInfoState>((set) => ({
         return category;
       }),
     })),
-
-  features: [],
-  setFeatures: (features: Features) => set({ features }),
-  addFeature: (name: string, added: boolean) => set((state) => ({ features: [...state.features, { name, added }] })),
-  removeFeature: (name: string) => set((state) => ({ features: state.features.filter((feature) => feature.name !== name) })),
 }));
 
 export const getLabelForDay = (day: string) => {
