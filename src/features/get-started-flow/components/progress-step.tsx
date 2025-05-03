@@ -3,13 +3,13 @@ import { FC } from "react";
 import { twMerge } from "tailwind-merge";
 import { CheckIcon } from "lucide-react";
 
-type ShowStepProps = {
+type ProgressStepProps = {
   value: number;
   title: string;
   currentValue: number;
 };
 
-export const ShowStep: FC<ShowStepProps> = ({ title, value, currentValue }) => {
+export const ProgressStep: FC<ProgressStepProps> = ({ title, value, currentValue }) => {
   const isMobile = useIsMobile();
   const isSelected = currentValue === value;
   const isCompleted = currentValue > value;

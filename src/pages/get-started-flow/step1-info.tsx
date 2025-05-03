@@ -33,7 +33,7 @@ type FormData = z.infer<typeof formSchema>;
 
 export const Step1InfoPage = () => {
   const navigate = useNavigate();
-  const { increseStep } = useMultiStepStore();
+  const { increseStep, decreseStep } = useMultiStepStore();
   const { info, setInfo, openingHours, setOpeningHours } = useWebsiteInfoStore();
 
   const formObject = useForm<FormData>({
@@ -46,6 +46,11 @@ export const Step1InfoPage = () => {
       openingHours: openingHours,
     },
   });
+
+  const goBack = () => {
+    decreseStep();
+    navigate(-1);
+  };
 
   const onSubmit = async (values: FormData) => {
     setInfo({
@@ -148,7 +153,7 @@ export const Step1InfoPage = () => {
         />
 
         <div className="flex flex-row justify-between">
-          <Button type="button" variant="outline" onClick={() => navigate(-1)}>
+          <Button type="button" variant="outline" onClick={goBack}>
             Tilbage
           </Button>
           <Button type="submit" disabled={!isValid}>

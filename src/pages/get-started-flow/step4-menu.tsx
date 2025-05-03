@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Trash } from "lucide-react";
-
+import { useMultiStepStore } from "@/stores/multi-step-store";
 const formSchema = z.object({
   menuCategory: z.string(),
 });
@@ -23,6 +23,7 @@ type FormData = z.infer<typeof formSchema>;
 export const Step4MenuPage = () => {
   const navigate = useNavigate();
   const { menu, addMenuCategory, removeMenuCategory, addMenuItem, removeMenuItem } = useWebsiteInfoStore();
+  const { increseStep, decreseStep } = useMultiStepStore();
   const [menuItemInputs, setMenuItemInputs] = useState<{ categoryName: string; name: string; price: string }[]>([]);
 
   const formObject = useForm<FormData>({
@@ -46,7 +47,13 @@ export const Step4MenuPage = () => {
     setMenuItemInputs(menu.map((menuCategory) => ({ categoryName: menuCategory.name, name: "", price: "" })));
   };
 
+  const goBack = () => {
+    decreseStep();
+    navigate(-1);
+  };
+
   const onSubmit = async () => {
+    increseStep();
     navigate(ERoutes.GET_STARTED_FEATURES);
   };
 
@@ -156,7 +163,7 @@ export const Step4MenuPage = () => {
         </Accordion>
 
         <div className="flex flex-row justify-between">
-          <Button type="button" variant="outline" onClick={() => navigate(-1)}>
+          <Button type="button" variant="outline" onClick={goBack}>
             Tilbage
           </Button>
           <Button type="submit">Næste</Button>

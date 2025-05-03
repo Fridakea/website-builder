@@ -7,6 +7,7 @@ import { ERoutes } from "@/main";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Switch } from "@/components/ui/switch";
+import { useMultiStepStore } from "@/stores/multi-step-store";
 
 const formSchema = z.object({
   imgGallery: z.boolean().optional(),
@@ -16,6 +17,7 @@ type FormData = z.infer<typeof formSchema>;
 
 export const Step5FeaturesPage = () => {
   const navigate = useNavigate();
+  const { increseStep, decreseStep } = useMultiStepStore();
 
   const formObject = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -24,8 +26,14 @@ export const Step5FeaturesPage = () => {
     },
   });
 
+  const goBack = () => {
+    decreseStep();
+    navigate(-1);
+  };
+
   const onSubmit = (data: FormData) => {
     console.log(data);
+    increseStep();
     navigate(ERoutes.WEBSITE_BUILDER);
   };
 
@@ -49,7 +57,7 @@ export const Step5FeaturesPage = () => {
         />
 
         <div className="mt-6 flex items-center justify-between">
-          <Button type="button" variant="outline" onClick={() => navigate(-1)}>
+          <Button type="button" variant="outline" onClick={goBack}>
             Tilbage
           </Button>
           <Button type="submit">Færdig</Button>

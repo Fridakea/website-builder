@@ -9,7 +9,9 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Button } from "@/components/ui/button";
 import { RadioCard } from "@/components/ui/custom/radio-card";
 import { themeOptions, typeOptions } from "@/features/get-started-flow/data/design-data";
-import { ThemeCard } from "@/components/ui/custom/theme-card";
+import { ThemeCard } from "@/features/get-started-flow/components/theme-card";
+import { useMultiStepStore } from "@/stores/multi-step-store";
+
 const formSchema = z.object({
   type: z.string().min(1, "Vælg en type"),
   theme: z.string().min(1, "Vælg et tema"),
@@ -19,19 +21,27 @@ type FormData = z.infer<typeof formSchema>;
 
 export const Step2ThemePage = () => {
   const navigate = useNavigate();
-  const { info, setType } = useWebsiteInfoStore();
+  const { info, type, theme, setType, setTheme } = useWebsiteInfoStore();
+  const { increseStep, decreseStep } = useMultiStepStore();
 
   const formObject = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      type: "",
-      theme: "",
+      type: type || "",
+      theme: theme || "",
     },
   });
+
+  const goBack = () => {
+    decreseStep();
+    navigate(-1);
+  };
 
   const onSubmit = async (values: FormData) => {
     console.log(values);
     setType(values.type);
+    setTheme(values.theme);
+    increseStep();
     navigate(ERoutes.GET_STARTED_IMAGES);
   };
 
@@ -48,7 +58,7 @@ export const Step2ThemePage = () => {
               <FormControl>
                 <div className="flex gap-2 sm:gap-4">
                   {typeOptions.map((option) => (
-                    <RadioCard key={option.value} title={option.label} value={option.value} currentValue={field.value} onChange={field.onChange} />
+                    <RadioCard key={option.value} title={option.label} value={option.value} currentValue={field.value || type} onChange={field.onChange} />
                   ))}
                 </div>
               </FormControl>
@@ -74,7 +84,7 @@ export const Step2ThemePage = () => {
                       name={info.name || "Dit spisested"}
                       fontFamily={option.fontFamily}
                       textColor={option.textColor}
-                      currentValue={field.value}
+                      currentValue={field.value || theme}
                       onChange={field.onChange}
                     />
                     // <RadioCard key={option.value} title={option.label} value={option.value} currentValue={field.value} onChange={field.onChange} />
@@ -86,7 +96,7 @@ export const Step2ThemePage = () => {
         />
 
         <div className="flex flex-row justify-between">
-          <Button type="button" variant="outline" onClick={() => navigate(-1)}>
+          <Button type="button" variant="outline" onClick={goBack}>
             Tilbage
           </Button>
           <Button type="submit" disabled={!isValid}>

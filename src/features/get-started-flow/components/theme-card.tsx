@@ -40,7 +40,7 @@ const themeImgAdjustments: Record<ETheme, { className: string; img: string; imgP
     imgPc: elegantImgPc,
   },
   colorful: {
-    className: "bottom-[42%] right-[5%] sm:bottom-[2%] sm:left-[7%] text-right sm:text-left",
+    className: "bottom-[42%] right-[5%] sm:bottom-[5%] sm:left-[7%] text-right sm:text-left",
     img: colorfulImg,
     imgPc: colorfulImgPc,
   },
