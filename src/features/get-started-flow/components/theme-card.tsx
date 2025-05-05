@@ -13,7 +13,7 @@ import mobileDevice from "@/assets/images/mobile-device.png";
 import pcDevice from "@/assets/images/pc-device.png";
 
 import { twMerge } from "tailwind-merge";
-import { ETheme } from "@/features/get-started-flow/data/design-data";
+import { ETheme } from "@/features/get-started-flow/data/enum";
 
 type ThemeCardProps = {
   title: string;

@@ -1,3 +1,5 @@
+import { ETheme } from "./enum";
+
 export const typeOptions = [
   {
     label: "Restaurant",
@@ -12,12 +14,6 @@ export const typeOptions = [
     value: "pizzaria",
   },
 ];
-
-export enum ETheme {
-  CLASSIC = "classic",
-  ELEGANT = "elegant",
-  COLORFUL = "colorful",
-}
 
 export const themeOptions = [
   {

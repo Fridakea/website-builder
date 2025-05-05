@@ -11,10 +11,11 @@ import { RadioCard } from "@/components/ui/custom/radio-card";
 import { themeOptions, typeOptions } from "@/features/get-started-flow/data/design-data";
 import { ThemeCard } from "@/features/get-started-flow/components/theme-card";
 import { useMultiStepStore } from "@/stores/multi-step-store";
+import { EType, ETheme } from "@/features/get-started-flow/data/enum";
 
 const formSchema = z.object({
-  type: z.string().min(1, "Vælg en type"),
-  theme: z.string().min(1, "Vælg et tema"),
+  type: z.nativeEnum(EType),
+  theme: z.nativeEnum(ETheme),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -27,8 +28,8 @@ export const Step2ThemePage = () => {
   const formObject = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      type: type || "",
-      theme: theme || "",
+      type: type || undefined,
+      theme: theme || undefined,
     },
   });
 
@@ -99,9 +100,7 @@ export const Step2ThemePage = () => {
           <Button type="button" variant="outline" onClick={goBack}>
             Tilbage
           </Button>
-          <Button type="submit" disabled={!isValid}>
-            Næste
-          </Button>
+          <Button type="submit">Næste</Button>
         </div>
       </form>
     </Form>

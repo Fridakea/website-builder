@@ -140,7 +140,7 @@ export const ImageDropzone = ({
 
       {/* Dropzone */}
       <div
-        className={`bg-card flex flex-col items-center justify-center rounded-lg border-2 ${
+        className={`bg-background flex flex-col items-center justify-center rounded-lg border-2 ${
           isDragActive ? "border-primary bg-primary/10" : "border-border border-dashed"
         } p-6 transition-colors duration-300 ${isUploading ? "pointer-events-none opacity-80" : "cursor-pointer"} `}
         onDragEnter={handleDragEnter}

@@ -1,4 +1,6 @@
 import { create } from "zustand";
+import { ETheme, EType } from "@/features/get-started-flow/data/enum";
+import { ImageItem } from "@/features/get-started-flow/data/image-data";
 
 type Info = {
   name: string;
@@ -44,10 +46,13 @@ type WebsiteInfoState = {
   openingHours: OpeningHours;
   setOpeningHours: (newOpeningHours: OpeningHours) => void;
 
-  type: string;
-  setType: (type: string) => void;
-  theme: string;
-  setTheme: (theme: string) => void;
+  type: EType | undefined;
+  setType: (type: EType) => void;
+  theme: ETheme | undefined;
+  setTheme: (theme: ETheme) => void;
+
+  choosenHeroImage: ImageItem | undefined;
+  setChoosenHeroImage: (choosenHeroImage: ImageItem) => void;
 
   menu: Menu;
   setMenu: (menu: Menu) => void;
@@ -77,10 +82,13 @@ export const useWebsiteInfoStore = create<WebsiteInfoState>((set) => ({
   },
   setOpeningHours: (newOpeningHours: OpeningHours) => set({ openingHours: newOpeningHours }),
 
-  type: "",
-  setType: (type: string) => set({ type }),
-  theme: "",
-  setTheme: (theme: string) => set({ theme }),
+  type: undefined,
+  setType: (type: EType) => set({ type }),
+  theme: undefined,
+  setTheme: (theme: ETheme) => set({ theme }),
+
+  choosenHeroImage: undefined,
+  setChoosenHeroImage: (choosenHeroImage: ImageItem) => set({ choosenHeroImage }),
 
   menu: [],
   setMenu: (menuCategory: Menu) => set({ menu: menuCategory }),
