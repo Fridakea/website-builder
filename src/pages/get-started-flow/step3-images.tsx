@@ -1,55 +1,38 @@
 import { useNavigate } from "react-router-dom";
-import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
 
 import { useMultiStepStore } from "@/stores/multi-step-store";
 import { useWebsiteInfoStore } from "@/stores/website-info-store";
 import { EType } from "@/features/get-started-flow/data/enum";
 import { ERoutes } from "@/main";
-import { imageOptions } from "@/features/get-started-flow/data/image-data";
+import { ImageItem, imageOptions } from "@/features/get-started-flow/data/image-data";
 
 import { ImageDropzone } from "@/components/image-drop-zone";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { twMerge } from "tailwind-merge";
-
-const formSchema = z.object({
-  heroImage: z.object({
-    src: z.string().url(),
-    alt: z.string(),
-  }),
-  // imageItems: z.array(
-  //   z.object({
-  //     src: z.string().url(),
-  //     alt: z.string().min(1),
-  //     isHero: z.boolean().optional(),
-  //   })
-  // ),
-});
-
-type FormData = z.infer<typeof formSchema>;
+import { useMemo, useState } from "react";
 
 export const Step3ImagesPage = () => {
   const navigate = useNavigate();
   const { increseStep, decreseStep } = useMultiStepStore();
-  const { type, choosenHeroImage, setType, setChoosenHeroImage } = useWebsiteInfoStore();
+  const { type, choosenHeroImage, imageGallery, setType, setChoosenHeroImage, addImageToGallery, removeImageFromGallery } = useWebsiteInfoStore();
 
-  const formObject = useForm<FormData>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      heroImage: choosenHeroImage,
-    },
-  });
+  const [heroUploadedImage, setHeroUploadedImage] = useState<File>();
+  const [imageGalleryUpload, setImageGalleryUpload] = useState<File[]>([]);
+
+  const allImageOptions = useMemo(
+    () => [
+      ...imageOptions.filter((image) => type && image.types.includes(type)).map((image) => ({ src: image.data.src, alt: image.data.alt })),
+      ...imageGallery.filter((img) => !imageOptions.some((option) => option.data.src === img.src)),
+    ],
+    [imageOptions, imageGallery, type]
+  );
 
   const goBack = () => {
     decreseStep();
     navigate(-1);
   };
 
-  const onSubmit = (data: FormData) => {
-    console.log(data);
-    setChoosenHeroImage(data.heroImage);
+  const onSubmit = () => {
     increseStep();
     navigate(ERoutes.GET_STARTED_MENU);
   };
@@ -60,63 +43,88 @@ export const Step3ImagesPage = () => {
   }
   // if (!theme || !type) return <div>Vælg et tema og en type først</div>;
   return (
-    <Form {...formObject}>
-      <form onSubmit={formObject.handleSubmit(onSubmit)} className="flex flex-col gap-10 sm:gap-15">
-        <h2>Billeder til din hjemmeside</h2>
+    <div className="flex flex-col gap-10 sm:gap-15">
+      <h2>Billeder til din hjemmeside</h2>
 
-        <FormField
-          control={formObject.control}
-          name="heroImage"
-          render={({ field }) => (
-            <FormItem>
-              <fieldset className="border border-muted rounded-md p-4 shadow-sm">
-                <legend className="px-4 font-medium text-lg sm:text-xl">Vælg banner billede</legend>
-                <ImageDropzone onUpload={() => {}} />
+      <fieldset className="border border-muted rounded-md p-4 shadow-sm">
+        <legend className="px-4 font-medium text-lg sm:text-xl">Vælg banner billede</legend>
+        <ImageDropzone onUpload={setHeroUploadedImage} AutoEmptyDropZone={true} mainText="Træk og slip eller klik for at uploade et billede" />
 
-                <div className="mt-4 sm:mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-                  {imageOptions
-                    .filter((image) => image.types.includes(type))
-                    .map((image) => (
-                      <div
-                        key={image.data.src}
-                        className={twMerge("border border-border", field.value?.src === image.data.src && "border-red-500 border-4")}
-                        onClick={() => {
-                          const isSelected = image.data.src === field.value?.src;
-                          console.log(isSelected);
-                          field.onChange(isSelected ? undefined : image.data);
-                        }}
-                      >
-                        <img src={image.data.src} alt={image.data.alt} />
-                      </div>
-                    ))}
-                </div>
-              </fieldset>
-            </FormItem>
-          )}
-        />
+        <div className="mt-4 sm:mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+          {heroUploadedImage && <img src={URL.createObjectURL(heroUploadedImage)} alt="hero" />}
 
-        <fieldset className="border border-muted rounded-md p-4 shadow-sm">
-          <legend className="px-4 font-medium text-lg sm:text-xl">Vælg billeder til galleri</legend>
-          <ImageDropzone onUpload={() => {}} />
+          {imageOptions
+            .filter((image) => image.types.includes(type))
+            .map((image) => {
+              const isSelected = image.data.src === choosenHeroImage?.src;
 
-          <div className="mt-4 sm:mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-            {imageOptions
-              .filter((image) => image.types.includes(type))
-              .map((image) => (
-                <div key={image.data.src}>
+              return (
+                <div
+                  key={image.data.src}
+                  className={twMerge("border border-border", isSelected && "border-red-500 border-4")}
+                  onClick={() => {
+                    console.log(isSelected);
+                    setChoosenHeroImage(isSelected ? undefined : image.data);
+                  }}
+                >
                   <img src={image.data.src} alt={image.data.alt} />
                 </div>
-              ))}
-          </div>
-        </fieldset>
-
-        <div className="flex flex-row justify-between">
-          <Button type="button" variant="outline" onClick={goBack}>
-            Tilbage
-          </Button>
-          <Button type="submit">Næste</Button>
+              );
+            })}
         </div>
-      </form>
-    </Form>
+      </fieldset>
+
+      <fieldset className="border border-muted rounded-md p-4 shadow-sm">
+        <legend className="px-4 font-medium text-lg sm:text-xl">Vælg billeder til galleri</legend>
+        <ImageDropzone
+          onUpload={(file) => {
+            console.log(file);
+            addImageToGallery({ src: URL.createObjectURL(file), alt: file.name });
+            setImageGalleryUpload([...imageGalleryUpload, file]);
+          }}
+          AutoEmptyDropZone={true}
+          mainText="Træk og slip eller klik for at uploade et billede"
+        />
+
+        <div className="mt-4 sm:mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+          {/* {imageGalleryUpload.length > 0 &&
+            imageGalleryUpload?.map((image) => (
+              <div
+                key={image.name}
+                className={imageGallery.some((item) => item.src === URL.createObjectURL(image)) ? "border-red-500 border-4" : ""}
+                onClick={() => {
+                  imageGallery.some((item) => (item.src === URL.createObjectURL(image) ? removeImageFromGallery(item) : addImageToGallery(item)));
+                }}
+              >
+                <img src={URL.createObjectURL(image)} alt="hero" />
+              </div>
+            ))} */}
+
+          {allImageOptions.map((image) => {
+            const isSelected = imageGallery.some((item) => item.src === image.src);
+
+            return (
+              <div
+                key={image.src}
+                className={twMerge("border border-border", isSelected && "border-red-500 border-4")}
+                onClick={() => {
+                  console.log(isSelected, imageGallery, image);
+                  isSelected ? removeImageFromGallery(image) : addImageToGallery(image);
+                }}
+              >
+                <img src={image.src} alt={image.alt} />
+              </div>
+            );
+          })}
+        </div>
+      </fieldset>
+
+      <div className="flex flex-row justify-between">
+        <Button type="button" variant="outline" onClick={goBack}>
+          Tilbage
+        </Button>
+        <Button onClick={onSubmit}>Næste</Button>
+      </div>
+    </div>
   );
 };

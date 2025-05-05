@@ -52,7 +52,14 @@ type WebsiteInfoState = {
   setTheme: (theme: ETheme) => void;
 
   choosenHeroImage: ImageItem | undefined;
-  setChoosenHeroImage: (choosenHeroImage: ImageItem) => void;
+  setChoosenHeroImage: (choosenHeroImage?: ImageItem) => void;
+
+  imageGallery: ImageItem[] | [];
+  addImageToGallery: (image: ImageItem) => void;
+  removeImageFromGallery: (image: ImageItem) => void;
+
+  imageOptions: ImageItem[];
+  setImageOptions: (imageOptions: ImageItem[]) => void;
 
   menu: Menu;
   setMenu: (menu: Menu) => void;
@@ -88,7 +95,14 @@ export const useWebsiteInfoStore = create<WebsiteInfoState>((set) => ({
   setTheme: (theme: ETheme) => set({ theme }),
 
   choosenHeroImage: undefined,
-  setChoosenHeroImage: (choosenHeroImage: ImageItem) => set({ choosenHeroImage }),
+  setChoosenHeroImage: (choosenHeroImage?: ImageItem) => set({ choosenHeroImage }),
+
+  imageGallery: [],
+  addImageToGallery: (image: ImageItem) => set((state) => ({ imageGallery: [...state.imageGallery, image] })),
+  removeImageFromGallery: (image: ImageItem) => set((state) => ({ imageGallery: state.imageGallery.filter((item: ImageItem) => item.src !== image.src) })),
+
+  imageOptions: [],
+  setImageOptions: (imageOptions: ImageItem[]) => set({ imageOptions }),
 
   menu: [],
   setMenu: (menuCategory: Menu) => set({ menu: menuCategory }),

@@ -6,12 +6,14 @@ export interface ImageDropzoneProps {
   currentImage?: string;
   onUpload: (file: File) => void;
   isUploading?: boolean;
+  mainText?: string;
   helpText?: string;
   showPreview?: boolean;
   maxSizeMB?: number;
   imageClassName?: string;
   accept?: string;
   onRemove?: () => void;
+  AutoEmptyDropZone?: boolean;
 }
 
 export const ImageDropzone = ({
@@ -20,10 +22,12 @@ export const ImageDropzone = ({
   showPreview = true,
   isUploading = false,
   helpText = "PNG, JPG or GIF up to 10MB",
+  mainText = "Drag and drop or click to upload",
   maxSizeMB = 10,
   imageClassName = "max-h-[200px] w-full object-cover",
   accept = "image/*",
   onRemove,
+  AutoEmptyDropZone = false,
 }: ImageDropzoneProps) => {
   const [isDragActive, setIsDragActive] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -156,7 +160,7 @@ export const ImageDropzone = ({
             <Loader2 className="text-primary h-6 w-6 animate-spin" />
             <p className="text-sm">Uploading image...</p>
           </div>
-        ) : selectedFile ? (
+        ) : selectedFile && !AutoEmptyDropZone ? (
           <div className="flex items-center gap-4 py-2">
             <div className="bg-muted flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded border">
               <img src={URL.createObjectURL(selectedFile)} alt={selectedFile.name} className="h-full w-full object-cover" />
@@ -174,7 +178,7 @@ export const ImageDropzone = ({
         ) : (
           <>
             <UploadCloud size={24} className="text-muted-foreground mb-2" />
-            <p className="text-center text-sm font-medium">Drag and drop or click to upload</p>
+            <p className="text-center text-sm font-medium">{mainText}</p>
             <p className="text-muted-foreground mt-1 text-xs">{helpText}</p>
           </>
         )}
