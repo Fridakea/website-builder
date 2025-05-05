@@ -11,20 +11,25 @@ import { Button } from "@/components/ui/button";
 import { twMerge } from "tailwind-merge";
 import { useMemo, useState } from "react";
 
+const imageOptionClass = "border border-border cursor-pointer";
+const selectedImageOptionClass = "border-red-500 border-4";
+
 export const Step3ImagesPage = () => {
   const navigate = useNavigate();
   const { increseStep, decreseStep } = useMultiStepStore();
   const { type, choosenHeroImage, imageGallery, setType, setChoosenHeroImage, addImageToGallery, removeImageFromGallery } = useWebsiteInfoStore();
 
-  const [heroUploadedImage, setHeroUploadedImage] = useState<File>();
-  const [imageGalleryUpload, setImageGalleryUpload] = useState<File[]>([]);
+  const [heroUploadedImage, setHeroUploadedImage] = useState<ImageItem>();
+  const [imageGalleryUpload, setImageGalleryUpload] = useState<ImageItem[]>([]);
 
-  const allImageOptions = useMemo(
-    () => [
-      ...imageOptions.filter((image) => type && image.types.includes(type)).map((image) => ({ src: image.data.src, alt: image.data.alt })),
-      ...imageGallery.filter((img) => !imageOptions.some((option) => option.data.src === img.src)),
-    ],
-    [imageOptions, imageGallery, type]
+  const allHeroImageOptions = useMemo(
+    () => [...imageOptions.filter((image) => type && image.types.includes(type)).map((image) => ({ src: image.data.src, alt: image.data.alt })), heroUploadedImage],
+    [imageOptions, type, heroUploadedImage]
+  );
+
+  const allGalleryImageOptions = useMemo(
+    () => [...imageOptions.filter((image) => type && image.types.includes(type)).map((image) => ({ src: image.data.src, alt: image.data.alt })), ...imageGalleryUpload],
+    [imageOptions, type, imageGalleryUpload]
   );
 
   const goBack = () => {
@@ -48,29 +53,34 @@ export const Step3ImagesPage = () => {
 
       <fieldset className="border border-muted rounded-md p-4 shadow-sm">
         <legend className="px-4 font-medium text-lg sm:text-xl">Vælg banner billede</legend>
-        <ImageDropzone onUpload={setHeroUploadedImage} AutoEmptyDropZone={true} mainText="Træk og slip eller klik for at uploade et billede" />
+        <ImageDropzone
+          onUpload={(file) => {
+            const newImageItem = { src: URL.createObjectURL(file), alt: file.name };
+            setHeroUploadedImage(newImageItem); // Auto add as selected.
+            setChoosenHeroImage(newImageItem);
+          }}
+          AutoEmptyDropZone={true}
+          mainText="Træk og slip eller klik for at uploade et billede"
+        />
 
         <div className="mt-4 sm:mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-          {heroUploadedImage && <img src={URL.createObjectURL(heroUploadedImage)} alt="hero" />}
+          {allHeroImageOptions.map((image) => {
+            if (!image) return null;
+            const isSelected = image.src === choosenHeroImage?.src;
 
-          {imageOptions
-            .filter((image) => image.types.includes(type))
-            .map((image) => {
-              const isSelected = image.data.src === choosenHeroImage?.src;
-
-              return (
-                <div
-                  key={image.data.src}
-                  className={twMerge("border border-border", isSelected && "border-red-500 border-4")}
-                  onClick={() => {
-                    console.log(isSelected);
-                    setChoosenHeroImage(isSelected ? undefined : image.data);
-                  }}
-                >
-                  <img src={image.data.src} alt={image.data.alt} />
-                </div>
-              );
-            })}
+            return (
+              <div
+                key={image.src}
+                className={twMerge(imageOptionClass, isSelected && selectedImageOptionClass)}
+                onClick={() => {
+                  console.log(isSelected);
+                  setChoosenHeroImage(isSelected ? undefined : image);
+                }}
+              >
+                <img src={image.src} alt={image.alt} />
+              </div>
+            );
+          })}
         </div>
       </fieldset>
 
@@ -79,34 +89,22 @@ export const Step3ImagesPage = () => {
         <ImageDropzone
           onUpload={(file) => {
             console.log(file);
-            addImageToGallery({ src: URL.createObjectURL(file), alt: file.name });
-            setImageGalleryUpload([...imageGalleryUpload, file]);
+            const newImageItem = { src: URL.createObjectURL(file), alt: file.name };
+            addImageToGallery(newImageItem); // Auto add as selected.
+            setImageGalleryUpload([...imageGalleryUpload, newImageItem]);
           }}
           AutoEmptyDropZone={true}
           mainText="Træk og slip eller klik for at uploade et billede"
         />
 
         <div className="mt-4 sm:mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-          {/* {imageGalleryUpload.length > 0 &&
-            imageGalleryUpload?.map((image) => (
-              <div
-                key={image.name}
-                className={imageGallery.some((item) => item.src === URL.createObjectURL(image)) ? "border-red-500 border-4" : ""}
-                onClick={() => {
-                  imageGallery.some((item) => (item.src === URL.createObjectURL(image) ? removeImageFromGallery(item) : addImageToGallery(item)));
-                }}
-              >
-                <img src={URL.createObjectURL(image)} alt="hero" />
-              </div>
-            ))} */}
-
-          {allImageOptions.map((image) => {
+          {allGalleryImageOptions.map((image) => {
             const isSelected = imageGallery.some((item) => item.src === image.src);
 
             return (
               <div
                 key={image.src}
-                className={twMerge("border border-border", isSelected && "border-red-500 border-4")}
+                className={twMerge(imageOptionClass, isSelected && selectedImageOptionClass)}
                 onClick={() => {
                   console.log(isSelected, imageGallery, image);
                   isSelected ? removeImageFromGallery(image) : addImageToGallery(image);
