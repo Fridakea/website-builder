@@ -11,8 +11,8 @@ import { Button } from "@/components/ui/button";
 import { twMerge } from "tailwind-merge";
 import { useMemo, useState } from "react";
 
-const imageOptionClass = "border border-border cursor-pointer";
-const selectedImageOptionClass = "border-red-500 border-4";
+const imageOptionClass = "overflow-hidden border-3 border-transparent rounded-md cursor-pointer";
+const selectedImageOptionClass = "border-red-500 border-3";
 
 export const Step3ImagesPage = () => {
   const navigate = useNavigate();
@@ -77,7 +77,7 @@ export const Step3ImagesPage = () => {
                   setChoosenHeroImage(isSelected ? undefined : image);
                 }}
               >
-                <img src={image.src} alt={image.alt} />
+                <img src={image.src} alt={image.alt} className="object-cover object-center" />
               </div>
             );
           })}

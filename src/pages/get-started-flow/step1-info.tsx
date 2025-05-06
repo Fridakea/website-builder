@@ -9,6 +9,7 @@ import { getLabelForDay, useWebsiteInfoStore } from "@/stores/website-info-store
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   name: z.string().min(2, "Navnet skal minimum være 2 tegn").max(50),
@@ -33,7 +34,7 @@ type FormData = z.infer<typeof formSchema>;
 
 export const Step1InfoPage = () => {
   const navigate = useNavigate();
-  const { increseStep, decreseStep } = useMultiStepStore();
+  const { setStep, increseStep, decreseStep } = useMultiStepStore();
   const { info, setInfo, openingHours, setOpeningHours } = useWebsiteInfoStore();
 
   const formObject = useForm<FormData>({
@@ -46,6 +47,10 @@ export const Step1InfoPage = () => {
       openingHours: openingHours,
     },
   });
+
+  useEffect(() => {
+    setStep(1);
+  }, []);
 
   const goBack = () => {
     decreseStep();
