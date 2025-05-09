@@ -28,7 +28,7 @@ export const AddCategoryDialogForm: FC<AddCategoryDialogFormProps> = ({ onSubmit
   return (
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button>Tilføj kategori</Button>
+        <Button className="w-full">Tilføj kategori</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

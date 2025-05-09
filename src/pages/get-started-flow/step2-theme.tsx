@@ -84,7 +84,7 @@ export const Step2ThemePage = () => {
                       theme={option.theme}
                       name={info.name || "Dit spisested"}
                       fontFamily={option.fontFamily}
-                      textColor={option.textColor}
+                      heroTextColor={option.heroTextColor}
                       currentValue={field.value || theme}
                       onChange={field.onChange}
                     />

@@ -123,8 +123,10 @@
   h3,
   h4,
   h5,
-  h6 {
+  h6,
+  button {
     @apply font-[500];
+    font-family: "Ubuntu", sans-serif;
   }
 
   h1 {

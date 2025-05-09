@@ -20,7 +20,7 @@ type ThemeCardProps = {
   theme: ETheme;
   name?: string;
   fontFamily: string;
-  textColor: string;
+  heroTextColor: string;
   currentValue?: string;
   onChange: (value: string) => void;
   className?: string;
@@ -46,7 +46,17 @@ const themeImgAdjustments: Record<ETheme, { className: string; img: string; imgP
   },
 };
 
-export const ThemeCard: FC<ThemeCardProps> = ({ title, theme, name = "Dit spisested", fontFamily, textColor, currentValue, onChange, className, disabled }) => {
+export const ThemeCard: FC<ThemeCardProps> = ({
+  title,
+  theme,
+  name = "Dit spisested",
+  fontFamily,
+  heroTextColor,
+  currentValue,
+  onChange,
+  className,
+  disabled,
+}) => {
   const isMobile = useIsMobile();
   const isSelected = currentValue === theme;
 
@@ -78,7 +88,7 @@ export const ThemeCard: FC<ThemeCardProps> = ({ title, theme, name = "Dit spises
         )}
         <div
           className={twMerge("w-full absolute font-bold text-[6vw] sm:text-clamp-md text-wrap leading-none", themeImgAdjustments[theme].className)}
-          style={{ fontFamily: fontFamily, color: textColor }}
+          style={{ fontFamily: fontFamily, color: heroTextColor }}
         >
           {theme === ETheme.COLORFUL
             ? nameArray.map((word, index) => (
