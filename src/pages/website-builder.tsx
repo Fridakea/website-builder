@@ -1,36 +1,39 @@
-import { Button } from "@/components/ui/button";
-import { ERoutes } from "@/main";
 import { useNavigate } from "react-router-dom";
+
+import { ERoutes } from "@/main";
 import { HeroSection } from "@/features/website-builder/components/hero-section";
-import { FC } from "react";
 import { useWebsiteInfoStore } from "@/stores/website-info-store";
 import { themeOptions } from "@/features/get-started-flow/data/design-data";
 import { ETheme } from "@/features/get-started-flow/data/enum";
+import { Button } from "@/components/ui/button";
+import { Menu } from "@/features/website-builder/components/menu";
+import { FindUs } from "@/features/website-builder/components/find-us";
 
-type WebsiteBuilderProps = {
-  fontFamily: string;
-  backgroundColor: string;
-  textColor: string;
-  heroTextColor: string;
-};
-
-export const WebsiteBuilderPage: FC<WebsiteBuilderProps> = ({ fontFamily, backgroundColor, textColor, heroTextColor }) => {
+export const WebsiteBuilderPage = () => {
   const navigate = useNavigate();
-
   const { theme, setTheme } = useWebsiteInfoStore();
+
   const choosenTheme = themeOptions.find((option) => option.theme === theme);
 
   if (!choosenTheme) {
-    setTheme(ETheme.CLASSIC);
+    setTheme(ETheme.COLORFUL);
     return <div>No theme found</div>;
   }
 
   return (
-    <div style={{ fontFamily: fontFamily, backgroundColor: backgroundColor, color: textColor }}>
-      <HeroSection fontFamily={choosenTheme.fontFamily} heroTextColor={choosenTheme.heroTextColor} />
+    <div
+      className="w-full max-w-content overflow-x-hidden mx-auto"
+      style={{ fontFamily: choosenTheme.fontFamily, backgroundColor: choosenTheme.backgroundColor, color: choosenTheme.textColor }}
+    >
+      <HeroSection />
 
-      <h1>Website Builder</h1>
-      <Button onClick={() => navigate(ERoutes.HOME)}>Forside</Button>
+      <div className="px-5 sm:px-10 mt-10 sm:mt-20 flex flex-col gap-10 sm:gap-20">
+        <Menu />
+        <FindUs />
+
+        <h1>Website Builder</h1>
+        <Button onClick={() => navigate(ERoutes.HOME)}>Forside</Button>
+      </div>
     </div>
   );
 };
