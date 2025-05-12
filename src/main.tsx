@@ -2,7 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router";
 
-import "./style/index.css";
+import "./index.css";
 import "./style/specifics.css";
 import ScrollToTop from "./components/ScrollToTop.tsx";
 import { Layout } from "./pages/layout.tsx";
@@ -14,6 +14,7 @@ import { Step3ImagesPage } from "./pages/get-started-flow/step3-images.tsx";
 import { Step4MenuPage } from "./pages/get-started-flow/step4-menu.tsx";
 import { Step5FeaturesPage } from "./pages/get-started-flow/step5-features.tsx";
 import { WebsiteBuilderPage } from "./pages/website-builder.tsx";
+import { WebsiteBuilderLayout } from "./pages/website-builder-layout.tsx";
 
 export enum ERoutes {
   HOME = "/",
@@ -33,6 +34,9 @@ createRoot(document.getElementById("root")!).render(
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route path={ERoutes.HOME} element={<LandingPage />} />
+        </Route>
+
+        <Route path="/" element={<WebsiteBuilderLayout />}>
           <Route path={ERoutes.WEBSITE_BUILDER} element={<WebsiteBuilderPage />} />
         </Route>
 
