@@ -5,10 +5,22 @@
 
 .colorful-theme-gradient-radial {
   background: #ff9d00;
-  background: radial-gradient(circle, rgba(255, 157, 0, 1) -50%, hsl(39, 100%, 60%) 40%);
+  background: radial-gradient(circle, rgba(255, 157, 0, 1) -100%, hsl(39, 100%, 60%) 40%);
 }
 
 .colorful-theme-gradient-linear {
   background: #ffe099;
-  background: linear-gradient(180deg, hsl(39, 100%, 60%) 20%, rgba(255, 224, 153, 1) 100%);
+  background: linear-gradient(180deg, hsl(39, 100%, 60%) 10%, rgba(255, 224, 153, 1) 100%);
+}
+
+.elegant-theme-bg {
+  background: rgb(33, 34, 44);
+}
+
+.elegant-theme-bg-shade {
+  background: #4d4f66;
+}
+
+.elegant-theme-off-white {
+  background: hsl(231, 14%, 95%);
 }

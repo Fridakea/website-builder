@@ -31,13 +31,16 @@ type MenuCategory = {
 
 type Menu = MenuCategory[];
 
-// type Feature = {
-//   value: string;
-//   name: string;
-//   added: boolean;
-// };
-
-// type Features = Feature[];
+type Features = {
+  imgGallery: boolean;
+  socialMedia: boolean;
+  googleMaps: boolean;
+  socialMediaLinks?: {
+    facebook?: string;
+    instagram?: string;
+    tiktok?: string;
+  };
+};
 
 type WebsiteInfoState = {
   info: Info;
@@ -67,6 +70,9 @@ type WebsiteInfoState = {
   removeMenuCategory: (name: string) => void;
   addMenuItem: (categoryName: string, itemName: string, itemPrice?: string) => void;
   removeMenuItem: (categoryName: string, itemName: string) => void;
+
+  features: Features;
+  setFeatures: (features: Features) => void;
 };
 
 export const useWebsiteInfoStore = create<WebsiteInfoState>((set) => ({
@@ -138,6 +144,18 @@ export const useWebsiteInfoStore = create<WebsiteInfoState>((set) => ({
         return category;
       }),
     })),
+
+  features: {
+    imgGallery: false,
+    socialMedia: false,
+    googleMaps: true,
+    socialMediaLinks: {
+      facebook: "",
+      instagram: "",
+      tiktok: "",
+    },
+  },
+  setFeatures: (features: Features) => set({ features }),
 }));
 
 export const getLabelForDay = (day: string) => {

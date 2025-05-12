@@ -125,8 +125,8 @@
   h5,
   h6,
   button {
-    @apply font-[500];
-    font-family: "Ubuntu", sans-serif;
+    @apply font-bold;
+    /* font-family: "Ubuntu", sans-serif; */
   }
 
   h1 {
@@ -155,5 +155,9 @@
 
   p {
     @apply text-base;
+  }
+
+  a {
+    @apply underline italic opacity-85;
   }
 }

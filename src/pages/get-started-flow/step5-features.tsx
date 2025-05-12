@@ -12,8 +12,9 @@ import { Input } from "@/components/ui/input";
 import { useWebsiteInfoStore } from "@/stores/website-info-store";
 
 const formSchema = z.object({
-  imgGallery: z.boolean().optional(),
-  socialMedia: z.boolean().optional(),
+  imgGallery: z.boolean(),
+  socialMedia: z.boolean(),
+  googleMaps: z.boolean(),
   socialMediaLinks: z
     .object({
       facebook: z.string().optional(),
@@ -28,13 +29,15 @@ type FormData = z.infer<typeof formSchema>;
 export const Step5FeaturesPage = () => {
   const navigate = useNavigate();
   const { increseStep, decreseStep } = useMultiStepStore();
-  const { imageGallery } = useWebsiteInfoStore();
+  const { imageGallery, features, setFeatures } = useWebsiteInfoStore();
 
   const formObject = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      imgGallery: false,
-      socialMedia: false,
+      imgGallery: features.imgGallery,
+      socialMedia: features.socialMedia,
+      googleMaps: features.googleMaps,
+      socialMediaLinks: features.socialMediaLinks,
     },
   });
 
@@ -44,7 +47,13 @@ export const Step5FeaturesPage = () => {
   };
 
   const onSubmit = (data: FormData) => {
-    console.log(data);
+    setFeatures({
+      ...features,
+      imgGallery: data.imgGallery,
+      socialMedia: data.socialMedia,
+      googleMaps: data.googleMaps,
+      socialMediaLinks: data.socialMediaLinks,
+    });
     increseStep();
     navigate(ERoutes.WEBSITE_BUILDER);
   };
@@ -72,7 +81,7 @@ export const Step5FeaturesPage = () => {
           {formObject.watch("imgGallery") && imageGallery.length === 0 && (
             <>
               <p className="text-sm text-destructive">Du har ikke tilføjet nogen billeder til dit galleri. Gå tilbage og tilføj billeder til dit galleri.</p>
-              <Button variant="outline" onClick={() => navigate(ERoutes.GET_STARTED_IMAGES)}>
+              <Button variant="outline" type="button" onClick={() => navigate(ERoutes.GET_STARTED_IMAGES)}>
                 Tilføj billeder
               </Button>
             </>
@@ -138,6 +147,21 @@ export const Step5FeaturesPage = () => {
               </div>
             </>
           )}
+        </div>
+
+        <div className="flex flex-col gap-4 rounded-lg border p-3 shadow-sm">
+          <FormField
+            control={formObject.control}
+            name="googleMaps"
+            render={({ field }) => (
+              <FormItem className="flex flex-row-reverse items-center justify-end gap-4">
+                <FormLabel>Google Maps</FormLabel>
+                <FormControl>
+                  <Switch checked={field.value} onCheckedChange={field.onChange} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
         </div>
 
         <div className="mt-6 flex items-center justify-between">
