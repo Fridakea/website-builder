@@ -13,6 +13,7 @@ import { twMerge } from "tailwind-merge";
 type Step3ImagesProps = {
   className?: string;
   showContent?: {
+    title?: boolean;
     bannerImage?: boolean;
     gallery?: boolean;
     footerNavigation?: boolean;
@@ -63,7 +64,7 @@ export const Step3ImagesPage: FC<Step3ImagesProps> = ({ showContent = { bannerIm
 
   return (
     <div className={twMerge("flex flex-col gap-10 sm:gap-15", className)}>
-      <h2>Billeder til din hjemmeside</h2>
+      {showContent.title && <h2>Billeder til din hjemmeside</h2>}
 
       {showContent?.bannerImage && (
         <ChooseOrUploadImage

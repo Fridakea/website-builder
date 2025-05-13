@@ -10,6 +10,8 @@ import { Switch } from "@/components/ui/switch";
 import { useMultiStepStore } from "@/stores/multi-step-store";
 import { Input } from "@/components/ui/input";
 import { useWebsiteInfoStore } from "@/stores/website-info-store";
+import { SwitchCard } from "@/features/get-started-flow/components/switch-card";
+import { useEffect, useState } from "react";
 
 const formSchema = z.object({
   imgGallery: z.boolean(),
@@ -30,6 +32,7 @@ export const Step5FeaturesPage = () => {
   const navigate = useNavigate();
   const { increseStep, decreseStep } = useMultiStepStore();
   const { imageGallery, features, setFeatures } = useWebsiteInfoStore();
+  const [isImageGalleryActive, setIsImageGalleryActive] = useState(features.imgGallery);
 
   const formObject = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -72,13 +75,19 @@ export const Step5FeaturesPage = () => {
               <FormItem className="flex flex-row-reverse items-center justify-end gap-4">
                 <FormLabel>Billedgalleri</FormLabel>
                 <FormControl>
-                  <Switch checked={field.value} onCheckedChange={field.onChange} />
+                  <Switch
+                    checked={field.value}
+                    onCheckedChange={(value) => {
+                      field.onChange(value);
+                      setIsImageGalleryActive(value);
+                    }}
+                  />
                 </FormControl>
               </FormItem>
             )}
           />
 
-          {formObject.watch("imgGallery") && imageGallery.length === 0 && (
+          {imageGallery.length === 0 && isImageGalleryActive && (
             <>
               <p className="text-sm text-destructive">Du har ikke tilføjet nogen billeder til dit galleri. Gå tilbage og tilføj billeder til dit galleri.</p>
               <Button variant="outline" type="button" onClick={() => navigate(ERoutes.GET_STARTED_IMAGES)}>

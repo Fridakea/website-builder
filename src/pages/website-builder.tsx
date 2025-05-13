@@ -12,15 +12,14 @@ import { FindUs } from "@/features/website-builder/components/find-us";
 import { ImageGallery } from "@/features/website-builder/components/image-gallery";
 import { Footer } from "@/features/website-builder/components/footer";
 import { Contact } from "@/features/website-builder/components/contact";
-import { ChevronRight, ChevronLeft } from "lucide-react";
 import { EBlock, EditableBlock } from "@/features/website-builder/components/editable-block";
+import { WebsiteEditorSidebar } from "@/features/website-builder/components/website-editor-sidebar";
 
 export const WebsiteBuilderPage = () => {
   const navigate = useNavigate();
   const { theme, setTheme, imageGallery, menu } = useWebsiteInfoStore();
 
   const choosenTheme = themeOptions.find((option) => option.theme === theme);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const [activeBlock, setActiveBlock] = useState<EBlock | undefined>(undefined);
 
@@ -70,23 +69,7 @@ export const WebsiteBuilderPage = () => {
           <Footer />
         </EditableBlock>
       </div>
-      <div className="relative transition-all duration-300 ease-in-out" style={{ width: isSidebarOpen ? "300px" : "0px" }}>
-        <div className="z-200 fixed top-0 right-0 h-full transition-all duration-300 ease-in-out" style={{ width: isSidebarOpen ? "300px" : "0px" }}>
-          <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="absolute top-3 -left-6 size-6 bg-white rounded-l-md">
-            {isSidebarOpen ? <ChevronRight /> : <ChevronLeft />}
-          </button>
-
-          <h1>Sidebar</h1>
-          <p>Active block: {activeBlock}</p>
-
-          {activeBlock === EBlock.MAPS_SECTION && (
-            <div className="flex flex-col gap-2">
-              <label>Ændre adresse</label>
-              <input type="text" />
-            </div>
-          )}
-        </div>
-      </div>
+      <WebsiteEditorSidebar activeBlock={activeBlock} />
     </div>
   );
 };

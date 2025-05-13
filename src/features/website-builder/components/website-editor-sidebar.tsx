@@ -1,26 +1,36 @@
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel } from "@/components/ui/sidebar";
+import { ChevronRight, ChevronLeft } from "lucide-react";
+import { FC, useState } from "react";
+import { EBlock } from "./editable-block";
+import { Step3ImagesPage } from "@/pages/get-started-flow/step3-images";
 
-export function WebsiteEditorSidebar() {
+type WebsiteEditorSidebarProps = {
+  activeBlock: EBlock | undefined;
+};
+
+export const WebsiteEditorSidebar: FC<WebsiteEditorSidebarProps> = ({ activeBlock }) => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+
   return (
-    <Sidebar>
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupLabel>Hjemmeside redigering</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <Accordion type="single" collapsible>
-              <AccordionItem value="hero-image">
-                <AccordionTrigger>
-                  <SidebarGroupLabel>Banner billede</SidebarGroupLabel>
-                </AccordionTrigger>
-                <AccordionContent>
-                  <p>Ændre banner billede</p>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
-    </Sidebar>
+    <div className="relative transition-all duration-300 ease-in-out" style={{ width: isSidebarOpen ? "300px" : "0px" }}>
+      <div className="z-200 fixed top-0 right-0 h-full transition-all duration-300 ease-in-out" style={{ width: isSidebarOpen ? "300px" : "0px" }}>
+        <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="absolute top-3 -left-6 size-6 bg-white rounded-l-md">
+          {isSidebarOpen ? <ChevronRight /> : <ChevronLeft />}
+        </button>
+
+        <h1>Sidebar</h1>
+        <p>Active block: {activeBlock}</p>
+
+        {activeBlock === EBlock.HERO_SECTION && <Step3ImagesPage showContent={{ bannerImage: true }} />}
+
+        {activeBlock === EBlock.IMAGE_GALLERY && <Step3ImagesPage showContent={{ gallery: true }} />}
+
+        {activeBlock === EBlock.MAPS_SECTION && (
+          <div className="flex flex-col gap-2">
+            <label>Ændre adresse</label>
+            <input type="text" />
+          </div>
+        )}
+      </div>
+    </div>
   );
-}
+};
