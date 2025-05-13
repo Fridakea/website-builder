@@ -1,7 +1,8 @@
 import { useWebsiteInfoStore } from "@/stores/website-info-store";
 import { themeOptions } from "@/features/get-started-flow/data/design-data";
 import { ETheme } from "@/features/get-started-flow/data/enum";
-import { Mail, Phone, Send } from "lucide-react";
+import { Facebook, Instagram, Mail, Phone, Send } from "lucide-react";
+import { TikTok } from "@/assets/icons/tik-tok";
 
 export const Contact = () => {
   const { info, features, theme } = useWebsiteInfoStore();
@@ -38,21 +39,21 @@ export const Contact = () => {
       </div>
 
       {socialMedia && (
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-row items-end gap-2">
           <h4>Sociale medier:</h4>
           {socialMediaLinks?.facebook && (
             <a href={socialMediaLinks.facebook} style={{ color: choosenTheme.actionColor }} target="_blank" rel="noopener noreferrer">
-              Facebook
+              {theme === ETheme.ELEGANT ? <Facebook className="size-4 sm:size-5 mx-auto" /> : "Facebook"}
             </a>
           )}
           {socialMediaLinks?.instagram && (
             <a href={socialMediaLinks.instagram} style={{ color: choosenTheme.actionColor }} target="_blank" rel="noopener noreferrer">
-              Instagram
+              {theme === ETheme.ELEGANT ? <Instagram className="size-4 sm:size-5 mx-auto" /> : "Instagram"}
             </a>
           )}
           {socialMediaLinks?.tiktok && (
             <a href={socialMediaLinks.tiktok} style={{ color: choosenTheme.actionColor }} target="_blank" rel="noopener noreferrer">
-              TikTok
+              {theme === ETheme.ELEGANT ? <TikTok size={4} className="size-4 sm:size-5 mx-auto" /> : "TikTok"}
             </a>
           )}
         </div>

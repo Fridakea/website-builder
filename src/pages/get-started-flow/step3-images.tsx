@@ -1,34 +1,45 @@
 import { useNavigate } from "react-router-dom";
+import { FC, useMemo, useState } from "react";
 
 import { useMultiStepStore } from "@/stores/multi-step-store";
 import { useWebsiteInfoStore } from "@/stores/website-info-store";
 import { EType } from "@/features/get-started-flow/data/enum";
 import { ERoutes } from "@/main";
 import { ImageItem, imageOptions } from "@/features/get-started-flow/data/image-data";
-
-import { ImageDropzone } from "@/components/image-drop-zone";
 import { Button } from "@/components/ui/button";
+import { ChooseOrUploadImage } from "@/components/choose-or-upload-image";
 import { twMerge } from "tailwind-merge";
-import { useMemo, useState } from "react";
 
-const imageOptionClass = "overflow-hidden border-3 border-transparent rounded-md cursor-pointer";
-const selectedImageOptionClass = "border-red-500 border-3";
+type Step3ImagesProps = {
+  className?: string;
+  showContent?: {
+    bannerImage?: boolean;
+    gallery?: boolean;
+    footerNavigation?: boolean;
+  };
+};
 
-export const Step3ImagesPage = () => {
+export const Step3ImagesPage: FC<Step3ImagesProps> = ({ showContent = { bannerImage: true, gallery: true, footerNavigation: true }, className }) => {
   const navigate = useNavigate();
   const { increseStep, decreseStep } = useMultiStepStore();
   const { type, choosenHeroImage, imageGallery, setType, setChoosenHeroImage, addImageToGallery, removeImageFromGallery } = useWebsiteInfoStore();
 
-  const [heroUploadedImage, setHeroUploadedImage] = useState<ImageItem>();
+  const [heroUploadedImages, setHeroUploadedImages] = useState<ImageItem[]>([]);
   const [imageGalleryUpload, setImageGalleryUpload] = useState<ImageItem[]>([]);
 
   const allHeroImageOptions = useMemo(
-    () => [...imageOptions.filter((image) => type && image.types.includes(type)).map((image) => ({ src: image.data.src, alt: image.data.alt })), heroUploadedImage],
-    [imageOptions, type, heroUploadedImage]
+    () => [
+      ...imageOptions.filter((image) => type && image.types.includes(type)).map((image) => ({ src: image.data.src, alt: image.data.alt })),
+      ...heroUploadedImages,
+    ],
+    [imageOptions, type, heroUploadedImages]
   );
 
   const allGalleryImageOptions = useMemo(
-    () => [...imageOptions.filter((image) => type && image.types.includes(type)).map((image) => ({ src: image.data.src, alt: image.data.alt })), ...imageGalleryUpload],
+    () => [
+      ...imageOptions.filter((image) => type && image.types.includes(type)).map((image) => ({ src: image.data.src, alt: image.data.alt })),
+      ...imageGalleryUpload,
+    ],
     [imageOptions, type, imageGalleryUpload]
   );
 
@@ -47,82 +58,53 @@ export const Step3ImagesPage = () => {
     return <div>Vælg en type først</div>;
   }
   // if (!theme || !type) return <div>Vælg et tema og en type først</div>;
+
+  console.log;
+
   return (
-    <div className="flex flex-col gap-10 sm:gap-15">
+    <div className={twMerge("flex flex-col gap-10 sm:gap-15", className)}>
       <h2>Billeder til din hjemmeside</h2>
 
-      <fieldset className="border border-muted rounded-md p-4 shadow-sm">
-        <legend className="px-4 font-medium text-lg sm:text-xl">Vælg banner billede</legend>
-        <ImageDropzone
-          onUpload={(file) => {
-            const newImageItem = { src: URL.createObjectURL(file), alt: file.name };
-            setHeroUploadedImage(newImageItem); // Auto add as selected.
-            setChoosenHeroImage(newImageItem);
+      {showContent?.bannerImage && (
+        <ChooseOrUploadImage
+          title="Vælg banner billede"
+          setUploadedImagesCallback={(images) => {
+            setHeroUploadedImages(images);
+            setChoosenHeroImage(images?.[0]);
           }}
-          AutoEmptyDropZone={true}
-          mainText="Træk og slip eller klik for at uploade et billede"
-        />
-
-        <div className="mt-4 sm:mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-          {allHeroImageOptions.map((image) => {
-            if (!image) return null;
-            const isSelected = image.src === choosenHeroImage?.src;
-
-            return (
-              <div
-                key={image.src}
-                className={twMerge(imageOptionClass, isSelected && selectedImageOptionClass)}
-                onClick={() => {
-                  console.log(isSelected);
-                  setChoosenHeroImage(isSelected ? undefined : image);
-                }}
-              >
-                <img src={image.src} alt={image.alt} className="object-cover object-center" />
-              </div>
-            );
-          })}
-        </div>
-      </fieldset>
-
-      <fieldset className="border border-muted rounded-md p-4 shadow-sm">
-        <legend className="px-4 font-medium text-lg sm:text-xl">Vælg billeder til galleri</legend>
-        <ImageDropzone
-          onUpload={(file) => {
-            console.log(file);
-            const newImageItem = { src: URL.createObjectURL(file), alt: file.name };
-            addImageToGallery(newImageItem); // Auto add as selected.
-            setImageGalleryUpload([...imageGalleryUpload, newImageItem]);
+          choosenImages={choosenHeroImage ? [choosenHeroImage] : undefined}
+          uploadedImages={heroUploadedImages}
+          imageOptions={allHeroImageOptions}
+          onClick={(image) => {
+            setChoosenHeroImage(image.src === choosenHeroImage?.src ? undefined : image);
           }}
-          AutoEmptyDropZone={true}
-          mainText="Træk og slip eller klik for at uploade et billede"
         />
+      )}
 
-        <div className="mt-4 sm:mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-          {allGalleryImageOptions.map((image) => {
+      {showContent?.gallery && (
+        <ChooseOrUploadImage
+          title="Vælg galleri billeder"
+          setUploadedImagesCallback={(images) => {
+            setImageGalleryUpload((prev) => [...prev, ...images]);
+            addImageToGallery(images?.[0]);
+          }}
+          choosenImages={imageGallery}
+          imageOptions={allGalleryImageOptions}
+          onClick={(image) => {
             const isSelected = imageGallery.some((item) => item.src === image.src);
+            isSelected ? removeImageFromGallery(image) : addImageToGallery(image);
+          }}
+        />
+      )}
 
-            return (
-              <div
-                key={image.src}
-                className={twMerge(imageOptionClass, isSelected && selectedImageOptionClass)}
-                onClick={() => {
-                  console.log(isSelected, imageGallery, image);
-                  isSelected ? removeImageFromGallery(image) : addImageToGallery(image);
-                }}
-              >
-                <img src={image.src} alt={image.alt} />
-              </div>
-            );
-          })}
+      {showContent?.footerNavigation && (
+        <div className="flex flex-row justify-between">
+          <Button type="button" variant="outline" onClick={goBack}>
+            Tilbage
+          </Button>
+          <Button onClick={onSubmit}>Næste</Button>
         </div>
-      </fieldset>
-
-      <div className="flex flex-row justify-between">
-        <Button type="button" variant="outline" onClick={goBack}>
-          Tilbage
-        </Button>
-        <Button onClick={onSubmit}>Næste</Button>
-      </div>
+      )}
     </div>
   );
 };
