@@ -6,8 +6,9 @@ export enum EBlock {
   IMAGE_GALLERY = "image-gallery",
   ABOUT_SECTION = "about-section",
   CONTACT_SECTION = "contact-section",
-  FOOTER_SECTION = "footer-section",
+  OPENING_HOURS_SECTION = "opening-hours-section",
   MAPS_SECTION = "maps-section",
+  FOOTER_SECTION = "footer-section",
 }
 
 export type EditableBlockProps = {

@@ -14,6 +14,7 @@ import { Footer } from "@/features/website-builder/components/footer";
 import { Contact } from "@/features/website-builder/components/contact";
 import { EBlock, EditableBlock } from "@/features/website-builder/components/editable-block";
 import { WebsiteEditorSidebar } from "@/features/website-builder/components/website-editor-sidebar";
+import { OpeningHours } from "@/features/website-builder/components/opening-hours";
 
 export const WebsiteBuilderPage = () => {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ export const WebsiteBuilderPage = () => {
           <HeroSection />
         </EditableBlock>
 
-        <div className="max-w-content overflow-x-hidden mx-auto px-5 sm:px-10 my-16 sm:my-20 flex flex-col gap-16 sm:gap-20">
+        <div className="max-w-content overflow-x-hidden mx-auto px-5 sm:px-10 my-16 sm:my-20 flex flex-col gap-16 sm:gap-20 *:py-4">
           {menu.length > 0 && (
             <EditableBlock id={EBlock.MENU_SECTION} onClick={setActiveBlock} activeBlock={activeBlock}>
               <Menu />
@@ -59,6 +60,11 @@ export const WebsiteBuilderPage = () => {
           >
             <Contact />
           </EditableBlock>
+
+          <EditableBlock id={EBlock.OPENING_HOURS_SECTION} onClick={setActiveBlock} activeBlock={activeBlock}>
+            <OpeningHours />
+          </EditableBlock>
+
           <EditableBlock id={EBlock.MAPS_SECTION} onClick={setActiveBlock} activeBlock={activeBlock}>
             <FindUs />
           </EditableBlock>

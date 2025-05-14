@@ -1,34 +1,36 @@
-import { Switch } from "@radix-ui/react-switch";
-import { FC } from "react";
+import { FC, useState } from "react";
+import { Switch } from "@/components/ui/switch";
 
-import { FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { twMerge } from "tailwind-merge";
 
 type SwitchCardProps = {
+  defaultActive?: boolean;
   className?: string;
-  control: any;
-  name: string;
-  fieldProp: any;
-  children: React.ReactNode;
+  title: string;
+  updateStore: (isActive: boolean) => void;
+  children?: React.ReactNode;
 };
 
-export const SwitchCard: FC<SwitchCardProps> = ({ className, control, name, fieldProp, children }) => {
-  return (
-    <div className={twMerge("flex flex-col gap-4 rounded-lg border p-3 shadow-sm", className)}>
-      <FormField
-        control={control}
-        name={name}
-        render={({ {...fieldProp} }) => (
-          <FormItem className="flex flex-row-reverse items-center justify-end gap-4">
-            <FormLabel>Billedgalleri</FormLabel>
-            <FormControl>
-              <Switch checked={field.value} onCheckedChange={field.onChange} />
-            </FormControl>
-          </FormItem>
-        )}
-      />
+export const SwitchCard: FC<SwitchCardProps> = ({ defaultActive = false, className, title, updateStore, children }) => {
+  const [isActive, setIsActive] = useState(defaultActive);
 
-      {children}
+  return (
+    <div className={twMerge("rounded-lg border p-3 shadow-sm", className)}>
+      <fieldset>
+        <div className="flex flex-row items-center justify-start gap-4">
+          <Switch
+            checked={isActive}
+            onCheckedChange={() => {
+              setIsActive(!isActive);
+              console.log("isActive: ", !isActive);
+              updateStore(!isActive);
+            }}
+          />
+          <legend className="font-[500]">{title}</legend>
+        </div>
+
+        {isActive && children}
+      </fieldset>
     </div>
   );
 };
