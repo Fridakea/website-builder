@@ -16,7 +16,7 @@ export const FindUs = () => {
 
     const url = `https://maps.google.com/maps?output=embed&q=${encodedAddress}`;
     setMapUrl(url);
-  }, []);
+  }, [info.adress]);
 
   return (
     <section className="w-full max-w-form mx-auto">

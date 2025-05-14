@@ -4,12 +4,13 @@ import { useForm } from "react-hook-form";
 import { isValid, z } from "zod";
 import { ERoutes } from "@/main";
 import { useMultiStepStore } from "@/stores/multi-step-store";
-import { getLabelForDay, useWebsiteInfoStore } from "@/stores/website-info-store";
+import { useWebsiteInfoStore } from "@/stores/website-info-store";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useEffect } from "react";
+import { OpeningHoursInputs } from "@/features/get-started-flow/forms/opening-hours-inputs";
 
 const formSchema = z.object({
   name: z.string().min(2, "Navnet skal minimum være 2 tegn").max(50),
@@ -19,15 +20,6 @@ const formSchema = z.object({
     .int()
     .refine((num) => num.toString().length >= 8, "Telefonnummeret skal være minimum 8 cifre"),
   email: z.string().email("Ugyldig email").optional(),
-  openingHours: z.object({
-    monday: z.string().optional(),
-    tuesday: z.string().optional(),
-    wednesday: z.string().optional(),
-    thursday: z.string().optional(),
-    friday: z.string().optional(),
-    saturday: z.string().optional(),
-    sunday: z.string().optional(),
-  }),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -35,7 +27,7 @@ type FormData = z.infer<typeof formSchema>;
 export const Step1InfoPage = () => {
   const navigate = useNavigate();
   const { setStep, increseStep, decreseStep } = useMultiStepStore();
-  const { info, setInfo, openingHours, setOpeningHours } = useWebsiteInfoStore();
+  const { info, setInfo, openingHours } = useWebsiteInfoStore();
 
   const formObject = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -44,7 +36,6 @@ export const Step1InfoPage = () => {
       adress: info.adress,
       phone: info.phone,
       email: info.email,
-      openingHours: openingHours,
     },
   });
 
@@ -64,8 +55,8 @@ export const Step1InfoPage = () => {
       phone: values.phone,
       email: values.email,
     });
-    setOpeningHours(values.openingHours);
 
+    console.log("openingHours: ", openingHours);
     increseStep();
     navigate(ERoutes.GET_STARTED_THEME);
   };
@@ -140,22 +131,7 @@ export const Step1InfoPage = () => {
         </div>
 
         <h2 className="mt-4 sm:mt-10">Åbningstider</h2>
-
-        <FormField
-          control={formObject.control}
-          name="openingHours"
-          render={({ field }) => (
-            <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-5">
-              {Object.entries(field.value).map(([day, hours]) => (
-                <FormItem key={day} className="flex flex-row gap-2 sm:gap-3">
-                  <FormLabel>{getLabelForDay(day)}</FormLabel>
-                  <Input {...field} value={hours} onChange={(e) => field.onChange({ ...field.value, [day]: e.target.value })} />
-                  <FormMessage />
-                </FormItem>
-              ))}
-            </div>
-          )}
-        />
+        <OpeningHoursInputs />
 
         <div className="flex flex-row justify-between">
           <Button type="button" variant="outline" onClick={goBack}>

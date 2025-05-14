@@ -30,11 +30,8 @@ export const WebsiteBuilderPage = () => {
   }
 
   return (
-    <div
-      className="w-full flex flex-row"
-      style={{ fontFamily: choosenTheme.fontFamily, backgroundColor: choosenTheme.backgroundColor, color: choosenTheme.textColor }}
-    >
-      <div className="flex-1">
+    <div className="w-full flex flex-row">
+      <div className="flex-1" style={{ fontFamily: choosenTheme.fontFamily, backgroundColor: choosenTheme.backgroundColor, color: choosenTheme.textColor }}>
         <div className="relative top-0 right-0"></div>
 
         <EditableBlock id={EBlock.HERO_SECTION} onClick={setActiveBlock} activeBlock={activeBlock}>
@@ -75,6 +72,7 @@ export const WebsiteBuilderPage = () => {
           <Footer />
         </EditableBlock>
       </div>
+
       <WebsiteEditorSidebar activeBlock={activeBlock} />
     </div>
   );

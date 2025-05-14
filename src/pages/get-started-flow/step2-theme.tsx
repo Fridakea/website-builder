@@ -43,10 +43,10 @@ export const Step2ThemePage: FC<Step2ThemeProps> = ({
   };
 
   return (
-    <form className={className}>
+    <form onSubmit={onSubmit} className={className}>
       {showContent.type && (
         <div className="mb-5 sm:mb-10">
-          <h3>Type spisested</h3>
+          <h2>Type spisested</h2>
           <fieldset>
             <legend>Vælg hvilken type spisested passer bedst til dig</legend>
             <div className={twMerge("flex gap-2 sm:gap-4", typeClassName)}>
@@ -60,7 +60,7 @@ export const Step2ThemePage: FC<Step2ThemeProps> = ({
 
       {showContent.theme && (
         <div className="mb-5 sm:mb-10">
-          <h3>Tema</h3>
+          <h2>Tema</h2>
           <fieldset>
             <legend>Vælg et tema til din hjemmeside</legend>
             <div className={twMerge("grid grid-cols-2 gap-2 sm:gap-4", themeClassName)}>
@@ -86,9 +86,7 @@ export const Step2ThemePage: FC<Step2ThemeProps> = ({
           <Button type="button" variant="outline" onClick={goBack}>
             Tilbage
           </Button>
-          <Button type="submit" onClick={() => onSubmit()}>
-            Næste
-          </Button>
+          <Button type="submit">Næste</Button>
         </div>
       )}
     </form>
