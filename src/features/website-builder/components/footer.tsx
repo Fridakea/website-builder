@@ -21,7 +21,12 @@ export const Footer = () => {
       <p className="relative z-10">©2035 {info.name}.</p>
       <p className="relative z-10 flex flex-row items-center justify-center gap-1">
         Lavet med{" "}
-        <a href="/" style={{ color: choosenTheme?.actionColor }} target="_blank" rel="noopener noreferrer">
+        <a
+          href="/"
+          style={choosenTheme?.theme === ETheme.COLORFUL ? { color: choosenTheme?.actionColor } : { color: choosenTheme?.secondaryColor }}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Spisesteder.com
         </a>
       </p>
