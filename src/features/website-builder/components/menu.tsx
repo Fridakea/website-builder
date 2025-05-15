@@ -22,7 +22,7 @@ export const Menu = () => {
     <section className="w-full max-w-form mx-auto">
       {theme === ETheme.ELEGANT && <UtensilsCrossed className="size-5 sm:size-7  my-4 sm:my-5 mx-auto" />}
 
-      <h3 className="text-center mb-5 sm:mb-10">Menukort</h3>
+      <h3 className="text-center mb-4 sm:mb-5">Menukort</h3>
       {menu.map((category) => (
         <div key={category.name}>
           <h4 className={twMerge("mt-7 mb-5 sm:mt-10 sm:mb-7 text-center", hasPrices && "text-left")}>{category.name}</h4>

@@ -25,6 +25,7 @@ type ThemeCardProps = {
   onChange: (value: string) => void;
   className?: string;
   disabled?: boolean;
+  isWebsiteBuilder?: boolean;
 };
 
 const themeImgAdjustments: Record<ETheme, { className: string; img: string; imgPc: string }> = {
@@ -35,7 +36,7 @@ const themeImgAdjustments: Record<ETheme, { className: string; img: string; imgP
   },
   elegant: {
     className:
-      "w-[26%] top-[50%] translate-y-[-50%] uppercase sm:w-[59%] sm:h-[50%] sm:top-[10%] sm:translate-y-[0%] sm:flex sm:items-center text-center text-[3.5vw]! sm:text-clamp-sm!",
+      "w-[26%] top-[50%] translate-y-[-50%] uppercase sm:w-[59%] sm:h-[50%] sm:top-[10%] sm:translate-y-[0%] sm:flex sm:items-center text-center text-lg! sm:text-xl!",
     img: elegantImg,
     imgPc: elegantImgPc,
   },
@@ -56,6 +57,7 @@ export const ThemeCard: FC<ThemeCardProps> = ({
   onChange,
   className,
   disabled,
+  isWebsiteBuilder = false,
 }) => {
   const isMobile = useIsMobile();
   const isSelected = currentValue === theme;
@@ -87,7 +89,11 @@ export const ThemeCard: FC<ThemeCardProps> = ({
           </div>
         )}
         <div
-          className={twMerge("w-full absolute font-bold text-[6vw] sm:text-clamp-md text-wrap leading-none", themeImgAdjustments[theme].className)}
+          className={twMerge(
+            "w-full absolute font-bold  text-wrap leading-none",
+            themeImgAdjustments[theme].className,
+            isWebsiteBuilder ? "text-2xl leading-none" : "text-[6vw] sm:text-clamp-md leading-none"
+          )}
           style={{ fontFamily: fontFamily, color: heroTextColor }}
         >
           {theme === ETheme.COLORFUL

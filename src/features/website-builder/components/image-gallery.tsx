@@ -10,7 +10,7 @@ export const ImageGallery = () => {
     <section>
       {theme === ETheme.ELEGANT && <Image className="size-5 sm:size-7  my-4 sm:my-5 mx-auto" />}
 
-      <h3 className="text-center mb-5 sm:mb-10">Billedgalleri</h3>
+      <h3 className="text-center mb-4 sm:mb-5">Billedgalleri</h3>
       <div
         className={twMerge(
           imageGallery.length < 2 && "w-full h-full",

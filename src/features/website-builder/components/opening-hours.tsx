@@ -5,7 +5,7 @@ export const OpeningHours = () => {
 
   return (
     <section>
-      <h3 className="text-center">Åbningstider</h3>
+      <h3 className="text-center mb-4 sm:mb-5">Åbningstider</h3>
 
       {openingHours.monday === openingHours.tuesday &&
       openingHours.tuesday === openingHours.wednesday &&

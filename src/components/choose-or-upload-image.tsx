@@ -28,14 +28,14 @@ export const ChooseOrUploadImage: FC<ChooseOrUploadImageProps> = ({
       <legend className="px-4 font-medium text-lg sm:text-xl">{title}</legend>
       <ImageDropzone
         onUpload={(file) => {
-          const newImageItem = { src: URL.createObjectURL(file), alt: file.name };
-          setUploadedImagesCallback([...(uploadedImages ?? []), newImageItem]); // Auto add as selected.
+          const src = URL.createObjectURL(file);
+          setUploadedImagesCallback([...(uploadedImages ?? []), { src, alt: file.name }]); // Auto add as selected.
         }}
         AutoEmptyDropZone={true}
         mainText="Træk og slip eller klik for at uploade et billede"
       />
 
-      <div className="mt-4 sm:mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+      <div className="mt-4 sm:mt-5 flex flex-row flex-wrap gap-2 sm:gap-4 shrink-1">
         {imageOptions?.map((image) => {
           if (!image) return null;
           const isSelected = choosenImages?.some((item) => item.src === image.src);
@@ -48,7 +48,7 @@ export const ChooseOrUploadImage: FC<ChooseOrUploadImageProps> = ({
                 onClick(image);
               }}
             >
-              <img src={image.src} alt={image.alt} className="object-cover object-center" />
+              <img src={image.src} alt={image.alt} className="h-full max-h-[125px] object-cover object-center" />
             </div>
           );
         })}

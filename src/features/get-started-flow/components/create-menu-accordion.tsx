@@ -1,3 +1,6 @@
+import { FC } from "react";
+import { twMerge } from "tailwind-merge";
+
 import { Trash } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -5,14 +8,19 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/
 import { AddMenuItemForm } from "../forms/add-menu-item-form";
 import { useWebsiteInfoStore } from "@/stores/website-info-store";
 
-export const CreateMenuAccordion = () => {
+type CreateMenuAccordionProps = {
+  accordionClassName?: string;
+  categoryClassName?: string;
+};
+
+export const CreateMenuAccordion: FC<CreateMenuAccordionProps> = ({ categoryClassName, accordionClassName }) => {
   const { menu, addMenuItem, removeMenuItem, removeMenuCategory } = useWebsiteInfoStore();
 
   return (
-    <Accordion type="single" collapsible className={menu.length > 0 ? "p-2 sm:p-4 flex flex-col gap-2" : ""}>
+    <Accordion type="single" collapsible className={twMerge(menu.length > 0 ? "p-2 sm:p-4 flex flex-col gap-2" : "", accordionClassName)}>
       {menu.map((category) => (
         <div key={category.name} className="flex flex-row gap-1">
-          <AccordionItem className="w-full" value={category.name}>
+          <AccordionItem className={twMerge("w-full", categoryClassName)} value={category.name}>
             <AccordionTrigger>
               <div className="w-full flex flex-row justify-between items-center">
                 <h4>{category.name}</h4>

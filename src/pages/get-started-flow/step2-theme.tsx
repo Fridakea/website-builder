@@ -1,20 +1,16 @@
 import { useNavigate } from "react-router-dom";
-import { FC } from "react";
+import { FC, useState } from "react";
 
-import { useWebsiteInfoStore } from "@/stores/website-info-store";
 import { ERoutes } from "@/main";
 import { Button } from "@/components/ui/button";
-import { RadioCard } from "@/components/ui/custom/radio-card";
-import { themeOptions, typeOptions } from "@/features/get-started-flow/data/design-data";
-import { ThemeCard } from "@/features/get-started-flow/components/theme-card";
 import { useMultiStepStore } from "@/stores/multi-step-store";
-import { EType, ETheme } from "@/features/get-started-flow/data/enum";
 import { twMerge } from "tailwind-merge";
+import { ChooseType } from "@/features/get-started-flow/components/choose-type";
+import { ChooseTheme } from "@/features/get-started-flow/components/choose-theme";
+import { useWebsiteInfoStore } from "@/stores/website-info-store";
 
 type Step2ThemeProps = {
   className?: string;
-  typeClassName?: string;
-  themeClassName?: string;
   showContent?: {
     type?: boolean;
     theme?: boolean;
@@ -22,19 +18,25 @@ type Step2ThemeProps = {
   };
 };
 
-export const Step2ThemePage: FC<Step2ThemeProps> = ({
-  className,
-  typeClassName,
-  themeClassName,
-  showContent = { type: true, theme: true, footerNavigation: true },
-}) => {
+export const Step2ThemePage: FC<Step2ThemeProps> = ({ className, showContent = { type: true, theme: true, footerNavigation: true } }) => {
   const navigate = useNavigate();
-  const { info, type, theme, setType, setTheme } = useWebsiteInfoStore();
   const { increseStep, decreseStep } = useMultiStepStore();
+  const { type, theme } = useWebsiteInfoStore();
+  const [formInvalid, setFormInvalid] = useState(false);
 
   const goBack = () => {
     decreseStep();
     navigate(-1);
+  };
+
+  const checkForm = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!type) {
+      setFormInvalid(true);
+    }
+    if (!theme) {
+      setFormInvalid(true);
+    }
   };
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -45,43 +47,16 @@ export const Step2ThemePage: FC<Step2ThemeProps> = ({
   };
 
   return (
-    <form onSubmit={onSubmit} className={className}>
-      {showContent.type && (
-        <div className="mb-5 sm:mb-10">
-          <h2>Type spisested</h2>
-          <fieldset>
-            <legend>Vælg hvilken type spisested passer bedst til dig</legend>
-            <div className={twMerge("flex gap-2 sm:gap-4", typeClassName)}>
-              {typeOptions.map((option) => (
-                <RadioCard key={option.value} title={option.label} value={option.value} currentValue={type} onChange={(type) => setType(type as EType)} />
-              ))}
-            </div>
-          </fieldset>
-        </div>
-      )}
+    <form onSubmit={!type || !theme ? checkForm : onSubmit} className={twMerge(className, "flex flex-col gap-2 sm:gap-2")}>
+      <h2>Type spisested*</h2>
 
-      {showContent.theme && (
-        <div className="mb-5 sm:mb-10">
-          <h2>Tema</h2>
-          <fieldset>
-            <legend>Vælg et tema til din hjemmeside</legend>
-            <div className={twMerge("grid grid-cols-2 gap-2 sm:gap-4", themeClassName)}>
-              {themeOptions.map((option) => (
-                <ThemeCard
-                  key={option.theme}
-                  title={option.label}
-                  theme={option.theme}
-                  name={info.name || "Dit spisested"}
-                  fontFamily={option.fontFamily}
-                  heroTextColor={option.heroTextColor}
-                  currentValue={theme}
-                  onChange={(theme) => setTheme(theme as ETheme)}
-                />
-              ))}
-            </div>
-          </fieldset>
-        </div>
-      )}
+      {showContent.type && <ChooseType />}
+      {formInvalid && !type && <p className="text-red-500">Vælg venligst et type spisested</p>}
+
+      <h2 className="mt-4 sm:mt-10">Tema*</h2>
+
+      {showContent.theme && <ChooseTheme />}
+      {formInvalid && !theme && <p className="text-red-500">Vælg venligst et tema</p>}
 
       {showContent.footerNavigation && (
         <div className="flex flex-row justify-between">

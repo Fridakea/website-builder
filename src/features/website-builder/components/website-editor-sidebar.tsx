@@ -12,12 +12,15 @@ import { twMerge } from "tailwind-merge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Step2ThemePage } from "@/pages/get-started-flow/step2-theme";
 import { OpeningHoursInputs } from "@/features/get-started-flow/forms/opening-hours-inputs";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { ChooseType } from "@/features/get-started-flow/components/choose-type";
+import { ChooseTheme } from "@/features/get-started-flow/components/choose-theme";
 
 type WebsiteEditorSidebarProps = {
   activeBlock: EBlock | undefined;
 };
 
-const tabsContentStyling = "p-2 flex flex-col gap-5 overflow-y-auto max-h-[calc(100dvh-40px)]";
+const tabsContentStyling = "p-4 flex flex-col gap-5 overflow-y-auto max-h-[calc(100dvh-40px)]";
 
 export const WebsiteEditorSidebar: FC<WebsiteEditorSidebarProps> = ({ activeBlock }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -28,13 +31,13 @@ export const WebsiteEditorSidebar: FC<WebsiteEditorSidebarProps> = ({ activeBloc
       <div
         className={twMerge(
           isSidebarOpen && "p-0",
-          "h-full z-150 fixed overflow-visible top-0 right-0  transition-all duration-300 bg-background ease-in-out flex flex-col gap-4 sm:gap-5"
+          "h-full z-20 fixed overflow-visible top-0 right-0  transition-all duration-300 bg-background ease-in-out flex flex-col gap-4 sm:gap-5"
         )}
         style={{ width: isSidebarOpen ? "300px" : "0" }}
       >
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="absolute z-200 p-1 top-4 -left-12 bg-primary text-primary-foreground rounded-l-md cursor-pointer transition-all duration-200 ease-in-out hover:bg-secondary"
+          className="absolute z-50 p-1 top-4 -left-12 bg-primary text-primary-foreground rounded-l-md cursor-pointer transition-all duration-200 ease-in-out hover:bg-secondary"
         >
           {isSidebarOpen ? <ChevronRight size={40} /> : <ChevronLeft size={40} />}
         </button>
@@ -43,9 +46,11 @@ export const WebsiteEditorSidebar: FC<WebsiteEditorSidebarProps> = ({ activeBloc
           <TabsList>
             <TabsTrigger value="recent">Seneste</TabsTrigger>
             <TabsTrigger value="design">Design</TabsTrigger>
-            <TabsTrigger value="info">Info</TabsTrigger>
+            <TabsTrigger value="content">Indhold</TabsTrigger>
+
+            {/* <TabsTrigger value="info">Info</TabsTrigger>
             <TabsTrigger value="menu">Menu</TabsTrigger>
-            <TabsTrigger value="images">Billeder</TabsTrigger>
+            <TabsTrigger value="images">Billeder</TabsTrigger> */}
           </TabsList>
 
           <TabsContent value="recent" className={tabsContentStyling}>
@@ -88,10 +93,150 @@ export const WebsiteEditorSidebar: FC<WebsiteEditorSidebarProps> = ({ activeBloc
           </TabsContent>
 
           <TabsContent value="design" className={tabsContentStyling}>
-            <Step2ThemePage typeClassName="grid grid-cols-2 gap-2" themeClassName="grid-cols-2 gap-0!" showContent={{ theme: true }} />
+            <Accordion type="single" collapsible className="flex flex-col gap-2">
+              <AccordionItem value="type">
+                <AccordionTrigger>Ændre type</AccordionTrigger>
+                <AccordionContent>
+                  <ChooseType title="Ændre type af spisested" className="flex-col" />
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="theme">
+                <AccordionTrigger>Ændre tema</AccordionTrigger>
+                <AccordionContent>
+                  <ChooseTheme className="grid-cols-1 gap-0!" isWebsiteBuilder={true} />
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
           </TabsContent>
 
-          <TabsContent value="info" className={tabsContentStyling}>
+          <TabsContent value="content" className={tabsContentStyling}>
+            <Accordion type="single" collapsible className="flex flex-col gap-2">
+              <AccordionItem value="info">
+                <AccordionTrigger>Ændre info</AccordionTrigger>
+                <AccordionContent className="flex flex-col gap-5">
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="name">Ændre spisestedet navn</Label>
+                    <Input id="name" type="text" inputMode="text" value={info.name} onChange={(e) => setInfo({ ...info, name: e.currentTarget.value })} />
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-2">
+                      <Label htmlFor="adress">Ændre adresse</Label>
+                      <Input
+                        id="adress"
+                        type="text"
+                        inputMode="text"
+                        value={info.adress}
+                        onChange={(e) => setInfo({ ...info, adress: e.currentTarget.value })}
+                      />
+                    </div>
+
+                    <SwitchCard
+                      defaultActive={features.googleMaps}
+                      title="Google Maps"
+                      updateStore={(data) => setFeatures({ ...features, googleMaps: data })}
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="phone">Ændre telefonnummer</Label>
+                    <Input
+                      id="phone"
+                      type="number"
+                      inputMode="numeric"
+                      value={info.phone}
+                      onChange={(e) => setInfo({ ...info, phone: parseInt(e.currentTarget.value) })}
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="email">Ændre email</Label>
+                    <Input id="email" type="text" inputMode="text" value={info.email} onChange={(e) => setInfo({ ...info, email: e.currentTarget.value })} />
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <h4>Sociale medier</h4>
+                    <SwitchCard
+                      defaultActive={features.socialMedia}
+                      title="Sociale medier"
+                      updateStore={(data) => setFeatures({ ...features, socialMedia: data })}
+                    />
+
+                    <div className="flex flex-col gap-2">
+                      <h5>Ændre sociale medier</h5>
+                      <div className="flex flex-row gap-2">
+                        <Label htmlFor="facebook">Facebook</Label>
+                        <Input
+                          id="facebook"
+                          type="text"
+                          inputMode="text"
+                          value={features.socialMediaLinks?.facebook}
+                          onChange={(e) => setFeatures({ ...features, socialMediaLinks: { ...features.socialMediaLinks, facebook: e.currentTarget.value } })}
+                        />
+                      </div>
+
+                      <div className="flex flex-row gap-2">
+                        <Label htmlFor="instagram">Instagram</Label>
+                        <Input
+                          id="instagram"
+                          type="text"
+                          inputMode="text"
+                          value={features.socialMediaLinks?.instagram}
+                          onChange={(e) => setFeatures({ ...features, socialMediaLinks: { ...features.socialMediaLinks, instagram: e.currentTarget.value } })}
+                        />
+                      </div>
+
+                      <div className="flex flex-row gap-2">
+                        <Label htmlFor="tiktok">TikTok</Label>
+                        <Input
+                          id="tiktok"
+                          type="text"
+                          inputMode="text"
+                          value={features.socialMediaLinks?.tiktok}
+                          onChange={(e) => setFeatures({ ...features, socialMediaLinks: { ...features.socialMediaLinks, tiktok: e.currentTarget.value } })}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="opening-hours">
+                <AccordionTrigger>Ændre åbningtider</AccordionTrigger>
+                <AccordionContent>
+                  <div className="flex flex-col gap-2">
+                    <h6>Åbningstider</h6>
+                    <OpeningHoursInputs className="grid-cols-1! gap-2!" />
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="menu">
+                <AccordionTrigger>Ændre menukort</AccordionTrigger>
+                <AccordionContent>
+                  <AddCategoryDialogForm onSubmit={(name) => addMenuCategory(name)} />
+                  <CreateMenuAccordion accordionClassName="p-2!" categoryClassName="bg-accent/20" />
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="images">
+                <AccordionTrigger>Ændre billeder</AccordionTrigger>
+                <AccordionContent>
+                  <Step3ImagesPage showContent={{ bannerImage: true }} />
+
+                  <SwitchCard
+                    defaultActive={features.imgGallery}
+                    title="Billedgalleri"
+                    updateStore={(data) => setFeatures({ ...features, imgGallery: data })}
+                  />
+                  <Step3ImagesPage showContent={{ gallery: true }} />
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+          </TabsContent>
+
+          {/* <TabsContent value="info" className={tabsContentStyling}>
             <div className="flex flex-col gap-2">
               <div className="flex flex-col gap-2">
                 <Label htmlFor="adress">Ændre adresse</Label>
@@ -109,7 +254,7 @@ export const WebsiteEditorSidebar: FC<WebsiteEditorSidebarProps> = ({ activeBloc
 
           <TabsContent value="menu" className={tabsContentStyling}>
             {/* <div className="min-h-[1800px] w-full bg-red-500">hej</div> */}
-            <AddCategoryDialogForm onSubmit={(name) => addMenuCategory(name)} />
+          {/* <AddCategoryDialogForm onSubmit={(name) => addMenuCategory(name)} />
             <CreateMenuAccordion />
           </TabsContent>
 
@@ -118,7 +263,7 @@ export const WebsiteEditorSidebar: FC<WebsiteEditorSidebarProps> = ({ activeBloc
 
             <SwitchCard defaultActive={features.imgGallery} title="Billedgalleri" updateStore={(data) => setFeatures({ ...features, imgGallery: data })} />
             <Step3ImagesPage showContent={{ gallery: true }} />
-          </TabsContent>
+          </TabsContent> */}
         </Tabs>
       </div>
     </div>

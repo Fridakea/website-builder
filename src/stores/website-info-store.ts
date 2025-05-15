@@ -64,6 +64,12 @@ type WebsiteInfoState = {
   imageOptions: ImageItem[];
   setImageOptions: (imageOptions: ImageItem[]) => void;
 
+  heroImageUploads: ImageItem[];
+  setHeroImageUploads: (heroImageUploads: ImageItem[]) => void;
+
+  imageGalleryUploads: ImageItem[];
+  setImageGalleryUploads: (imageGalleryUploads: ImageItem[]) => void;
+
   menu: Menu;
   setMenu: (menu: Menu) => void;
   addMenuCategory: (name: string) => void;
@@ -106,6 +112,12 @@ export const useWebsiteInfoStore = create<WebsiteInfoState>((set) => ({
   imageGallery: [],
   addImageToGallery: (image: ImageItem) => set((state) => ({ imageGallery: [...state.imageGallery, image] })),
   removeImageFromGallery: (image: ImageItem) => set((state) => ({ imageGallery: state.imageGallery.filter((item: ImageItem) => item.src !== image.src) })),
+
+  heroImageUploads: [],
+  setHeroImageUploads: (heroImageUploads: ImageItem[]) => set({ heroImageUploads }),
+
+  imageGalleryUploads: [],
+  setImageGalleryUploads: (imageGalleryUploads: ImageItem[]) => set({ imageGalleryUploads }),
 
   imageOptions: [],
   setImageOptions: (imageOptions: ImageItem[]) => set({ imageOptions }),

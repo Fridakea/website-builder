@@ -21,7 +21,7 @@ export const FindUs = () => {
   return (
     <section className="w-full max-w-form mx-auto">
       {theme === ETheme.ELEGANT && <Pin className="size-5 sm:size-7 my-4 sm:my-5 mx-auto" />}
-      <h3 className="text-center mb-5 sm:mb-10">Find os</h3>
+      <h3 className="text-center mb-4 sm:mb-5">Find os</h3>
       <div className="flex flex-row items-end gap-2">
         <div className="flex flex-row items-center gap-2">
           {theme === ETheme.ELEGANT && <Pin className="size-4 sm:size-5 mx-auto" />}

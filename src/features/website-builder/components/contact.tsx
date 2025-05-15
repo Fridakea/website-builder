@@ -17,9 +17,9 @@ export const Contact = () => {
   return (
     <section className="p-5 sm:p-10 w-full max-w-form mx-auto" style={{ borderRadius: choosenTheme.rounding, backgroundColor: choosenTheme.secondaryColor }}>
       {theme === ETheme.ELEGANT && <Send className="size-5 sm:size-7  my-4 sm:my-5 mx-auto" />}
-      <h3 className="text-center mb-5 sm:mb-10">Kontakt os</h3>
+      <h3 className="text-center mb-4 sm:mb-5">Kontakt os</h3>
 
-      <div className="flex flex-col sm:flex-row justify-between">
+      <div className="flex flex-row flex-wrap justify-around">
         <div className="flex flex-row items-end gap-2">
           <div className="flex flex-row items-center gap-2">
             {theme === ETheme.ELEGANT && <Phone className="size-4 sm:size-5 mx-auto" />}

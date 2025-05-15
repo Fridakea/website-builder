@@ -23,25 +23,34 @@ type Step3ImagesProps = {
 export const Step3ImagesPage: FC<Step3ImagesProps> = ({ showContent = { bannerImage: true, gallery: true, footerNavigation: true }, className }) => {
   const navigate = useNavigate();
   const { increseStep, decreseStep } = useMultiStepStore();
-  const { type, choosenHeroImage, imageGallery, setType, setChoosenHeroImage, addImageToGallery, removeImageFromGallery } = useWebsiteInfoStore();
-
-  const [heroUploadedImages, setHeroUploadedImages] = useState<ImageItem[]>([]);
-  const [imageGalleryUpload, setImageGalleryUpload] = useState<ImageItem[]>([]);
+  const {
+    type,
+    choosenHeroImage,
+    imageGallery,
+    setType,
+    setChoosenHeroImage,
+    addImageToGallery,
+    removeImageFromGallery,
+    heroImageUploads,
+    setHeroImageUploads,
+    imageGalleryUploads,
+    setImageGalleryUploads,
+  } = useWebsiteInfoStore();
 
   const allHeroImageOptions = useMemo(
     () => [
       ...imageOptions.filter((image) => type && image.types.includes(type)).map((image) => ({ src: image.data.src, alt: image.data.alt })),
-      ...heroUploadedImages,
+      ...heroImageUploads,
     ],
-    [imageOptions, type, heroUploadedImages]
+    [imageOptions, type, heroImageUploads]
   );
 
   const allGalleryImageOptions = useMemo(
     () => [
       ...imageOptions.filter((image) => type && image.types.includes(type)).map((image) => ({ src: image.data.src, alt: image.data.alt })),
-      ...imageGalleryUpload,
+      ...imageGalleryUploads,
     ],
-    [imageOptions, type, imageGalleryUpload]
+    [imageOptions, type, imageGalleryUploads]
   );
 
   const goBack = () => {
@@ -70,11 +79,11 @@ export const Step3ImagesPage: FC<Step3ImagesProps> = ({ showContent = { bannerIm
         <ChooseOrUploadImage
           title="Vælg banner billede"
           setUploadedImagesCallback={(images) => {
-            setHeroUploadedImages(images);
-            setChoosenHeroImage(images?.[0]);
+            setHeroImageUploads(images);
+            setChoosenHeroImage(images?.[images.length - 1]);
           }}
           choosenImages={choosenHeroImage ? [choosenHeroImage] : undefined}
-          uploadedImages={heroUploadedImages}
+          uploadedImages={heroImageUploads}
           imageOptions={allHeroImageOptions}
           onClick={(image) => {
             setChoosenHeroImage(image.src === choosenHeroImage?.src ? undefined : image);
@@ -86,7 +95,7 @@ export const Step3ImagesPage: FC<Step3ImagesProps> = ({ showContent = { bannerIm
         <ChooseOrUploadImage
           title="Vælg galleri billeder"
           setUploadedImagesCallback={(images) => {
-            setImageGalleryUpload((prev) => [...prev, ...images]);
+            setImageGalleryUploads([...imageGalleryUploads, ...images]);
             addImageToGallery(images?.[0]);
           }}
           choosenImages={imageGallery}

@@ -26,7 +26,7 @@ export const EditableBlock = ({ id, children, onClick, activeBlock, className, s
     <div onClick={() => onClick(id)} className={twMerge("relative", className)}>
       <div
         className={twMerge(
-          "h-full w-full bg-transparent absolute top-0 left-0 z-100",
+          "h-full w-full bg-transparent absolute top-0 left-0 z-20",
           activeBlock === id && "border-6 border-dashed border-accent",
           selectionBorderClassName
         )}
