@@ -22,6 +22,7 @@ type WebsiteEditorSidebarProps = {
 };
 
 const tabsContentStyling = "p-4 flex flex-col gap-5 overflow-y-auto max-h-[calc(100dvh-40px)]";
+const accordionContentStyling = "flex flex-col gap-5";
 
 export const WebsiteEditorSidebar: FC<WebsiteEditorSidebarProps> = ({ activeBlock }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -168,16 +169,16 @@ export const WebsiteEditorSidebar: FC<WebsiteEditorSidebarProps> = ({ activeBloc
           </TabsContent>
 
           <TabsContent value="design" className={tabsContentStyling}>
-            <Accordion type="single" collapsible className="flex flex-col gap-2">
+            <Accordion type="single" collapsible className="flex flex-col gap-2" defaultValue="theme">
               <AccordionItem value="type">
-                <AccordionTrigger>Ændre type</AccordionTrigger>
+                <AccordionTrigger>Skift type</AccordionTrigger>
                 <AccordionContent>
                   <ChooseType title="Ændre type af spisested" className="flex-col" />
                 </AccordionContent>
               </AccordionItem>
 
               <AccordionItem value="theme">
-                <AccordionTrigger>Ændre tema</AccordionTrigger>
+                <AccordionTrigger>Skift tema</AccordionTrigger>
                 <AccordionContent>
                   <ChooseTheme className="grid-cols-1 gap-0!" isWebsiteBuilder={true} />
                 </AccordionContent>
@@ -186,18 +187,18 @@ export const WebsiteEditorSidebar: FC<WebsiteEditorSidebarProps> = ({ activeBloc
           </TabsContent>
 
           <TabsContent value="content" className={tabsContentStyling}>
-            <Accordion type="single" collapsible className="flex flex-col gap-2">
+            <Accordion type="single" collapsible className="flex flex-col gap-2" defaultValue="info">
               <AccordionItem value="info">
-                <AccordionTrigger>Ændre info</AccordionTrigger>
-                <AccordionContent className="flex flex-col gap-5">
+                <AccordionTrigger>Skift info</AccordionTrigger>
+                <AccordionContent className={accordionContentStyling}>
                   <div className="flex flex-col gap-2">
-                    <Label htmlFor="name">Ændre spisestedet navn</Label>
+                    <Label htmlFor="name">Skift spisestedet navn</Label>
                     <Input id="name" type="text" inputMode="text" value={info.name} onChange={(e) => setInfo({ ...info, name: e.currentTarget.value })} />
                   </div>
 
                   <div className="flex flex-col gap-2">
                     <div className="flex flex-col gap-2">
-                      <Label htmlFor="adress">Ændre adresse</Label>
+                      <Label htmlFor="adress">Skift adresse</Label>
                       <Input
                         id="adress"
                         type="text"
@@ -215,7 +216,7 @@ export const WebsiteEditorSidebar: FC<WebsiteEditorSidebarProps> = ({ activeBloc
                   </div>
 
                   <div className="flex flex-col gap-2">
-                    <Label htmlFor="phone">Ændre telefonnummer</Label>
+                    <Label htmlFor="phone">Skift telefonnummer</Label>
                     <Input
                       id="phone"
                       type="number"
@@ -226,7 +227,7 @@ export const WebsiteEditorSidebar: FC<WebsiteEditorSidebarProps> = ({ activeBloc
                   </div>
 
                   <div className="flex flex-col gap-2">
-                    <Label htmlFor="email">Ændre email</Label>
+                    <Label htmlFor="email">Skift email</Label>
                     <Input id="email" type="text" inputMode="text" value={info.email} onChange={(e) => setInfo({ ...info, email: e.currentTarget.value })} />
                   </div>
 
@@ -239,7 +240,7 @@ export const WebsiteEditorSidebar: FC<WebsiteEditorSidebarProps> = ({ activeBloc
                     />
 
                     <div className="flex flex-col gap-2">
-                      <h5>Ændre sociale medier</h5>
+                      <h5>Skift sociale medier</h5>
                       <div className="flex flex-row gap-2">
                         <Label htmlFor="facebook">Facebook</Label>
                         <Input
@@ -278,8 +279,8 @@ export const WebsiteEditorSidebar: FC<WebsiteEditorSidebarProps> = ({ activeBloc
               </AccordionItem>
 
               <AccordionItem value="opening-hours">
-                <AccordionTrigger>Ændre åbningtider</AccordionTrigger>
-                <AccordionContent>
+                <AccordionTrigger>Skift åbningtider</AccordionTrigger>
+                <AccordionContent className={accordionContentStyling}>
                   <div className="flex flex-col gap-2">
                     <h6>Åbningstider</h6>
                     <OpeningHoursInputs className="grid-cols-1! gap-2!" />
@@ -288,16 +289,16 @@ export const WebsiteEditorSidebar: FC<WebsiteEditorSidebarProps> = ({ activeBloc
               </AccordionItem>
 
               <AccordionItem value="menu">
-                <AccordionTrigger>Ændre menukort</AccordionTrigger>
-                <AccordionContent>
+                <AccordionTrigger>Skift menukort</AccordionTrigger>
+                <AccordionContent className={accordionContentStyling}>
                   <AddCategoryDialogForm onSubmit={(name) => addMenuCategory(name)} />
                   <CreateMenuAccordion accordionClassName="p-2!" categoryClassName="bg-accent/20" />
                 </AccordionContent>
               </AccordionItem>
 
               <AccordionItem value="images">
-                <AccordionTrigger>Ændre billeder</AccordionTrigger>
-                <AccordionContent>
+                <AccordionTrigger>Skift billeder</AccordionTrigger>
+                <AccordionContent className={accordionContentStyling}>
                   <Step3ImagesPage showContent={{ bannerImage: true }} />
 
                   <SwitchCard

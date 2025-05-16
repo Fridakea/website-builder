@@ -35,13 +35,13 @@ export const WebsiteBuilderPage = () => {
           <HeroSection />
         </EditableBlock>
 
-        {choosenTheme.id !== ETheme.ELEGANT && info.description && (
-          <EditableBlock id={EBlock.DESCRIPTION_SECTION} onClick={setActiveBlock} activeBlock={activeBlock}>
-            <Description />
-          </EditableBlock>
-        )}
-
         <div className="max-w-content overflow-x-hidden mx-auto px-5 sm:px-10 my-16 sm:my-20 flex flex-col gap-16 sm:gap-20 *:py-4">
+          {choosenTheme.id !== ETheme.ELEGANT && info.description && (
+            <EditableBlock id={EBlock.DESCRIPTION_SECTION} onClick={setActiveBlock} activeBlock={activeBlock}>
+              <Description />
+            </EditableBlock>
+          )}
+
           {menu.length > 0 && (
             <EditableBlock id={EBlock.MENU_SECTION} onClick={setActiveBlock} activeBlock={activeBlock}>
               <Menu />
