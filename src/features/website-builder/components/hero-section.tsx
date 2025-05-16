@@ -1,12 +1,9 @@
-import { themeOptions } from "@/features/get-started-flow/data/design-data";
 import { ETheme } from "@/features/get-started-flow/data/enum";
 import { useWebsiteInfoStore } from "@/stores/website-info-store";
 import { twMerge } from "tailwind-merge";
 
 export const HeroSection = () => {
-  const { info, theme, choosenHeroImage, setInfo } = useWebsiteInfoStore();
-
-  const choosenTheme = themeOptions.find((option) => option.theme === theme);
+  const { info, theme, choosenHeroImage, setInfo, choosenTheme } = useWebsiteInfoStore();
 
   if (!choosenTheme) {
     return <p>No Theme</p>;
@@ -37,8 +34,14 @@ export const HeroSection = () => {
 
             <div className="h-full elegant-theme-off-white flex justify-end" style={{ color: choosenTheme.textColor }}>
               <div className="h-full w-full max-w-form xl:max-w-[50vw] lg:-mr-[0.5vw] flex flex-col justify-center items-center">
-                <h2>Vi står for kvalitet og smag,</h2>
-                <h2>prøv allerede i dag!</h2>
+                {info.description ? (
+                  <h2 className="max-h-fit p-4 sm:px-8">{info.description}</h2>
+                ) : (
+                  <>
+                    <h2>Vi står for kvalitet og smag,</h2>
+                    <h2>prøv allerede i dag!</h2>
+                  </>
+                )}
               </div>
             </div>
           </div>

@@ -6,7 +6,6 @@ import { ERoutes } from "@/main";
 
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
-import { Switch } from "@/components/ui/switch";
 import { useMultiStepStore } from "@/stores/multi-step-store";
 import { Input } from "@/components/ui/input";
 import { useWebsiteInfoStore } from "@/stores/website-info-store";

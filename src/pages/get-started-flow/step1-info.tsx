@@ -20,6 +20,7 @@ const formSchema = z.object({
     .int()
     .refine((num) => num.toString().length >= 8, "Telefonnummeret skal være minimum 8 cifre"),
   email: z.string().email("Ugyldig email").optional(),
+  description: z.string().optional(),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -36,6 +37,7 @@ export const Step1InfoPage = () => {
       adress: info.adress,
       phone: info.phone,
       email: info.email,
+      description: info.description,
     },
   });
 
@@ -54,6 +56,7 @@ export const Step1InfoPage = () => {
       adress: values.adress,
       phone: values.phone,
       email: values.email,
+      description: values.description,
     });
 
     console.log("openingHours: ", openingHours);
@@ -128,6 +131,21 @@ export const Step1InfoPage = () => {
               )}
             />
           </div>
+        </div>
+
+        <div className="flex-[2]">
+          <FormField
+            control={formObject.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Beskrivelse</FormLabel>
+                <FormControl>
+                  <Input placeholder="Vi er..." {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
         </div>
 
         <h2 className="mt-4 sm:mt-10">Åbningstider</h2>

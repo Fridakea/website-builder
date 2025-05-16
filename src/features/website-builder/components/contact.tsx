@@ -1,14 +1,11 @@
 import { useWebsiteInfoStore } from "@/stores/website-info-store";
-import { themeOptions } from "@/features/get-started-flow/data/design-data";
 import { ETheme } from "@/features/get-started-flow/data/enum";
 import { Facebook, Instagram, Mail, Phone, Send } from "lucide-react";
 import { TikTok } from "@/assets/icons/tik-tok";
 
 export const Contact = () => {
-  const { info, features, theme } = useWebsiteInfoStore();
+  const { info, features, theme, choosenTheme } = useWebsiteInfoStore();
   const { socialMedia, socialMediaLinks } = features;
-
-  const choosenTheme = themeOptions.find((option) => option.theme === theme);
 
   if (!choosenTheme) {
     return <p>No theme found</p>;

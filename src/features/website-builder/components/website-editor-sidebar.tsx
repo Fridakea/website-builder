@@ -1,5 +1,7 @@
 import { ChevronRight, ChevronLeft } from "lucide-react";
 import { FC, useState } from "react";
+import { twMerge } from "tailwind-merge";
+
 import { EBlock } from "./editable-block";
 import { Step3ImagesPage } from "@/pages/get-started-flow/step3-images";
 import { SwitchCard } from "@/features/get-started-flow/components/switch-card";
@@ -8,13 +10,12 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { AddCategoryDialogForm } from "@/features/get-started-flow/forms/add-category-dialog-form";
 import { CreateMenuAccordion } from "@/features/get-started-flow/components/create-menu-accordion";
-import { twMerge } from "tailwind-merge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Step2ThemePage } from "@/pages/get-started-flow/step2-theme";
 import { OpeningHoursInputs } from "@/features/get-started-flow/forms/opening-hours-inputs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { ChooseType } from "@/features/get-started-flow/components/choose-type";
 import { ChooseTheme } from "@/features/get-started-flow/components/choose-theme";
+import { ETheme } from "@/features/get-started-flow/data/enum";
 
 type WebsiteEditorSidebarProps = {
   activeBlock: EBlock | undefined;
@@ -24,26 +25,25 @@ const tabsContentStyling = "p-4 flex flex-col gap-5 overflow-y-auto max-h-[calc(
 
 export const WebsiteEditorSidebar: FC<WebsiteEditorSidebarProps> = ({ activeBlock }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const { info, features, setInfo, setFeatures, addMenuCategory } = useWebsiteInfoStore();
+  const { info, features, choosenTheme, setInfo, setFeatures, addMenuCategory } = useWebsiteInfoStore();
 
   return (
     <div className="relative transition-all duration-300 ease-in-out" style={{ width: isSidebarOpen ? "300px" : "0px" }}>
       <div
         className={twMerge(
-          isSidebarOpen && "p-0",
-          "h-full z-20 fixed overflow-visible top-0 right-0  transition-all duration-300 bg-background ease-in-out flex flex-col gap-4 sm:gap-5"
+          "h-full z-20 fixed overflow-visible top-0 right-0  transition-all duration-300 bg-background border-l-8 border-muted ease-in-out flex flex-col gap-4 sm:gap-5"
         )}
         style={{ width: isSidebarOpen ? "300px" : "0" }}
       >
         <button
           onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="absolute z-50 p-1 top-4 -left-12 bg-primary text-primary-foreground rounded-l-md cursor-pointer transition-all duration-200 ease-in-out hover:bg-secondary"
+          className="absolute z-50 p-1 top-4 -left-14 bg-muted rounded-l-md cursor-pointer transition-all duration-200 ease-in-out hover:bg-accent/50"
         >
-          {isSidebarOpen ? <ChevronRight size={40} /> : <ChevronLeft size={40} />}
+          {isSidebarOpen ? <ChevronRight className="size-10" /> : <ChevronLeft className="size-10" />}
         </button>
 
         <Tabs defaultValue="recent" style={{ display: isSidebarOpen ? "block" : "none" }}>
-          <TabsList>
+          <TabsList className={twMerge("w-full h-fit p-2 pl-0 rounded-none inset-shadow-black!")}>
             <TabsTrigger value="recent">Seneste</TabsTrigger>
             <TabsTrigger value="design">Design</TabsTrigger>
             <TabsTrigger value="content">Indhold</TabsTrigger>
@@ -57,7 +57,14 @@ export const WebsiteEditorSidebar: FC<WebsiteEditorSidebarProps> = ({ activeBloc
             <h1>Seneste</h1>
             <p>Active block: {activeBlock}</p>
 
-            {activeBlock === EBlock.HERO_SECTION && <Step3ImagesPage showContent={{ bannerImage: true }} />}
+            {activeBlock === EBlock.HERO_SECTION && choosenTheme?.id === ETheme.ELEGANT ? (
+              <>
+                <Step3ImagesPage showContent={{ bannerImage: true }} />
+                <p>beskrivelse</p>
+              </>
+            ) : (
+              <Step3ImagesPage showContent={{ bannerImage: true }} />
+            )}
 
             {activeBlock === EBlock.MENU_SECTION && (
               <>
@@ -80,14 +87,82 @@ export const WebsiteEditorSidebar: FC<WebsiteEditorSidebarProps> = ({ activeBloc
               </div>
             )}
 
-            {activeBlock === EBlock.MAPS_SECTION && (
+            {activeBlock === EBlock.ABOUT_SECTION && (
               <>
                 <div className="flex flex-col gap-2">
-                  <Label htmlFor="adress">Ændre adresse</Label>
-                  <Input id="adress" type="text" inputMode="text" value={info.adress} onChange={(e) => setInfo({ ...info, adress: e.currentTarget.value })} />
+                  <Label htmlFor="name">Ændre spisestedet navn</Label>
+                  <Input id="name" type="text" inputMode="text" value={info.name} onChange={(e) => setInfo({ ...info, name: e.currentTarget.value })} />
                 </div>
 
-                <SwitchCard defaultActive={features.googleMaps} title="Google Maps" updateStore={(data) => setFeatures({ ...features, googleMaps: data })} />
+                <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-2">
+                    <Label htmlFor="adress">Ændre adresse</Label>
+                    <Input id="adress" type="text" inputMode="text" value={info.adress} onChange={(e) => setInfo({ ...info, adress: e.currentTarget.value })} />
+                  </div>
+
+                  <SwitchCard defaultActive={features.googleMaps} title="Google Maps" updateStore={(data) => setFeatures({ ...features, googleMaps: data })} />
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="phone">Ændre telefonnummer</Label>
+                  <Input
+                    id="phone"
+                    type="number"
+                    inputMode="numeric"
+                    value={info.phone}
+                    onChange={(e) => setInfo({ ...info, phone: parseInt(e.currentTarget.value) })}
+                  />
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="email">Ændre email</Label>
+                  <Input id="email" type="text" inputMode="text" value={info.email} onChange={(e) => setInfo({ ...info, email: e.currentTarget.value })} />
+                </div>
+
+                <div className="flex flex-col gap-2">
+                  <h4>Sociale medier</h4>
+                  <SwitchCard
+                    defaultActive={features.socialMedia}
+                    title="Sociale medier"
+                    updateStore={(data) => setFeatures({ ...features, socialMedia: data })}
+                  />
+
+                  <div className="flex flex-col gap-2">
+                    <h5>Ændre sociale medier</h5>
+                    <div className="flex flex-row gap-2">
+                      <Label htmlFor="facebook">Facebook</Label>
+                      <Input
+                        id="facebook"
+                        type="text"
+                        inputMode="text"
+                        value={features.socialMediaLinks?.facebook}
+                        onChange={(e) => setFeatures({ ...features, socialMediaLinks: { ...features.socialMediaLinks, facebook: e.currentTarget.value } })}
+                      />
+                    </div>
+
+                    <div className="flex flex-row gap-2">
+                      <Label htmlFor="instagram">Instagram</Label>
+                      <Input
+                        id="instagram"
+                        type="text"
+                        inputMode="text"
+                        value={features.socialMediaLinks?.instagram}
+                        onChange={(e) => setFeatures({ ...features, socialMediaLinks: { ...features.socialMediaLinks, instagram: e.currentTarget.value } })}
+                      />
+                    </div>
+
+                    <div className="flex flex-row gap-2">
+                      <Label htmlFor="tiktok">TikTok</Label>
+                      <Input
+                        id="tiktok"
+                        type="text"
+                        inputMode="text"
+                        value={features.socialMediaLinks?.tiktok}
+                        onChange={(e) => setFeatures({ ...features, socialMediaLinks: { ...features.socialMediaLinks, tiktok: e.currentTarget.value } })}
+                      />
+                    </div>
+                  </div>
+                </div>
               </>
             )}
           </TabsContent>

@@ -13,7 +13,7 @@ type ChooseThemeProps = {
 };
 
 export const ChooseTheme: FC<ChooseThemeProps> = ({ title = "Vælg et tema til din hjemmeside", className, isWebsiteBuilder = false }) => {
-  const { info, theme, setTheme } = useWebsiteInfoStore();
+  const { theme, setTheme, info } = useWebsiteInfoStore();
 
   return (
     <fieldset>
@@ -21,13 +21,10 @@ export const ChooseTheme: FC<ChooseThemeProps> = ({ title = "Vælg et tema til d
       <div className={twMerge("grid grid-cols-2 gap-2 sm:gap-4", className)}>
         {themeOptions.map((option) => (
           <ThemeCard
-            key={option.theme}
-            title={option.label}
-            theme={option.theme}
-            name={info.name || "Dit spisested"}
-            fontFamily={option.fontFamily}
-            heroTextColor={option.heroTextColor}
-            currentValue={theme}
+            key={option.id}
+            websiteTitle={info.name}
+            themeOption={option}
+            value={theme}
             onChange={(theme) => setTheme(theme as ETheme)}
             isWebsiteBuilder={isWebsiteBuilder}
           />

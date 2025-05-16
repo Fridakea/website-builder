@@ -1,12 +1,9 @@
-import { themeOptions } from "@/features/get-started-flow/data/design-data";
 import { ETheme } from "@/features/get-started-flow/data/enum";
 import { useWebsiteInfoStore } from "@/stores/website-info-store";
 import { twMerge } from "tailwind-merge";
 
 export const Footer = () => {
-  const { info, theme } = useWebsiteInfoStore();
-
-  const choosenTheme = themeOptions.find((option) => option.theme === theme);
+  const { info, theme, choosenTheme } = useWebsiteInfoStore();
 
   return (
     <section className="w-full h-full p-5 relative flex flex-row flex-wrap gap-1 items-center justify-center" style={{ color: choosenTheme?.heroTextColor }}>
@@ -23,7 +20,7 @@ export const Footer = () => {
         Lavet med{" "}
         <a
           href="/"
-          style={choosenTheme?.theme === ETheme.COLORFUL ? { color: choosenTheme?.actionColor } : { color: choosenTheme?.secondaryColor }}
+          style={choosenTheme?.id === ETheme.COLORFUL ? { color: choosenTheme?.actionColor } : { color: choosenTheme?.secondaryColor }}
           target="_blank"
           rel="noopener noreferrer"
         >

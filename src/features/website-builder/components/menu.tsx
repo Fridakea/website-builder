@@ -1,4 +1,3 @@
-import { themeOptions } from "@/features/get-started-flow/data/design-data";
 import { ETheme } from "@/features/get-started-flow/data/enum";
 import { useWebsiteInfoStore } from "@/stores/website-info-store";
 import { UtensilsCrossed } from "lucide-react";
@@ -7,9 +6,7 @@ import { twMerge } from "tailwind-merge";
 export const Menu = () => {
   const { menu } = useWebsiteInfoStore();
 
-  const { theme, setTheme } = useWebsiteInfoStore();
-
-  const choosenTheme = themeOptions.find((option) => option.theme === theme);
+  const { theme, setTheme, choosenTheme } = useWebsiteInfoStore();
 
   const hasPrices = menu.some((category) => category.items.some((item) => item.price));
 

@@ -1,12 +1,15 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import { ETheme, EType } from "@/features/get-started-flow/data/enum";
 import { ImageItem } from "@/features/get-started-flow/data/image-data";
+import { ThemeOption, themeOptions } from "@/features/get-started-flow/data/design-data";
 
 type Info = {
   name: string;
   adress: string;
   phone: number | undefined;
-  email: string | undefined;
+  email?: string;
+  description?: string;
 };
 
 type OpeningHours = {
@@ -54,6 +57,8 @@ type WebsiteInfoState = {
   theme: ETheme | undefined;
   setTheme: (theme: ETheme) => void;
 
+  choosenTheme: ThemeOption | undefined;
+
   choosenHeroImage: ImageItem | undefined;
   setChoosenHeroImage: (choosenHeroImage?: ImageItem) => void;
 
@@ -81,94 +86,105 @@ type WebsiteInfoState = {
   setFeatures: (features: Features) => void;
 };
 
-export const useWebsiteInfoStore = create<WebsiteInfoState>((set) => ({
-  info: {
-    name: "",
-    adress: "",
-    phone: undefined,
-    email: undefined,
-  },
-  setInfo: (info: Info) => set({ info }),
+export const useWebsiteInfoStore = create<WebsiteInfoState>()(
+  persist(
+    (set, get) => ({
+      info: {
+        name: "",
+        adress: "",
+        phone: undefined,
+        email: undefined,
+        description: "",
+      },
+      setInfo: (info: Info) => set({ info }),
 
-  openingHours: {
-    monday: "10:00 - 18:00",
-    tuesday: "10:00 - 18:00",
-    wednesday: "10:00 - 18:00",
-    thursday: "10:00 - 18:00",
-    friday: "10:00 - 18:00",
-    saturday: "10:00 - 15:00",
-    sunday: "Lukket",
-  },
-  setOpeningHours: (newOpeningHours: OpeningHours) => set({ openingHours: newOpeningHours }),
+      openingHours: {
+        monday: "10:00 - 18:00",
+        tuesday: "10:00 - 18:00",
+        wednesday: "10:00 - 18:00",
+        thursday: "10:00 - 18:00",
+        friday: "10:00 - 18:00",
+        saturday: "10:00 - 15:00",
+        sunday: "Lukket",
+      },
+      setOpeningHours: (newOpeningHours: OpeningHours) => set({ openingHours: newOpeningHours }),
 
-  type: undefined,
-  setType: (type: EType) => set({ type }),
-  theme: undefined,
-  setTheme: (theme: ETheme) => set({ theme }),
+      type: undefined,
+      setType: (type: EType) => set({ type }),
 
-  choosenHeroImage: undefined,
-  setChoosenHeroImage: (choosenHeroImage?: ImageItem) => set({ choosenHeroImage }),
+      theme: undefined,
+      setTheme: (theme: ETheme) => set({ theme, choosenTheme: themeOptions.find((option) => option.id === theme) }),
 
-  imageGallery: [],
-  addImageToGallery: (image: ImageItem) => set((state) => ({ imageGallery: [...state.imageGallery, image] })),
-  removeImageFromGallery: (image: ImageItem) => set((state) => ({ imageGallery: state.imageGallery.filter((item: ImageItem) => item.src !== image.src) })),
+      choosenTheme: undefined,
 
-  heroImageUploads: [],
-  setHeroImageUploads: (heroImageUploads: ImageItem[]) => set({ heroImageUploads }),
+      choosenHeroImage: undefined,
+      setChoosenHeroImage: (choosenHeroImage?: ImageItem) => set({ choosenHeroImage }),
 
-  imageGalleryUploads: [],
-  setImageGalleryUploads: (imageGalleryUploads: ImageItem[]) => set({ imageGalleryUploads }),
+      imageGallery: [],
+      addImageToGallery: (image: ImageItem) => set((state) => ({ imageGallery: [...state.imageGallery, image] })),
+      removeImageFromGallery: (image: ImageItem) => set((state) => ({ imageGallery: state.imageGallery.filter((item: ImageItem) => item.src !== image.src) })),
 
-  imageOptions: [],
-  setImageOptions: (imageOptions: ImageItem[]) => set({ imageOptions }),
+      heroImageUploads: [],
+      setHeroImageUploads: (heroImageUploads: ImageItem[]) => set({ heroImageUploads }),
 
-  menu: [],
-  setMenu: (menuCategory: Menu) => set({ menu: menuCategory }),
-  addMenuCategory: (name: string) =>
-    set((state) => ({
-      menu: [...state.menu, { name, items: [] }],
-    })),
-  removeMenuCategory: (name: string) =>
-    set((state) => ({
-      menu: state.menu.filter((item) => item.name !== name),
-    })),
-  addMenuItem: (categoryName: string, itemName: string, itemPrice?: string) =>
-    set((state) => ({
-      menu: state.menu.map((category) => {
-        if (category.name === categoryName) {
-          return {
-            ...category,
-            items: [...category.items, { name: itemName, price: itemPrice }],
-          };
-        }
-        return category;
-      }),
-    })),
-  removeMenuItem: (categoryName: string, itemName: string) =>
-    set((state) => ({
-      menu: state.menu.map((category) => {
-        if (category.name === categoryName) {
-          return {
-            ...category,
-            items: category.items.filter((item) => item.name !== itemName),
-          };
-        }
-        return category;
-      }),
-    })),
+      imageGalleryUploads: [],
+      setImageGalleryUploads: (imageGalleryUploads: ImageItem[]) => set({ imageGalleryUploads }),
 
-  features: {
-    imgGallery: false,
-    socialMedia: false,
-    googleMaps: true,
-    socialMediaLinks: {
-      facebook: "",
-      instagram: "",
-      tiktok: "",
-    },
-  },
-  setFeatures: (features: Features) => set({ features }),
-}));
+      imageOptions: [],
+      setImageOptions: (imageOptions: ImageItem[]) => set({ imageOptions }),
+
+      menu: [],
+      setMenu: (menuCategory: Menu) => set({ menu: menuCategory }),
+      addMenuCategory: (name: string) =>
+        set((state) => ({
+          menu: [...state.menu, { name, items: [] }],
+        })),
+      removeMenuCategory: (name: string) =>
+        set((state) => ({
+          menu: state.menu.filter((item) => item.name !== name),
+        })),
+      addMenuItem: (categoryName: string, itemName: string, itemPrice?: string) =>
+        set((state) => ({
+          menu: state.menu.map((category) => {
+            if (category.name === categoryName) {
+              return {
+                ...category,
+                items: [...category.items, { name: itemName, price: itemPrice }],
+              };
+            }
+            return category;
+          }),
+        })),
+      removeMenuItem: (categoryName: string, itemName: string) =>
+        set((state) => ({
+          menu: state.menu.map((category) => {
+            if (category.name === categoryName) {
+              return {
+                ...category,
+                items: category.items.filter((item) => item.name !== itemName),
+              };
+            }
+            return category;
+          }),
+        })),
+
+      features: {
+        imgGallery: false,
+        socialMedia: false,
+        googleMaps: true,
+        socialMediaLinks: {
+          facebook: "",
+          instagram: "",
+          tiktok: "",
+        },
+      },
+      setFeatures: (features: Features) => set({ features }),
+    }),
+    {
+      name: "website-info",
+    }
+  )
+);
 
 export const getLabelForDay = (day: string) => {
   if (day === "monday") return "Mandag";

@@ -15,8 +15,21 @@ export const typeOptions = [
   },
 ];
 
-export const themeOptions = [
+export type ThemeOption = {
+  id: ETheme;
+  label: string;
+  fontFamily: string;
+  backgroundColor: string;
+  secondaryColor: string;
+  actionColor: string;
+  textColor: string;
+  heroTextColor: string;
+  rounding: string;
+};
+
+export const themeOptions: ThemeOption[] = [
   {
+    id: ETheme.CLASSIC,
     label: "Klassisk",
     fontFamily: "Lato",
     backgroundColor: "#FDF3E8",
@@ -25,9 +38,9 @@ export const themeOptions = [
     textColor: "#170D02",
     heroTextColor: "#FDF3E8",
     rounding: "var(--radius-xl)",
-    theme: ETheme.CLASSIC,
   },
   {
+    id: ETheme.ELEGANT,
     label: "Elegant",
     fontFamily: "EB Garamond",
     backgroundColor: "#ffffff",
@@ -36,9 +49,9 @@ export const themeOptions = [
     textColor: "#21222C",
     heroTextColor: "#ffffff",
     rounding: "var(--radius-md)",
-    theme: ETheme.ELEGANT,
   },
   {
+    id: ETheme.COLORFUL,
     label: "Farverig",
     fontFamily: "Ubuntu",
     backgroundColor: "#FFE099",
@@ -47,6 +60,5 @@ export const themeOptions = [
     textColor: "#262626",
     heroTextColor: "#262626",
     rounding: "100px 25px 100px 25px",
-    theme: ETheme.COLORFUL,
   },
 ];

@@ -1,11 +1,11 @@
 import { useNavigate } from "react-router-dom";
-import { FC, useMemo, useState } from "react";
+import { FC, useMemo } from "react";
 
 import { useMultiStepStore } from "@/stores/multi-step-store";
 import { useWebsiteInfoStore } from "@/stores/website-info-store";
 import { EType } from "@/features/get-started-flow/data/enum";
 import { ERoutes } from "@/main";
-import { ImageItem, imageOptions } from "@/features/get-started-flow/data/image-data";
+import { imageOptions } from "@/features/get-started-flow/data/image-data";
 import { Button } from "@/components/ui/button";
 import { ChooseOrUploadImage } from "@/components/choose-or-upload-image";
 import { twMerge } from "tailwind-merge";

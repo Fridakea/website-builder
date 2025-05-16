@@ -2,12 +2,11 @@ import { twMerge } from "tailwind-merge";
 
 export enum EBlock {
   HERO_SECTION = "hero-section",
+  DESCRIPTION_SECTION = "description-section",
   MENU_SECTION = "menu-section",
   IMAGE_GALLERY = "image-gallery",
   ABOUT_SECTION = "about-section",
-  CONTACT_SECTION = "contact-section",
   OPENING_HOURS_SECTION = "opening-hours-section",
-  MAPS_SECTION = "maps-section",
   FOOTER_SECTION = "footer-section",
 }
 
