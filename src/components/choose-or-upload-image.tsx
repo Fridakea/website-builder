@@ -4,6 +4,7 @@ import { ImageDropzone } from "./image-drop-zone";
 import { ImageItem } from "@/features/get-started-flow/data/image-data";
 
 type ChooseOrUploadImageProps = {
+  className?: string;
   title: string;
   setUploadedImagesCallback: (images: ImageItem[]) => void;
   choosenImages?: ImageItem[];
@@ -22,6 +23,7 @@ export const ChooseOrUploadImage: FC<ChooseOrUploadImageProps> = ({
   uploadedImages,
   imageOptions,
   onClick,
+  className,
 }) => {
   return (
     <fieldset className="border border-muted rounded-md p-4 shadow-sm">
@@ -35,7 +37,7 @@ export const ChooseOrUploadImage: FC<ChooseOrUploadImageProps> = ({
         mainText="Træk og slip eller klik for at uploade et billede"
       />
 
-      <div className="mt-4 sm:mt-5 flex flex-row flex-wrap gap-2 sm:gap-4 shrink-1">
+      <div className="mt-2 flex flex-row flex-wrap gap-2 shrink-1">
         {imageOptions?.map((image) => {
           if (!image) return null;
           const isSelected = choosenImages?.some((item) => item.src === image.src);
@@ -48,7 +50,7 @@ export const ChooseOrUploadImage: FC<ChooseOrUploadImageProps> = ({
                 onClick(image);
               }}
             >
-              <img src={image.src} alt={image.alt} className="h-full max-h-[125px] object-cover object-center" />
+              <img src={image.src} alt={image.alt} className={twMerge("h-full max-h-[98px] object-cover object-center", className)} />
             </div>
           );
         })}

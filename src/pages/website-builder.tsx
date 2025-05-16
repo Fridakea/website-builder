@@ -60,8 +60,6 @@ export const WebsiteBuilderPage = () => {
           <EditableBlock id={EBlock.OPENING_HOURS_SECTION} onClick={setActiveBlock} activeBlock={activeBlock}>
             <OpeningHours />
           </EditableBlock>
-
-          <Button onClick={() => navigate(ERoutes.HOME)}>Forside</Button>
         </div>
         <EditableBlock id={EBlock.FOOTER_SECTION} onClick={setActiveBlock} activeBlock={activeBlock}>
           <Footer />

@@ -12,6 +12,8 @@ import { twMerge } from "tailwind-merge";
 
 type Step3ImagesProps = {
   className?: string;
+  bannerImageClassName?: string;
+  galleryClassName?: string;
   showContent?: {
     title?: boolean;
     bannerImage?: boolean;
@@ -20,7 +22,12 @@ type Step3ImagesProps = {
   };
 };
 
-export const Step3ImagesPage: FC<Step3ImagesProps> = ({ showContent = { bannerImage: true, gallery: true, footerNavigation: true }, className }) => {
+export const Step3ImagesPage: FC<Step3ImagesProps> = ({
+  showContent = { bannerImage: true, gallery: true, footerNavigation: true },
+  className,
+  bannerImageClassName,
+  galleryClassName,
+}) => {
   const navigate = useNavigate();
   const { increseStep, decreseStep } = useMultiStepStore();
   const {
@@ -39,7 +46,10 @@ export const Step3ImagesPage: FC<Step3ImagesProps> = ({ showContent = { bannerIm
 
   const allHeroImageOptions = useMemo(
     () => [
-      ...imageOptions.filter((image) => type && image.types.includes(type)).map((image) => ({ src: image.data.src, alt: image.data.alt })),
+      ...imageOptions
+        .filter((image) => type && image.types.includes(type))
+        .filter((image) => image.isHero)
+        .map((image) => ({ src: image.data.src, alt: image.data.alt })),
       ...heroImageUploads,
     ],
     [imageOptions, type, heroImageUploads]
@@ -77,6 +87,7 @@ export const Step3ImagesPage: FC<Step3ImagesProps> = ({ showContent = { bannerIm
 
       {showContent?.bannerImage && (
         <ChooseOrUploadImage
+          className={bannerImageClassName}
           title="Vælg banner billede"
           setUploadedImagesCallback={(images) => {
             setHeroImageUploads(images);
@@ -93,6 +104,7 @@ export const Step3ImagesPage: FC<Step3ImagesProps> = ({ showContent = { bannerIm
 
       {showContent?.gallery && (
         <ChooseOrUploadImage
+          className={galleryClassName}
           title="Vælg galleri billeder"
           setUploadedImagesCallback={(images) => {
             setImageGalleryUploads([...imageGalleryUploads, ...images]);

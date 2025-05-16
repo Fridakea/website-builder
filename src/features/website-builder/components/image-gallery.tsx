@@ -20,7 +20,7 @@ export const ImageGallery = () => {
       >
         {imageGallery.map((image) => (
           <div key={image.src} className={twMerge("relative", theme === ETheme.COLORFUL && "-translate-x-2.5 sm:-translate-x-4")}>
-            <img src={image.src} alt={image.alt} className="w-full max-h-[250px] relative z-10 object-cover" />
+            <img src={image.src} alt={image.alt} className="w-full h-[200px] relative z-10 object-cover" />
             {theme === ETheme.COLORFUL && <div className="w-full h-full absolute top-5 sm:top-8 left-5 sm:left-8 colorful-theme-gradient-radial" />}
           </div>
         ))}

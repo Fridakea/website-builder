@@ -55,9 +55,6 @@ export const WebsiteEditorSidebar: FC<WebsiteEditorSidebarProps> = ({ activeBloc
           </TabsList>
 
           <TabsContent value="recent" className={tabsContentStyling}>
-            <h1>Seneste</h1>
-            <p>Active block: {activeBlock}</p>
-
             {activeBlock === EBlock.HERO_SECTION && choosenTheme?.id === ETheme.ELEGANT ? (
               <>
                 <Step3ImagesPage showContent={{ bannerImage: true }} />
