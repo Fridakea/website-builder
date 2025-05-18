@@ -28,7 +28,7 @@ type FormData = z.infer<typeof formSchema>;
 export const Step1InfoPage = () => {
   const navigate = useNavigate();
   const { setStep, increseStep, decreseStep } = useMultiStepStore();
-  const { info, setInfo, openingHours } = useWebsiteInfoStore();
+  const { info, setInfo } = useWebsiteInfoStore();
 
   const formObject = useForm<FormData>({
     resolver: zodResolver(formSchema),

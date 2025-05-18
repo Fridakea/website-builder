@@ -1,5 +1,5 @@
 import { ChevronRight, ChevronLeft } from "lucide-react";
-import { FC, useState } from "react";
+import { FC } from "react";
 import { twMerge } from "tailwind-merge";
 
 import { EBlock } from "./editable-block";
