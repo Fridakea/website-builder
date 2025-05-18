@@ -56,7 +56,7 @@ export const themeOptions: ThemeOption[] = [
     fontFamily: "Ubuntu",
     backgroundColor: "#FFE099",
     secondaryColor: "#FF985C",
-    actionColor: "#17822E",
+    actionColor: "#136C4D",
     textColor: "#262626",
     heroTextColor: "#262626",
     rounding: "100px 25px 100px 25px",

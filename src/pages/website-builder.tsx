@@ -15,7 +15,13 @@ import { Description } from "@/features/website-builder/components/description";
 export const WebsiteBuilderPage = () => {
   const { info, setTheme, imageGallery, menu, choosenTheme } = useWebsiteInfoStore();
 
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [activeBlock, setActiveBlock] = useState<EBlock | undefined>(undefined);
+
+  const handleBlockClick = (block: EBlock) => {
+    setActiveBlock(block);
+    setIsSidebarOpen(true);
+  };
 
   if (!choosenTheme) {
     setTheme(ETheme.CLASSIC);
@@ -27,42 +33,42 @@ export const WebsiteBuilderPage = () => {
       <div className="flex-1" style={{ fontFamily: choosenTheme.fontFamily, backgroundColor: choosenTheme.backgroundColor, color: choosenTheme.textColor }}>
         <div className="relative top-0 right-0"></div>
 
-        <EditableBlock id={EBlock.HERO_SECTION} onClick={setActiveBlock} activeBlock={activeBlock}>
+        <EditableBlock id={EBlock.HERO_SECTION} onClick={handleBlockClick} activeBlock={activeBlock}>
           <HeroSection />
         </EditableBlock>
 
         <div className="max-w-content overflow-x-hidden mx-auto px-5 sm:px-10 my-16 sm:my-20 flex flex-col gap-16 sm:gap-20 *:py-4">
           {choosenTheme.id !== ETheme.ELEGANT && info.description && (
-            <EditableBlock id={EBlock.DESCRIPTION_SECTION} onClick={setActiveBlock} activeBlock={activeBlock}>
+            <EditableBlock id={EBlock.DESCRIPTION_SECTION} onClick={handleBlockClick} activeBlock={activeBlock}>
               <Description />
             </EditableBlock>
           )}
 
           {menu.length > 0 && (
-            <EditableBlock id={EBlock.MENU_SECTION} onClick={setActiveBlock} activeBlock={activeBlock}>
+            <EditableBlock id={EBlock.MENU_SECTION} onClick={handleBlockClick} activeBlock={activeBlock}>
               <Menu />
             </EditableBlock>
           )}
           {imageGallery.length > 0 && (
-            <EditableBlock id={EBlock.IMAGE_GALLERY} onClick={setActiveBlock} activeBlock={activeBlock}>
+            <EditableBlock id={EBlock.IMAGE_GALLERY} onClick={handleBlockClick} activeBlock={activeBlock}>
               <ImageGallery />
             </EditableBlock>
           )}
 
-          <EditableBlock id={EBlock.ABOUT_SECTION} onClick={setActiveBlock} activeBlock={activeBlock}>
+          <EditableBlock id={EBlock.ABOUT_SECTION} onClick={handleBlockClick} activeBlock={activeBlock}>
             <AboutSection />
           </EditableBlock>
 
-          <EditableBlock id={EBlock.OPENING_HOURS_SECTION} onClick={setActiveBlock} activeBlock={activeBlock}>
+          <EditableBlock id={EBlock.OPENING_HOURS_SECTION} onClick={handleBlockClick} activeBlock={activeBlock}>
             <OpeningHours />
           </EditableBlock>
         </div>
-        <EditableBlock id={EBlock.FOOTER_SECTION} onClick={setActiveBlock} activeBlock={activeBlock}>
+        <EditableBlock id={EBlock.FOOTER_SECTION} onClick={handleBlockClick} activeBlock={activeBlock}>
           <Footer />
         </EditableBlock>
       </div>
 
-      <WebsiteEditorSidebar activeBlock={activeBlock} />
+      <WebsiteEditorSidebar activeBlock={activeBlock} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
     </div>
   );
 };

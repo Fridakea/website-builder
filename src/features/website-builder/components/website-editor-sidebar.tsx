@@ -19,49 +19,77 @@ import { ETheme } from "@/features/get-started-flow/data/enum";
 
 type WebsiteEditorSidebarProps = {
   activeBlock: EBlock | undefined;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
 };
 
 const tabsContentStyling = "p-4 flex flex-col gap-5 overflow-y-auto max-h-[calc(100dvh-40px)]";
 const accordionContentStyling = "flex flex-col gap-5";
 
-export const WebsiteEditorSidebar: FC<WebsiteEditorSidebarProps> = ({ activeBlock }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+export const WebsiteEditorSidebar: FC<WebsiteEditorSidebarProps> = ({ activeBlock, isOpen, setIsOpen }) => {
   const { info, features, choosenTheme, setInfo, setFeatures, addMenuCategory } = useWebsiteInfoStore();
 
   return (
-    <div className="relative transition-all duration-300 ease-in-out" style={{ width: isSidebarOpen ? "300px" : "0px" }}>
+    <div className="relative transition-all duration-300 ease-in-out" style={{ width: isOpen ? "300px" : "0px" }}>
       <div
         className={twMerge(
           "h-full z-20 fixed overflow-visible top-0 right-0  transition-all duration-300 bg-background border-l-8 border-muted ease-in-out flex flex-col gap-4 sm:gap-5"
         )}
-        style={{ width: isSidebarOpen ? "300px" : "0" }}
+        style={{ width: isOpen ? "300px" : "0" }}
       >
         <button
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+          onClick={() => setIsOpen(!isOpen)}
           className="absolute z-50 p-1 top-4 -left-14 bg-muted rounded-l-md cursor-pointer transition-all duration-200 ease-in-out hover:bg-accent/50"
         >
-          {isSidebarOpen ? <ChevronRight className="size-10" /> : <ChevronLeft className="size-10" />}
+          {isOpen ? <ChevronRight className="size-10" /> : <ChevronLeft className="size-10" />}
         </button>
 
-        <Tabs defaultValue="recent" style={{ display: isSidebarOpen ? "block" : "none" }}>
+        <Tabs defaultValue="recent" style={{ display: isOpen ? "block" : "none" }}>
           <TabsList className={twMerge("w-full h-fit p-2 pl-0 rounded-none inset-shadow-black!")}>
             <TabsTrigger value="recent">Seneste</TabsTrigger>
             <TabsTrigger value="design">Design</TabsTrigger>
             <TabsTrigger value="content">Indhold</TabsTrigger>
-
-            {/* <TabsTrigger value="info">Info</TabsTrigger>
-            <TabsTrigger value="menu">Menu</TabsTrigger>
-            <TabsTrigger value="images">Billeder</TabsTrigger> */}
           </TabsList>
 
+          {/* && choosenTheme?.id === ETheme.ELEGANT */}
+
           <TabsContent value="recent" className={tabsContentStyling}>
-            {activeBlock === EBlock.HERO_SECTION && choosenTheme?.id === ETheme.ELEGANT ? (
+            {activeBlock === EBlock.HERO_SECTION && (
               <>
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="name">Ændre spisestedet navn</Label>
+                  <Input id="name" type="text" inputMode="text" value={info.name} onChange={(e) => setInfo({ ...info, name: e.currentTarget.value })} />
+                </div>
+
                 <Step3ImagesPage showContent={{ bannerImage: true }} />
-                <p>beskrivelse</p>
               </>
-            ) : (
-              <Step3ImagesPage showContent={{ bannerImage: true }} />
+            )}
+            {activeBlock === EBlock.HERO_SECTION && choosenTheme?.id === ETheme.ELEGANT && (
+              <>
+                <div className="flex flex-col gap-2">
+                  <Label htmlFor="description">Beskrivelse</Label>
+                  <Input
+                    id="description"
+                    type="text"
+                    inputMode="text"
+                    value={info.description}
+                    onChange={(e) => setInfo({ ...info, description: e.currentTarget.value })}
+                  />
+                </div>
+              </>
+            )}
+
+            {activeBlock === EBlock.DESCRIPTION_SECTION && (
+              <div className="flex flex-col gap-2">
+                <Label htmlFor="description">Beskrivelse</Label>
+                <Input
+                  id="description"
+                  type="text"
+                  inputMode="text"
+                  value={info.description}
+                  onChange={(e) => setInfo({ ...info, description: e.currentTarget.value })}
+                />
+              </div>
             )}
 
             {activeBlock === EBlock.MENU_SECTION && (
@@ -308,35 +336,6 @@ export const WebsiteEditorSidebar: FC<WebsiteEditorSidebarProps> = ({ activeBloc
               </AccordionItem>
             </Accordion>
           </TabsContent>
-
-          {/* <TabsContent value="info" className={tabsContentStyling}>
-            <div className="flex flex-col gap-2">
-              <div className="flex flex-col gap-2">
-                <Label htmlFor="adress">Ændre adresse</Label>
-                <Input id="adress" type="text" inputMode="text" value={info.adress} onChange={(e) => setInfo({ ...info, adress: e.currentTarget.value })} />
-              </div>
-
-              <SwitchCard defaultActive={features.googleMaps} title="Google Maps" updateStore={(data) => setFeatures({ ...features, googleMaps: data })} />
-            </div>
-
-            <div className="flex flex-col gap-2">
-              <h6>Åbningstider</h6>
-              <OpeningHoursInputs className="grid-cols-1! gap-2!" />
-            </div>
-          </TabsContent>
-
-          <TabsContent value="menu" className={tabsContentStyling}>
-            {/* <div className="min-h-[1800px] w-full bg-red-500">hej</div> */}
-          {/* <AddCategoryDialogForm onSubmit={(name) => addMenuCategory(name)} />
-            <CreateMenuAccordion />
-          </TabsContent>
-
-          <TabsContent value="images" className={tabsContentStyling}>
-            <Step3ImagesPage showContent={{ bannerImage: true }} />
-
-            <SwitchCard defaultActive={features.imgGallery} title="Billedgalleri" updateStore={(data) => setFeatures({ ...features, imgGallery: data })} />
-            <Step3ImagesPage showContent={{ gallery: true }} />
-          </TabsContent> */}
         </Tabs>
       </div>
     </div>

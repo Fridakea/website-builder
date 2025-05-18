@@ -18,7 +18,6 @@ export const Step4MenuPage = () => {
   };
 
   const handleSubmit = async () => {
-    console.log("onSubmit");
     increseStep();
     navigate(ERoutes.GET_STARTED_FEATURES);
   };

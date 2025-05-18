@@ -79,8 +79,6 @@ export const Step3ImagesPage: FC<Step3ImagesProps> = ({
   }
   // if (!theme || !type) return <div>Vælg et tema og en type først</div>;
 
-  console.log;
-
   return (
     <div className={twMerge("flex flex-col gap-10 sm:gap-15", className)}>
       {showContent.title && <h2>Billeder til din hjemmeside</h2>}

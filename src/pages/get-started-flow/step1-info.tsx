@@ -59,7 +59,6 @@ export const Step1InfoPage = () => {
       description: values.description,
     });
 
-    console.log("openingHours: ", openingHours);
     increseStep();
     navigate(ERoutes.GET_STARTED_THEME);
   };

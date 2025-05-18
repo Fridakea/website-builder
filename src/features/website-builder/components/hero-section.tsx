@@ -14,7 +14,7 @@ export const HeroSection = () => {
   }
 
   return (
-    <section className={twMerge("relative w-full", !choosenHeroImage ? "h-[60vh]" : "h-[75vh] sm:h-[85vh]")} style={{ color: choosenTheme.heroTextColor }}>
+    <section className={twMerge("relative w-full", !choosenHeroImage ? "h-[60vh]" : "h-[75vh]")} style={{ color: choosenTheme.heroTextColor }}>
       {theme === ETheme.CLASSIC && (
         <div className="relative w-full h-full">
           <div className="absolute top-0 left-0 w-full h-full z-10 classic-theme-gradient" />

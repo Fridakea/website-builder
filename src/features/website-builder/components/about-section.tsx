@@ -57,7 +57,7 @@ export const AboutSection: FC<AboutProps> = ({ iconise = false }) => {
           {features.socialMedia && (
             <>
               <h5>Sociale Medier</h5>
-              <div className="flex flex-row gap-2">
+              <div className="flex flex-row gap-2" style={{ color: choosenTheme.actionColor }}>
                 {features.socialMediaLinks?.facebook && (
                   <a href={features.socialMediaLinks?.facebook} target="_blank" rel="noopener noreferrer">
                     {iconise ? "ikon" : "Facebook"}

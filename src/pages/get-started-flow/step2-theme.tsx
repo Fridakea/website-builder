@@ -41,7 +41,6 @@ export const Step2ThemePage: FC<Step2ThemeProps> = ({ className, showContent = {
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log("step 2 submitted");
     increseStep();
     navigate(ERoutes.GET_STARTED_IMAGES);
   };
