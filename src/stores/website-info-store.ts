@@ -88,7 +88,7 @@ type WebsiteInfoState = {
 
 export const useWebsiteInfoStore = create<WebsiteInfoState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       info: {
         name: "",
         adress: "",

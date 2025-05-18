@@ -1,11 +1,8 @@
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
-import { ERoutes } from "@/main";
 import { HeroSection } from "@/features/website-builder/components/hero-section";
 import { useWebsiteInfoStore } from "@/stores/website-info-store";
 import { ETheme } from "@/features/get-started-flow/data/enum";
-import { Button } from "@/components/ui/button";
 import { Menu } from "@/features/website-builder/components/menu";
 import { AboutSection } from "@/features/website-builder/components/about-section";
 import { ImageGallery } from "@/features/website-builder/components/image-gallery";
@@ -16,7 +13,6 @@ import { OpeningHours } from "@/features/website-builder/components/opening-hour
 import { Description } from "@/features/website-builder/components/description";
 
 export const WebsiteBuilderPage = () => {
-  const navigate = useNavigate();
   const { info, setTheme, imageGallery, menu, choosenTheme } = useWebsiteInfoStore();
 
   const [activeBlock, setActiveBlock] = useState<EBlock | undefined>(undefined);
