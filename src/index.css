@@ -34,16 +34,16 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.37 0.0087 67.56);
 
-  --primary: oklch(0.52 0.0712 204.12);
+  --primary: rgb(45, 117, 124);
   --primary-foreground: oklch(1 0 0);
 
-  --secondary: oklch(0.46 0.0626 204.18);
+  --secondary: rgb(31, 81, 86);
   --secondary-foreground: oklch(1 0 0);
 
   --muted: oklch(0.87 0.0043 56.37);
   --muted-foreground: oklch(0.37 0.0087 67.56);
 
-  --accent: oklch(0.63 0.0877 204.05);
+  --accent: rgb(65, 170, 180);
   --accent-foreground: oklch(0 0 0);
 
   --destructive: oklch(0.577 0.245 27.325);

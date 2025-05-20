@@ -65,63 +65,17 @@ export const Step1InfoPage = () => {
 
   return (
     <Form {...formObject}>
-      <form onSubmit={formObject.handleSubmit(onSubmit)} className="flex flex-col gap-4 sm:gap-5">
-        <h2>Information</h2>
+      <form onSubmit={formObject.handleSubmit(onSubmit)}>
+        <div className="flex flex-col gap-4 sm:gap-5">
+          <h2>Information</h2>
 
-        <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 *:flex-1">
-          <FormField
-            control={formObject.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Spisestedets navn*</FormLabel>
-                <FormControl>
-                  <Input placeholder="Cafe..." {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={formObject.control}
-            name="adress"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Adresse*</FormLabel>
-                <FormControl>
-                  <Input placeholder="Vej..." {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <div className="flex flex-col sm:flex-row gap-4 sm:gap-5">
-          <div className="flex-1">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 *:flex-1">
             <FormField
               control={formObject.control}
-              name="phone"
+              name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Telefon nummer*</FormLabel>
-                  <FormControl>
-                    <Input value={field.value} onInput={(e) => field.onChange(Number(e.currentTarget.value))} type="tel" placeholder="12..." />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
-          <div className="flex-[2]">
-            <FormField
-              control={formObject.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>Spisestedets navn*</FormLabel>
                   <FormControl>
                     <Input placeholder="Cafe..." {...field} />
                   </FormControl>
@@ -129,28 +83,76 @@ export const Step1InfoPage = () => {
                 </FormItem>
               )}
             />
+
+            <FormField
+              control={formObject.control}
+              name="adress"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Adresse*</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Vej..." {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
+
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-5">
+            <div className="flex-1">
+              <FormField
+                control={formObject.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Telefon nummer*</FormLabel>
+                    <FormControl>
+                      <Input value={field.value} onInput={(e) => field.onChange(Number(e.currentTarget.value))} type="tel" placeholder="12..." />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+            <div className="flex-[2]">
+              <FormField
+                control={formObject.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Cafe..." {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
+
+          <div className="flex-[2]">
+            <FormField
+              control={formObject.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Beskrivelse</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Vi er..." {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <h2 className="mt-6 sm:mt-10">Åbningstider</h2>
+          <OpeningHoursInputs />
         </div>
 
-        <div className="flex-[2]">
-          <FormField
-            control={formObject.control}
-            name="description"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Beskrivelse</FormLabel>
-                <FormControl>
-                  <Input placeholder="Vi er..." {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-        </div>
-
-        <h2 className="mt-4 sm:mt-10">Åbningstider</h2>
-        <OpeningHoursInputs />
-
-        <div className="flex flex-row justify-between">
+        <div className="mt-6 sm:mt-10 flex flex-row justify-between">
           <Button type="button" variant="outline" onClick={goBack}>
             Tilbage
           </Button>

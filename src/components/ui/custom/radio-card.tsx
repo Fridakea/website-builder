@@ -20,7 +20,7 @@ export const RadioCard: FC<RadioCardProps> = ({ value, currentValue, onChange, i
     <div
       className={cn(
         "relative flex flex-1 flex-col items-center justify-center gap-3 rounded-lg border-2 px-6 py-3.5 transition-all",
-        isSelected ? "border-primary bg-primary/80" : "border-primary/50 hover:border-primary/50",
+        isSelected ? "border-primary bg-primary/50 text-accent-foreground" : "border-accent hover:bg-primary/20",
         disabled ? "opacity-60" : "cursor-pointer",
         className
       )}

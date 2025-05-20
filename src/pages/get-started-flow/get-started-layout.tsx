@@ -6,7 +6,7 @@ export const GetStartedLayout = () => {
   const { step } = useMultiStepStore();
 
   return (
-    <div className="w-full max-w-content overflow-x-hidden mx-auto p-4 flex flex-col gap-10 items-center">
+    <div className="w-full max-w-content overflow-x-hidden mx-auto p-4 py-10 sm:p-10 flex flex-col gap-10 items-center">
       <h1>Hjemmeside bygger</h1>
       <div className="w-[85%] max-w-form mx-auto flex justify-between gap-2 sm:px-10">
         <ProgressStep title="Info" value={1} currentValue={step} />

@@ -27,7 +27,7 @@ export const Step4MenuPage = () => {
       <h2>Menukort</h2>
       <p>Sammensæt dit menukort</p>
 
-      <div className="w-full my-6 sm:my-10 border border-border border-dashed rounded-md">
+      <div className="w-full mt-5 mb-4 sm:my-10 border border-border border-dashed rounded-md">
         <div className="p-0.5">
           <AddCategoryDialogForm onSubmit={(name) => addMenuCategory(name)} />
         </div>
@@ -35,7 +35,7 @@ export const Step4MenuPage = () => {
         <CreateMenuAccordion />
       </div>
 
-      <div className="flex flex-row justify-between">
+      <div className="mt-6 mt-10 flex flex-row justify-between">
         <Button type="button" variant="outline" onClick={goBack}>
           Tilbage
         </Button>

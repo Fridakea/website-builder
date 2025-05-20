@@ -80,45 +80,47 @@ export const Step3ImagesPage: FC<Step3ImagesProps> = ({
   // if (!theme || !type) return <div>Vælg et tema og en type først</div>;
 
   return (
-    <div className={twMerge("flex flex-col gap-10 sm:gap-15", className)}>
-      {showContent.title && <h2>Billeder til din hjemmeside</h2>}
+    <div>
+      <div className={twMerge("flex flex-col gap-10 sm:not", className)}>
+        {showContent.title && <h2>Billeder til din hjemmeside</h2>}
 
-      {showContent?.bannerImage && (
-        <ChooseOrUploadImage
-          className={bannerImageClassName}
-          title="Vælg banner billede"
-          setUploadedImagesCallback={(images) => {
-            setHeroImageUploads(images);
-            setChoosenHeroImage(images?.[images.length - 1]);
-          }}
-          choosenImages={choosenHeroImage ? [choosenHeroImage] : undefined}
-          uploadedImages={heroImageUploads}
-          imageOptions={allHeroImageOptions}
-          onClick={(image) => {
-            setChoosenHeroImage(image.src === choosenHeroImage?.src ? undefined : image);
-          }}
-        />
-      )}
+        {showContent?.bannerImage && (
+          <ChooseOrUploadImage
+            className={bannerImageClassName}
+            title="Vælg banner billede"
+            setUploadedImagesCallback={(images) => {
+              setHeroImageUploads(images);
+              setChoosenHeroImage(images?.[images.length - 1]);
+            }}
+            choosenImages={choosenHeroImage ? [choosenHeroImage] : undefined}
+            uploadedImages={heroImageUploads}
+            imageOptions={allHeroImageOptions}
+            onClick={(image) => {
+              setChoosenHeroImage(image.src === choosenHeroImage?.src ? undefined : image);
+            }}
+          />
+        )}
 
-      {showContent?.gallery && (
-        <ChooseOrUploadImage
-          className={galleryClassName}
-          title="Vælg galleri billeder"
-          setUploadedImagesCallback={(images) => {
-            setImageGalleryUploads([...imageGalleryUploads, ...images]);
-            addImageToGallery(images?.[0]);
-          }}
-          choosenImages={imageGallery}
-          imageOptions={allGalleryImageOptions}
-          onClick={(image) => {
-            const isSelected = imageGallery.some((item) => item.src === image.src);
-            isSelected ? removeImageFromGallery(image) : addImageToGallery(image);
-          }}
-        />
-      )}
+        {showContent?.gallery && (
+          <ChooseOrUploadImage
+            className={galleryClassName}
+            title="Vælg galleri billeder"
+            setUploadedImagesCallback={(images) => {
+              setImageGalleryUploads([...imageGalleryUploads, ...images]);
+              addImageToGallery(images?.[0]);
+            }}
+            choosenImages={imageGallery}
+            imageOptions={allGalleryImageOptions}
+            onClick={(image) => {
+              const isSelected = imageGallery.some((item) => item.src === image.src);
+              isSelected ? removeImageFromGallery(image) : addImageToGallery(image);
+            }}
+          />
+        )}
+      </div>
 
       {showContent?.footerNavigation && (
-        <div className="flex flex-row justify-between">
+        <div className="mt-6 mt-10 flex flex-row justify-between">
           <Button type="button" variant="outline" onClick={goBack}>
             Tilbage
           </Button>

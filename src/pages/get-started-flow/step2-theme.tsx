@@ -46,19 +46,21 @@ export const Step2ThemePage: FC<Step2ThemeProps> = ({ className, showContent = {
   };
 
   return (
-    <form onSubmit={!type || !theme ? checkForm : onSubmit} className={twMerge(className, "flex flex-col gap-2 sm:gap-2")}>
-      <h2>Type spisested*</h2>
+    <form onSubmit={!type || !theme ? checkForm : onSubmit}>
+      <div className={twMerge(className, "flex flex-col gap-2 sm:gap-2")}>
+        <h2>Type spisested*</h2>
 
-      {showContent.type && <ChooseType />}
-      {formInvalid && !type && <p className="text-red-500">Vælg venligst et type spisested</p>}
+        {showContent.type && <ChooseType />}
+        {formInvalid && !type && <p className="text-red-500">Vælg venligst et type spisested</p>}
 
-      <h2 className="mt-4 sm:mt-10">Tema*</h2>
+        <h2 className="mt-4 sm:mt-10">Tema*</h2>
 
-      {showContent.theme && <ChooseTheme />}
-      {formInvalid && !theme && <p className="text-red-500">Vælg venligst et tema</p>}
+        {showContent.theme && <ChooseTheme />}
+        {formInvalid && !theme && <p className="text-red-500">Vælg venligst et tema</p>}
+      </div>
 
       {showContent.footerNavigation && (
-        <div className="flex flex-row justify-between">
+        <div className="mt-6 sm:mt-10 flex flex-row justify-between">
           <Button type="button" variant="outline" onClick={goBack}>
             Tilbage
           </Button>

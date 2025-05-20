@@ -54,7 +54,7 @@ export const ThemeCard: FC<ThemeCardProps> = ({ websiteTitle, themeOption, value
     <div
       className={cn(
         "relative flex flex-1 flex-col gap-1 rounded-lg p-2 transition-all",
-        isSelected ? "bg-primary/80" : "bg-transparent",
+        isSelected ? "bg-primary/50" : "bg-transparent",
         disabled ? "opacity-60" : "cursor-pointer",
         className
       )}
@@ -70,7 +70,7 @@ export const ThemeCard: FC<ThemeCardProps> = ({ websiteTitle, themeOption, value
           className="w-full h-full absolute sm:top-1.5 left-0 object-contain rounded-[6.2vw] sm:rounded-[16px]"
         />
         {isSelected && (
-          <div className="absolute z-10 top-2 right-2 p-2 bg-primary/80 rounded-sm text-primary-foreground">
+          <div className="absolute z-10 top-2 right-2 p-2 bg-secondary rounded-sm text-secondary-foreground">
             <Check className="size-5 text-inherit" />
           </div>
         )}

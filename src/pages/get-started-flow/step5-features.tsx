@@ -60,72 +60,74 @@ export const Step5FeaturesPage = () => {
 
   return (
     <Form {...formObject}>
-      <form onSubmit={formObject.handleSubmit(onSubmit)} className="space-y-8">
-        <h2 className="mb-0">Features</h2>
-        <p>Her kan du vælge hvilke features du vil have på din hjemmeside</p>
+      <form onSubmit={formObject.handleSubmit(onSubmit)}>
+        <div className="flex flex-col gap-4 sm:gap-5">
+          <h2 className="mb-0">Features</h2>
+          <p>Her kan du vælge hvilke features du vil have på din hjemmeside</p>
 
-        <SwitchCard defaultActive={features.imgGallery} title="Billedgalleri" updateStore={(data) => setFeatures({ ...features, imgGallery: data })}>
-          {imageGallery.length === 0 && (
+          <SwitchCard defaultActive={features.imgGallery} title="Billedgalleri" updateStore={(data) => setFeatures({ ...features, imgGallery: data })}>
+            {imageGallery.length === 0 && (
+              <>
+                <p className="text-sm text-destructive py-3">
+                  Du har ikke tilføjet nogen billeder til dit galleri. Gå tilbage og tilføj billeder til dit galleri.
+                </p>
+                <Button className="w-full" variant="outline" type="button" onClick={() => navigate(ERoutes.GET_STARTED_IMAGES)}>
+                  Tilføj billeder
+                </Button>
+              </>
+            )}
+          </SwitchCard>
+
+          <SwitchCard defaultActive={features.socialMedia} title="Sociale medier" updateStore={(data) => setFeatures({ ...features, socialMedia: data })}>
             <>
-              <p className="text-sm text-destructive py-3">
-                Du har ikke tilføjet nogen billeder til dit galleri. Gå tilbage og tilføj billeder til dit galleri.
-              </p>
-              <Button className="w-full" variant="outline" type="button" onClick={() => navigate(ERoutes.GET_STARTED_IMAGES)}>
-                Tilføj billeder
-              </Button>
+              <h6 className="py-3">Indsæt links til din profil på sociale medier</h6>
+
+              <div className="sm:grid-cols-2 grid gap-3">
+                <FormField
+                  control={formObject.control}
+                  name="socialMediaLinks.facebook"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Facebook</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={formObject.control}
+                  name="socialMediaLinks.instagram"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Instagram</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={formObject.control}
+                  name="socialMediaLinks.tiktok"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>TikTok</FormLabel>
+                      <FormControl>
+                        <Input {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
             </>
-          )}
-        </SwitchCard>
+          </SwitchCard>
 
-        <SwitchCard defaultActive={features.socialMedia} title="Sociale medier" updateStore={(data) => setFeatures({ ...features, socialMedia: data })}>
-          <>
-            <h6 className="py-3">Indsæt links til din profil på sociale medier</h6>
+          <SwitchCard defaultActive={features.googleMaps} title="Google Maps" updateStore={(data) => setFeatures({ ...features, googleMaps: data })} />
+        </div>
 
-            <div className="sm:grid-cols-2 grid gap-3">
-              <FormField
-                control={formObject.control}
-                name="socialMediaLinks.facebook"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Facebook</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={formObject.control}
-                name="socialMediaLinks.instagram"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Instagram</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={formObject.control}
-                name="socialMediaLinks.tiktok"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>TikTok</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
-            </div>
-          </>
-        </SwitchCard>
-
-        <SwitchCard defaultActive={features.googleMaps} title="Google Maps" updateStore={(data) => setFeatures({ ...features, googleMaps: data })} />
-
-        <div className="mt-6 flex items-center justify-between">
+        <div className="mt-6 mt-10 flex items-center justify-between">
           <Button type="button" variant="outline" onClick={goBack}>
             Tilbage
           </Button>
