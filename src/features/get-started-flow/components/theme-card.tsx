@@ -15,6 +15,7 @@ import pcDevice from "@/assets/images/pc-device.png";
 import { twMerge } from "tailwind-merge";
 import { ETheme } from "@/features/get-started-flow/data/enum";
 import { ThemeOption } from "@/features/get-started-flow/data/design-data";
+
 type ThemeCardProps = {
   websiteTitle?: string;
   themeOption: ThemeOption;
