@@ -5,19 +5,20 @@ import { twMerge } from "tailwind-merge";
 
 type SwitchCardProps = {
   defaultActive?: boolean;
+  containerClassName?: string;
   className?: string;
-  title: string;
+  title?: string;
   updateStore: (isActive: boolean) => void;
   children?: React.ReactNode;
 };
 
-export const SwitchCard: FC<SwitchCardProps> = ({ defaultActive = false, className, title, updateStore, children }) => {
+export const SwitchCard: FC<SwitchCardProps> = ({ defaultActive = false, className, title, updateStore, children, containerClassName }) => {
   const [isActive, setIsActive] = useState(defaultActive);
 
   return (
-    <div className={twMerge("rounded-lg border p-3 shadow-sm", className)}>
+    <div className={twMerge("rounded-lg border p-3 shadow-sm", containerClassName)}>
       <fieldset>
-        <div className="flex flex-row items-center justify-start gap-4">
+        <div className={twMerge("flex flex-row items-center justify-start gap-4", className)}>
           <Switch
             checked={isActive}
             onCheckedChange={() => {
@@ -26,7 +27,7 @@ export const SwitchCard: FC<SwitchCardProps> = ({ defaultActive = false, classNa
               updateStore(!isActive);
             }}
           />
-          <legend className="font-[500]">{title}</legend>
+          {title && <legend className="font-[500] text-nowrap">{title}</legend>}
         </div>
 
         {isActive && children}

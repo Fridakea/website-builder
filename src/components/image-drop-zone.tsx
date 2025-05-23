@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { Loader2, UploadCloud, X } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
+import { twMerge } from "tailwind-merge";
 
 export interface ImageDropzoneProps {
+  className?: string;
   currentImage?: string;
   onUpload: (file: File) => void;
   isUploading?: boolean;
@@ -17,6 +19,7 @@ export interface ImageDropzoneProps {
 }
 
 export const ImageDropzone = ({
+  className = "",
   currentImage,
   onUpload,
   showPreview = true,
@@ -134,7 +137,7 @@ export const ImageDropzone = ({
   );
 
   return (
-    <div className="mt-2 space-y-4">
+    <div className={twMerge("mt-2 space-y-4", className)}>
       {/* Current image preview */}
       {currentImage && showPreview && (
         <div className="bg-card relative overflow-hidden rounded-md border shadow">

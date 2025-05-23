@@ -16,7 +16,6 @@ export const AboutSection: FC<AboutProps> = ({ iconise = false }) => {
   const [mapUrl, setMapUrl] = useState<string>("");
 
   useEffect(() => {
-    // Replace with your actual Google Maps API key
     const encodedAddress = encodeURIComponent(info.adress);
 
     const url = `https://maps.google.com/maps?output=embed&q=${encodedAddress}`;

@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { FC, useMemo } from "react";
+import { FC, useMemo, useState } from "react";
 
 import { useMultiStepStore } from "@/stores/multi-step-store";
 import { useWebsiteInfoStore } from "@/stores/website-info-store";
@@ -7,8 +7,10 @@ import { EType } from "@/features/get-started-flow/data/enum";
 import { ERoutes } from "@/main";
 import { imageOptions } from "@/features/get-started-flow/data/image-data";
 import { Button } from "@/components/ui/button";
-import { ChooseOrUploadImage } from "@/components/choose-or-upload-image";
+import { ChooseImage } from "@/components/choose-image";
 import { twMerge } from "tailwind-merge";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { ImageDropzone } from "@/components/image-drop-zone";
 
 type Step3ImagesProps = {
   className?: string;
@@ -20,6 +22,7 @@ type Step3ImagesProps = {
     gallery?: boolean;
     footerNavigation?: boolean;
   };
+  children?: React.ReactNode;
 };
 
 export const Step3ImagesPage: FC<Step3ImagesProps> = ({
@@ -27,9 +30,12 @@ export const Step3ImagesPage: FC<Step3ImagesProps> = ({
   className,
   bannerImageClassName,
   galleryClassName,
+  children,
 }) => {
   const navigate = useNavigate();
   const { increseStep, decreseStep } = useMultiStepStore();
+  const [bannerGalleryTab, setBannerGalleryTab] = useState("choose-from-gallery");
+  const [galleryTab, setGalleryTab] = useState("choose-from-gallery");
   const {
     type,
     choosenHeroImage,
@@ -85,37 +91,81 @@ export const Step3ImagesPage: FC<Step3ImagesProps> = ({
         {showContent.title && <h2>Billeder til din hjemmeside</h2>}
 
         {showContent?.bannerImage && (
-          <ChooseOrUploadImage
-            className={bannerImageClassName}
-            title="Vælg banner billede"
-            setUploadedImagesCallback={(images) => {
-              setHeroImageUploads(images);
-              setChoosenHeroImage(images?.[images.length - 1]);
-            }}
-            choosenImages={choosenHeroImage ? [choosenHeroImage] : undefined}
-            uploadedImages={heroImageUploads}
-            imageOptions={allHeroImageOptions}
-            onClick={(image) => {
-              setChoosenHeroImage(image.src === choosenHeroImage?.src ? undefined : image);
-            }}
-          />
+          <fieldset className="border border-muted rounded-md p-2 shadow-sm">
+            <legend className="px-4 font-medium text-lg sm:text-xl">Vælg banner billede</legend>
+            <Tabs value={bannerGalleryTab} onValueChange={setBannerGalleryTab} className="gap-0">
+              <TabsList className="w-full">
+                <TabsTrigger value="choose-from-gallery" className="max-w-1/2 overflow-hidden">
+                  Vælg fra galleri
+                </TabsTrigger>
+                <TabsTrigger value="upload-from-computer">Upload</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="choose-from-gallery">
+                <ChooseImage
+                  className={bannerImageClassName}
+                  choosenImages={choosenHeroImage ? [choosenHeroImage] : undefined}
+                  imageOptions={allHeroImageOptions}
+                  onClick={(image) => {
+                    setChoosenHeroImage(image.src === choosenHeroImage?.src ? undefined : image);
+                  }}
+                />
+              </TabsContent>
+
+              <TabsContent value="upload-from-computer">
+                <ImageDropzone
+                  className="m-2"
+                  onUpload={(file) => {
+                    const src = URL.createObjectURL(file);
+                    setHeroImageUploads([...(heroImageUploads ?? []), { src, alt: file.name }]); // Auto add as selected.
+                    setChoosenHeroImage({ src, alt: file.name });
+                    setBannerGalleryTab("choose-from-gallery");
+                  }}
+                  AutoEmptyDropZone={true}
+                  mainText="Træk og slip eller klik for at uploade et billede"
+                />
+              </TabsContent>
+            </Tabs>
+          </fieldset>
         )}
 
         {showContent?.gallery && (
-          <ChooseOrUploadImage
-            className={galleryClassName}
-            title="Vælg galleri billeder"
-            setUploadedImagesCallback={(images) => {
-              setImageGalleryUploads([...imageGalleryUploads, ...images]);
-              addImageToGallery(images?.[0]);
-            }}
-            choosenImages={imageGallery}
-            imageOptions={allGalleryImageOptions}
-            onClick={(image) => {
-              const isSelected = imageGallery.some((item) => item.src === image.src);
-              isSelected ? removeImageFromGallery(image) : addImageToGallery(image);
-            }}
-          />
+          <fieldset className="border border-muted rounded-md p-2 shadow-sm">
+            <legend className="px-4 font-medium text-lg sm:text-xl flex flex-row items-center gap-2">Vælg galleri billeder{children}</legend>
+            <p>Vi anbefaler 2-8 billeder</p>
+            <Tabs value={galleryTab} onValueChange={setGalleryTab} className="gap-0">
+              <TabsList className="w-full">
+                <TabsTrigger value="choose-from-gallery">Vælg fra galleri</TabsTrigger>
+                <TabsTrigger value="upload-from-computer">Upload</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="choose-from-gallery">
+                <ChooseImage
+                  className={galleryClassName}
+                  choosenImages={imageGallery}
+                  imageOptions={allGalleryImageOptions}
+                  onClick={(image) => {
+                    const isSelected = imageGallery.some((item) => item.src === image.src);
+                    isSelected ? removeImageFromGallery(image) : addImageToGallery(image);
+                  }}
+                />
+              </TabsContent>
+
+              <TabsContent value="upload-from-computer">
+                <ImageDropzone
+                  className="m-2"
+                  onUpload={(file) => {
+                    const src = URL.createObjectURL(file);
+                    setImageGalleryUploads([...imageGalleryUploads, { src, alt: file.name }]);
+                    addImageToGallery({ src, alt: file.name });
+                    setGalleryTab("choose-from-gallery");
+                  }}
+                  AutoEmptyDropZone={true}
+                  mainText="Træk og slip eller klik for at uploade et billede"
+                />
+              </TabsContent>
+            </Tabs>
+          </fieldset>
         )}
       </div>
 

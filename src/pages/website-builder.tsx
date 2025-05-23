@@ -13,14 +13,16 @@ import { OpeningHours } from "@/features/website-builder/components/opening-hour
 import { Description } from "@/features/website-builder/components/description";
 
 export const WebsiteBuilderPage = () => {
-  const { info, setTheme, imageGallery, menu, choosenTheme } = useWebsiteInfoStore();
+  const { info, setTheme, features, imageGallery, menu, choosenTheme } = useWebsiteInfoStore();
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [activeBlock, setActiveBlock] = useState<EBlock | undefined>(undefined);
+  const [recentTab, setRecentTab] = useState("recent");
 
   const handleBlockClick = (block: EBlock) => {
     setActiveBlock(block);
     setIsSidebarOpen(true);
+    setRecentTab("recent");
   };
 
   if (!choosenTheme) {
@@ -49,7 +51,7 @@ export const WebsiteBuilderPage = () => {
               <Menu />
             </EditableBlock>
           )}
-          {imageGallery.length > 0 && (
+          {features.imgGallery && imageGallery.length > 0 && (
             <EditableBlock id={EBlock.IMAGE_GALLERY} onClick={handleBlockClick} activeBlock={activeBlock}>
               <ImageGallery />
             </EditableBlock>
@@ -68,7 +70,7 @@ export const WebsiteBuilderPage = () => {
         </EditableBlock>
       </div>
 
-      <WebsiteEditorSidebar activeBlock={activeBlock} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
+      <WebsiteEditorSidebar activeBlock={activeBlock} recentTab={recentTab} setRecentTab={setRecentTab} isOpen={isSidebarOpen} setIsOpen={setIsSidebarOpen} />
     </div>
   );
 };

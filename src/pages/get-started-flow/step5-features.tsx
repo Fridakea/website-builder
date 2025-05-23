@@ -124,7 +124,7 @@ export const Step5FeaturesPage = () => {
             </>
           </SwitchCard>
 
-          <SwitchCard defaultActive={features.googleMaps} title="Google Maps" updateStore={(data) => setFeatures({ ...features, googleMaps: data })} />
+          <SwitchCard defaultActive={features.googleMaps} title="Vis kort" updateStore={(data) => setFeatures({ ...features, googleMaps: data })} />
         </div>
 
         <div className="mt-6 mt-10 flex items-center justify-between">

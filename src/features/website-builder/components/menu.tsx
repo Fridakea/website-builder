@@ -28,7 +28,7 @@ export const Menu = () => {
       )}
 
       {menu.map((category) => (
-        <div key={category.name}>
+        <div key={category.name} className="relative z-10">
           <h4 className={twMerge("mt-7 mb-5 sm:mt-10 sm:mb-7 text-center", hasPrices && "text-left")}>{category.name}</h4>
 
           <ul className="flex flex-col gap-4 sm:gap-5">
