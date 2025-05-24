@@ -2,7 +2,7 @@ import { ETheme } from "@/features/get-started-flow/data/enum";
 import { useWebsiteInfoStore } from "@/stores/website-info-store";
 import { twMerge } from "tailwind-merge";
 
-export const HeroSection = () => {
+export const Hero = () => {
   const { info, theme, choosenHeroImage, setInfo, choosenTheme } = useWebsiteInfoStore();
 
   if (!choosenTheme) {

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { HeroSection } from "@/features/website-builder/components/hero-section";
+import { Hero } from "@/features/website-builder/components/hero";
 import { useWebsiteInfoStore } from "@/stores/website-info-store";
 import { ETheme } from "@/features/get-started-flow/data/enum";
 import { Menu } from "@/features/website-builder/components/menu";
@@ -36,7 +36,7 @@ export const WebsiteBuilderPage = () => {
         <div className="relative top-0 right-0"></div>
 
         <EditableBlock id={EBlock.HERO_SECTION} onClick={handleBlockClick} activeBlock={activeBlock}>
-          <HeroSection />
+          <Hero />
         </EditableBlock>
 
         <div className="max-w-content overflow-x-hidden mx-auto px-5 sm:px-10 my-16 sm:my-20 flex flex-col gap-16 sm:gap-20 *:py-4">
