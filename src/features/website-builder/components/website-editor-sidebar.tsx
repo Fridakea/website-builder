@@ -17,6 +17,9 @@ import { ChooseType } from "@/features/get-started-flow/components/choose-type";
 import { ChooseTheme } from "@/features/get-started-flow/components/choose-theme";
 import { ETheme } from "@/features/get-started-flow/data/enum";
 import { useIsMobile } from "@/hooks/use-is-mobile";
+import { Button } from "@/components/ui/button";
+import { ERoutes } from "@/main";
+import { useNavigate } from "react-router-dom";
 
 type WebsiteEditorSidebarProps = {
   activeBlock: EBlock | undefined;
@@ -32,6 +35,7 @@ const accordionContentStyling = "flex flex-col gap-5";
 export const WebsiteEditorSidebar: FC<WebsiteEditorSidebarProps> = ({ activeBlock, recentTab, setRecentTab, isOpen, setIsOpen }) => {
   const { info, features, choosenTheme, setInfo, setFeatures, addMenuCategory } = useWebsiteInfoStore();
   const isMobile = useIsMobile();
+  const navigate = useNavigate();
 
   return (
     <div className="relative transition-all duration-300 ease-in-out" style={{ width: isMobile && isOpen ? "250px" : isOpen ? "40vw" : "0px" }}>
@@ -388,6 +392,10 @@ export const WebsiteEditorSidebar: FC<WebsiteEditorSidebarProps> = ({ activeBloc
               </AccordionItem>
             </Accordion>
           </TabsContent>
+
+          <div className={isOpen ? "fixed bottom-0 right-0 p-4 flex flex-row gap-2" : "hidden"}>
+            <Button onClick={() => navigate(ERoutes.HOME)}>Log ud</Button>
+          </div>
         </Tabs>
       </div>
     </div>

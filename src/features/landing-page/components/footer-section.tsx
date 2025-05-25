@@ -5,7 +5,7 @@ export const FooterSection = () => {
   const isMobile = useIsMobile();
 
   return (
-    <footer className="w-full h-full py-5 sm:py-10 bg-background">
+    <footer className="w-full h-full py-5 sm:py-10 bg-background-tint/50">
       <div className="w-full h-full max-w-content mx-auto px-4 xl:px-0 flex flex-row justify-between items-center">
         <div className="flex flex-row flex-wrap gap-1">
           <p>© 2025 Spisesteder.com.</p>

@@ -52,20 +52,20 @@ export const HeroSection = () => {
       </div>
 
       <div className="overflow-hidden max-w-content mx-auto px-4 pt-28 sm:pt-32 pb-20 lg:pb-32 xl:px-0 gap-x-14 lg:flex lg:items-center">
-        <div className="flex-1 relative w-full lg:max-w-xl lg:shrink-0">
-          <h1 className="text-pretty text-5xl font-semibold tracking-tight text-gray-900 sm:text-7xl text-left">Lav din hjemmeside på 15 minutter!</h1>
-          <p className="mt-4 sm:mt-5 text-pretty text-lg font-medium text-muted-foreground sm:max-w-md sm:text-xl/8 lg:max-w-none">
+        <div className="flex-1 relative w-full">
+          <h1 className="sm:pr-16 md:pr-0 text-pretty text-left">Lav din hjemmeside på 15 minutter!</h1>
+          <h3 className="mt-4 sm:mt-5 text-pretty font-medium text-muted-foreground sm:max-w-md lg:max-w-none">
             Lav en professionel hjemmeside hurtigt og nemt, så du kan bruge din tid på din virksomhed!
-          </p>
+          </h3>
           <div className="mt-4 sm:mt-5 flex items-center gap-x-6">
-            <Button size="lg" onClick={() => navigate(ERoutes.GET_STARTED)}>
-              Prøv nu
+            <Button size="lg" variant="secondary" onClick={() => navigate(ERoutes.GET_STARTED)}>
+              Start nu
             </Button>
           </div>
         </div>
 
-        <div className="flex-[1.2] mt-10 flex justify-end gap-2 sm:gap-6 sm:-mt-44 sm:justify-start sm:pl-20 lg:mt-0 lg:pl-0 *:flex-shrink">
-          <div className="ml-auto w-44 flex-none space-y-2 sm:space-y-8 pt-24 sm:ml-0 sm:pt-60 lg:order-last lg:pt-28 xl:order-none xl:pt-60">
+        <div className="flex-[1.2] mt-10 flex justify-end gap-2 sm:gap-6 sm:-mt-44 sm:justify-around sm:pl-16 lg:mt-0 lg:pl-0 *:flex-shrink">
+          <div className="xs-devices-img-hidden block ml-auto w-44 flex-none space-y-2 sm:space-y-8 pt-24 sm:ml-0 sm:pt-60 lg:order-last lg:pt-28 xl:order-none xl:pt-60">
             <div className="relative">
               <img alt="Hjemmeside" src={website4} className={twMerge(gridImageStyling, "aspect-[4/7]")} />
               <div className={gridImageDivStyling} />

@@ -24,3 +24,9 @@
 .elegant-theme-off-white {
   background: hsl(231, 14%, 95%);
 }
+
+@media (max-width: 470px) {
+  .xs-devices-img-hidden {
+    display: none;
+  }
+}
