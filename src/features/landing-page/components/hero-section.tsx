@@ -6,6 +6,8 @@ import { twMerge } from "tailwind-merge";
 import website1 from "@/assets/images/landing-page/website-mobile.png";
 import website2 from "@/assets/images/landing-page/website-pc.png";
 import website3 from "@/assets/images/landing-page/website-pc2.png";
+import website4 from "@/assets/images/landing-page/website-mobile2.png";
+import website5 from "@/assets/images/landing-page/website-mobile3.png";
 
 const gridImageStyling = "w-full rounded-lg object-cover shadow-lg";
 const gridImageDivStyling = "pointer-events-none absolute inset-0 rounded-lg ring-1 ring-inset ring-muted";
@@ -63,36 +65,28 @@ export const HeroSection = () => {
         </div>
 
         <div className="flex-[1.2] mt-10 flex justify-end gap-2 sm:gap-6 sm:-mt-44 sm:justify-start sm:pl-20 lg:mt-0 lg:pl-0 *:flex-shrink">
-          <div className="ml-auto w-44 flex-none space-y-2 sm:space-y-8 pt-32 sm:ml-0 sm:pt-80 lg:order-last lg:pt-36 xl:order-none xl:pt-80">
+          <div className="ml-auto w-44 flex-none space-y-2 sm:space-y-8 pt-24 sm:ml-0 sm:pt-60 lg:order-last lg:pt-28 xl:order-none xl:pt-60">
             <div className="relative">
-              <img alt="Hjemmeside" src={website1} className={twMerge(gridImageStyling, "aspect-[1/2]")} />
+              <img alt="Hjemmeside" src={website4} className={twMerge(gridImageStyling, "aspect-[4/7]")} />
               <div className={gridImageDivStyling} />
             </div>
           </div>
           <div className="mr-auto w-52 flex-none space-y-2 sm:space-y-6 sm:mr-0 sm:pt-52 lg:pt-36">
-            <div className="relative">
+            <div className="w-56 -mr-20 sm:w-52 sm:mr-0 relative">
               <img alt="Hjemmeside" src={website2} className={twMerge(gridImageStyling, "aspect-[3/2]")} />
               <div className={gridImageDivStyling} />
             </div>
-            <div className="relative">
-              <img
-                alt=""
-                src="https://images.unsplash.com/photo-1559136555-9303baea8ebd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&crop=focalpoint&fp-x=.4&w=396&h=528&q=80"
-                className={twMerge(gridImageStyling, "aspect-[2/3]")}
-              />
+            <div className="w-36 relative">
+              <img alt="Hjemmeside" src={website1} className={twMerge(gridImageStyling, "aspect-[1/2]")} />
               <div className={gridImageDivStyling} />
             </div>
           </div>
           <div className="w-48 flex-none space-y-2 sm:space-y-6 pt-32 sm:pt-0">
-            <div className="relative">
-              <img
-                alt=""
-                src="https://images.unsplash.com/photo-1670272504528-790c24957dda?ixlib=rb-4.0.3&ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&crop=left&w=400&h=528&q=80"
-                className={twMerge(gridImageStyling, "aspect-[2/3]")}
-              />
+            <div className="w-44 sm:w-48 mt-14 mb-2 sm:mb-6 sm:mt-0 relative">
+              <img alt="Hjemmeside" src={website5} className={twMerge(gridImageStyling, "aspect-[5/9]")} />
               <div className={gridImageDivStyling} />
             </div>
-            <div className="relative">
+            <div className="w-52 sm:w-64 -ml-16 relative">
               <img alt="Hjemmeside" src={website3} className={twMerge(gridImageStyling, "aspect-[3/2]")} />
               <div className={gridImageDivStyling} />
             </div>
