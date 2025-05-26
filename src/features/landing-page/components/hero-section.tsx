@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ERoutes } from "@/main";
 import { twMerge } from "tailwind-merge";
-import website1 from "@/assets/images/landing-page/website-mobile.png";
-import website2 from "@/assets/images/landing-page/website-pc.png";
-import website3 from "@/assets/images/landing-page/website-pc2.png";
-import website4 from "@/assets/images/landing-page/website-mobile2.png";
+import website1 from "@/assets/images/landing-page/website-mobile.webp";
+import website2 from "@/assets/images/landing-page/website-pc.webp";
+import website3 from "@/assets/images/landing-page/website-pc2.webp";
+import website4 from "@/assets/images/landing-page/website-mobile2.webp";
 import website5 from "@/assets/images/landing-page/website-mobile3.webp";
 
 const gridImageStyling = "w-full rounded-lg object-cover shadow-lg";
