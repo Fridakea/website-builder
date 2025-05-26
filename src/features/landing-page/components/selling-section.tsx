@@ -1,5 +1,5 @@
 import { twMerge } from "tailwind-merge";
-import websiteBuilderImg from "@/assets/images/landing-page/website-builder.png";
+import websiteBuilderImg from "@/assets/images/landing-page/step-3.webp";
 
 const stats = [
   { id: 1, name: "Udfyld din info", value: "1", textColor: "text-foreground" },
