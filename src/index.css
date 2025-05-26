@@ -162,6 +162,10 @@
   a {
     @apply underline italic opacity-85;
   }
+
+  .font-lato {
+    font-family: "Lato", sans-serif;
+  }
 }
 
 .dark {
