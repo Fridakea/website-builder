@@ -135,6 +135,7 @@ export const useWebsiteInfoStore = create<WebsiteInfoState>()(
 
       menu: [],
       setMenu: (menuCategory: Menu) => set({ menu: menuCategory }),
+
       addMenuCategory: (name: string) =>
         set((state) => ({
           menu: [...state.menu, { name, items: [] }],
@@ -143,6 +144,7 @@ export const useWebsiteInfoStore = create<WebsiteInfoState>()(
         set((state) => ({
           menu: state.menu.filter((item) => item.name !== name),
         })),
+
       addMenuItem: (categoryName: string, itemName: string, itemPrice?: string) =>
         set((state) => ({
           menu: state.menu.map((category) => {
